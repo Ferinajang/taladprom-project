@@ -6,7 +6,9 @@ import {
     LOGOUT_USER,
     ADD_TO_CART_USER,
     GET_CART_ITEM_USER,
-    REMOVE_CART_ITEM_USER
+    REMOVE_CART_ITEM_USER,
+    ADD_ORDER_TO_USER,
+    GET_ORDER_LIST_USER
     
 } from './types';
 import { USER_SERVER } from '../components/Config.js';
@@ -52,6 +54,8 @@ export function logoutUser(){
         payload: request
     }
 }
+
+
 export function addToCart(_id) {
     const request = axios.post(`${USER_SERVER}/addToCart?productId=${_id}`)
         .then(response => response.data);
@@ -60,6 +64,39 @@ export function addToCart(_id) {
         payload: request
     }
 }
+
+export function addOrderToUser(order) {
+    const request = axios.post(`${USER_SERVER}/addOrderToUser`,order)
+        .then(response => response.data);
+    return {
+        type: ADD_ORDER_TO_USER,
+        payload: request
+    }
+}
+
+export function getOrderList(orderList,orderUser) {
+    console.log(orderList);
+    const request = axios.get(`/api/order/order_by_id?id=${orderList}&type=array`)
+        .then(response => {
+            console.log("fff0",response.data);
+            orderUser.forEach(orderList => {
+            response.data.forEach((orderDetail,i)=>{
+                if(orderList.id === orderDetail._id){
+                    response.data[i].quantity = orderList.quantity;
+                }
+            })
+            
+        })
+        console.log(response.data);
+        return response.data;
+    });
+    return {
+        type: GET_ORDER_LIST_USER,
+        payload: request
+    }
+}
+
+
 export function getCartItem(cartItem,userCart) {
     const request = axios.get(`/api/product/product_by_id?id=${cartItem}&type=array`)
         .then(response => {userCart.forEach(cartItem => {

@@ -5,3 +5,5 @@ export const LOGOUT_USER = 'logout_user';
 export const ADD_TO_CART_USER = 'add_to_cart_user';
 export const GET_CART_ITEM_USER = 'get-cart-items-user'
 export const REMOVE_CART_ITEM_USER ='remove_cart_items_user'
+export const ADD_ORDER_TO_USER ='add-order-to-user'
+export const GET_ORDER_LIST_USER ='get-order-list-user'

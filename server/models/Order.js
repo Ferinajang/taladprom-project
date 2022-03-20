@@ -41,8 +41,12 @@ const orderSchema = mongoose.Schema({
     status: {
         type:String,
     },
-
-    
+    trackingNumber: {
+        type:String,
+    }, 
+    imagesPD1: {
+        type:String,
+    }, 
 })
 
 

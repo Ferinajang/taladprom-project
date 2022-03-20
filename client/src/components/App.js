@@ -19,6 +19,9 @@ import TaladPromShop from './views/TaladPromShop/TaladPromShop';
 import GamePage from './views/GamePage/GamePage';
 
 
+import DetailOrderPage from './views/DetailOrderPage/DetailOrderPage';
+import DetailProductPageSeller from './views/DetailProductPageSeller/DetailProductPageSeller';
+import CreateCoupon from './views/CreateCoupon/CreateCoupon';
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -26,7 +29,7 @@ import GamePage from './views/GamePage/GamePage';
 function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
-      {/* <NavBar/> */}
+      <NavBar/>
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Switch>
           <Route exact path="/" component={Auth(HomePage, true)} />
@@ -43,8 +46,9 @@ function App() {
           <Route exact path="/orderManagement" component={Auth(OrderManage, true)} />
           <Route exact path="/taladprom-shop" component={Auth(TaladPromShop, true)} />
           <Route exact path="/gamepage" component={Auth(GamePage, null)} />
-          
-
+          <Route exact path="/order/:orderId" component={Auth(DetailOrderPage, true)} />
+          <Route exact path="/productSeller/:productId" component={Auth(DetailProductPageSeller, null)} />
+          <Route exact path="/create-coupon" component={Auth(CreateCoupon, true)} />
         </Switch>
       </div>
       <Footer />

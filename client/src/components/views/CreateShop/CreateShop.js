@@ -99,6 +99,7 @@ function CreateShop(props) {
             setImageShop(event.currentTarget.files[0])
         } 
     };
+    
   const setModalIsOpenToFalse =()=>{
       setModalIsOpen(false)
       
@@ -187,18 +188,18 @@ function CreateShop(props) {
                 console.log(response.data.shops.ownerID);
                 if(response.data.shops.ownerID ==  props.user.userData._id){
                   if(response.data.shops.ownerID ==  props.user.userData._id){
+                    console.log(response.data.shops);
                     const variables2 ={
                       id:props.user.userData._id,
                       shopID:response.data.shops._id,
                       shopName:response.data.shops.nameShop,
+                      positionShop:response.data.shops.positionShop
                   }
                   Axios.put('/api/users/editProfile',variables2)
                         .then(response =>{
                             if(response.data.success){
                                 alert('product success to upload')
                                 props.history.push("/HomeShop")
-
-                                
                             }else{
                                 alert(response)
                             }

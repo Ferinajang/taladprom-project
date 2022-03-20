@@ -3,7 +3,7 @@ import {Button , Descriptions} from 'antd'
 import React, { useEffect, useState } from 'react'
 import {addToCart} from "../../../../_actions/user_actions"
 
-function ProductInfo(props) {
+function ProductInfoSeller(props) {
     const [Product, setProduct] = useState({})
 
     useEffect(() => {
@@ -30,10 +30,10 @@ function ProductInfo(props) {
             <br/>
             <br/>
             <br/>
-            <div style={{display: 'flex' , justifyContent:'center'}}>
+            <div style={{display: 'flex' , justifyContent:'center'}}> 
                 <Button size="large" shape='round' type='danger'
-                onClick ={addToCarthandler}
-                >Add to Cart</Button>
+                onClick={() => window.location.href = `/product/update/${Product._id}`}
+                >Edit</Button>
             </div>
 
 
@@ -43,4 +43,4 @@ function ProductInfo(props) {
   )
 }
 
-export default ProductInfo
+export default ProductInfoSeller

@@ -111,7 +111,7 @@ function LandingPage(props) {
           if(order.shopID == props.user.userData.shopID){
           return (
             <Col lg={1000} md={100} xs={100}>
-              {/* <a href={`/product/${product._id}`}> */}
+               <a href={`/order/${order._id}`}> 
                 <Card hoverable={true} >
                   <Meta
                     title={order.namePD}
@@ -119,7 +119,7 @@ function LandingPage(props) {
                    <a1>ผู้สั่งสินค้า {order.customerName}</a1>
                   <a2>  ราคารวม {order.totalPrice}</a2>
                 </Card>
-              {/* </a> */}
+              </a> 
             </Col>
           );
         }

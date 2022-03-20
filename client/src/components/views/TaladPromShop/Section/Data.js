@@ -1,30 +1,25 @@
-const continentsPD =[
-    {
-        "_id":1,
-        "name":"Shoe1"
-
-    },
-    {
-        "_id":2,
-        "name":"Shoe2"
-
-    },
-    {
-        "_id":3,
-        "name":"Shoe3" 
-
-    },
-    {
-        "_id":4,
-        "name":"Shoe4"
-
-    },
-    {
-        "_id":5,
-        "name":"Shoe5"
-
-    },
-]
+const continentsPD = [
+  {
+    _id: 1,
+    name: "เสื้อผ้า",
+  },
+  {
+    _id: 2,
+    name: "อาหาร",
+  },
+  {
+    _id: 3,
+    name: "เครื่องใช้ไฟฟ้า",
+  },
+  {
+    _id: 4,
+    name: "ของใช้ภายในครัวเรือน",
+  },
+  {
+    _id: 5,
+    name: "ผลิตภัณฑ์เสริมความงาม",
+  },
+];
 const price = [
     {
       _id: 0,

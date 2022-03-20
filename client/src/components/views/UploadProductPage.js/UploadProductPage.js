@@ -7,18 +7,15 @@ import { storage } from "../../firebaseConfig"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
 
-
-
-
 const {Title} = Typography;
 const {TextArea} = Input ;
 
 const Continents =[
-    {key : 1, value:"Shoe1"},
-    {key : 2, value:"Shoe2"},
-    {key : 3, value:"Shoe3"},
-    {key : 4, value:"Shoe4"},
-    {key : 5, value:"Shoe5"},
+    {key : 1, value:"เสื้อผ้า"},
+    {key : 2, value:"อาหาร"},
+    {key : 3, value:"เครื่องใช้ไฟฟ้า"},
+    {key : 4, value:"ของใช้ภายในครัวเรือน"},
+    {key : 5, value:"ผลิตภัณฑ์เสริมความงาม"},
 ]
 
 function UploadProductPage(props) {
@@ -175,6 +172,7 @@ function UploadProductPage(props) {
 
     const onSubmit = (event) =>{
         event.preventDefault();
+        console.log(props.user.userData.positionShop);
 
         const variables ={
             writer:props.user.userData._id,
@@ -187,6 +185,7 @@ function UploadProductPage(props) {
             quantityPD : QuantityValue,
             shippingCostPD : ShippingCostValue,
             continentsPD : ContinentsValue,
+            positionShop: props.user.userData.positionShop,
             imagesPD1 : URL1,
             imagesPD2 : URL2,
             imagesPD3 : URL3,
