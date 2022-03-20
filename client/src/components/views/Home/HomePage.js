@@ -44,6 +44,11 @@ function HomePage(props) {
       }
   }
 
+  const goToGamePage =()=>{
+    window.location.href = "/gamepage"
+    
+}
+
 
    const goToShopManage = Shops.map((shop,index) =>{
        //console.log(Shops);
@@ -122,7 +127,7 @@ const setModalIsOpenToFalse =()=>{
         create your shop
       </button>
       <button
-        onClick={() => (window.location.href = "/create-shop")}
+        onClick={goToGamePage}
         style={{ marginLeft: "78vh", color: "black" }}>
         go to shopping
       </button>

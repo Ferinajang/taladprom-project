@@ -114,7 +114,14 @@ router.put("/update/:id", auth, (req, res) => {
             }
         }) 
 });
+router.post("/getProductToGame", auth, (req, res) => {
+    Product.find()
+    .exec((err,product)=>{
+        if(err) return res.status(400).json({success:false,err})
+        res.status(200).json({success:true,product})
+    })
 
+});
 
 
 module.exports = router;
