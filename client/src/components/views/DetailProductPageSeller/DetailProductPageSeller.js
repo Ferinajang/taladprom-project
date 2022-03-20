@@ -2,7 +2,7 @@ import Axios from 'axios'
 import { Row, Col } from 'antd';
 import React, { useEffect, useState } from 'react'
 import ProductImage from './Section/ProductImage';
-import ProductInfo from './Section/ProductInfo';
+import ProductInfoSeller from './Section/ProductInfoSeller';
 import ImageGallery from 'react-image-gallery';
 import { addToCart } from '../../../_actions/user_actions';
 import { useDispatch } from 'react-redux';
@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 
 
 
-function DetailProductPage(props) {
+function DetailProductPageSeller(props) {
     const dispatch = useDispatch();
     const productId = props.match.params.productId
     const [Product, setProduct] = useState([])
@@ -50,17 +50,22 @@ function DetailProductPage(props) {
                 <h1>{Product.namePD}</h1>
             </div>
             <br />
-
-            <Row gutter={[16, 16]} >
-                <Col lg={12} xs={24}>
-                    <ImageGallery style={{width:'50px'}} items={images} />;
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <Row gutter={[36, 36]} >
+                <Col lg={8} xs={24} >
+                    <ImageGallery  items={images}/>;
                 </Col>
-                <Col lg={12} xs={24}>
-                    <ProductInfo  addToCart={addToCartHandler} detail={Product}/>  
+                
+                <Col lg={7} xs={24}>
+                    <ProductInfoSeller  addToCart={addToCartHandler} detail={Product}/>  
                 </Col>
             </Row>
+
+            </div>
+
+           
         </div>
   )
 }
 
-export default DetailProductPage
+export default DetailProductPageSeller

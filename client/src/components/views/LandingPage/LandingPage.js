@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React ,{useEffect ,useState} from 'react'
-import {Card, Icon,Col,Row} from 'antd';
+import {Card, Icon,Col,Row,Button} from 'antd';
 import CheckBox from './Section/CheckBox';
 import RadioBox from './Section/RadioBox';
 import { continentsPD,price } from './Section/Data';
@@ -120,7 +120,7 @@ function LandingPage(props) {
           if(product.writerName == props.user.userData.name){
           return (
             <Col lg={6} md={8} xs={24}>
-              <a href={`/product/${product._id}`}>
+              <a href={`/productSeller/${product._id}`}>
                 <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
                   <Meta
                     title={product.namePD}
@@ -147,30 +147,28 @@ function LandingPage(props) {
         getProduct(variables)   
     }
 
+    const goToShop =()=>{
+        window.location.href = "/product/upload"
+    }
+
     return (
-        <div style={{width :'75%' , margin:"3rem auto"}}>
-            <div style={{textAlign:'center'}}>
-            <a class="homeHeader">{Products.writerName}</a>
-                <h2> Prodcut List <Icon type="rocket"></Icon> </h2>
+        <div style={{width :'95%' , margin:"1rem auto"}}>
+            <div style={{display:'flex',justifyContent:'flex-start' , width:'100%',backgroundColor:'white'}}>
+                
                 <Row gutter={[16,16]}>
-                    <Col lg={12} xs={24}>
+                    <Col style={{margin:"2"}} lg={30} xs={24}>
                         <CheckBox list={continentsPD} handleFilters={filters => handleFilters(filters,"continentsPD")}></CheckBox>
                     </Col>
-                    <Col lg={12} xs={24}>
-                        
+                    <Col style={{margin:"2"}} lg={30} xs={24}>
                         <RadioBox  list ={price} handleFilters={filters => handleFilters(filters,"pricePD")}></RadioBox>
                     </Col>
                 </Row>
-                <div style={{display:'flex',justifyContent:'flex-end',margin:'1rem auto'}}>
-                <SearchFeature
-                   refreshFunction={updateSearchTerms}
-                />
-                    
+            </div>
+                <Button style={{width:'150px'}} size="large" shape='round' type='danger'
+                onClick={goToShop}
+                >เพิ่มสินค้า</Button>
 
-                </div>
-                
-                
-               
+            <div style={{textAlign:'center',backgroundColor:'white'}}>
                 {Products.length === 0 ?
                 <div style={{display:'flex' , height:'300px' , justifyContent:'center' , alignItems:'center'}}>
                     <h2>No post yet</h2>
@@ -179,7 +177,6 @@ function LandingPage(props) {
                     <Row gutter ={[16,16]}>
                         {renderCards}
                     </Row>
-
                 </div>
 }
                 <br></br>
@@ -188,7 +185,6 @@ function LandingPage(props) {
                  <button onClick={onLoadMore}>Load more</button>
                  </div>
                 }
-               
             </div>
         </div>
        

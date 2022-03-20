@@ -5,7 +5,9 @@ import {
     LOGOUT_USER,
     ADD_TO_CART_USER,
     GET_CART_ITEM_USER,
-    REMOVE_CART_ITEM_USER
+    REMOVE_CART_ITEM_USER,
+    ADD_ORDER_TO_USER,
+    GET_ORDER_LIST_USER
 } from '../_actions/types';
  
 
@@ -29,6 +31,14 @@ export default function(state={},action){
             cart: action.payload,
           },
         };
+        case ADD_ORDER_TO_USER:
+          return {
+            ...state,
+            userData: {
+              ...state.userData,
+              orderUser: action.payload,
+            },
+          };
         case REMOVE_CART_ITEM_USER:
           return {
               ...state,
@@ -42,6 +52,11 @@ export default function(state={},action){
         return{
           ...state,
           cartDetail:action.payload
+        };
+        case GET_ORDER_LIST_USER:
+        return{
+          ...state,
+          orderDetail:action.payload
         };
       default:
         return state;

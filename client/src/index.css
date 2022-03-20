@@ -165,8 +165,6 @@ input[type="checkbox"] {
   }
 
   
-
-  
 .checkbox {
     display: inline-block;
     height: 20px;
@@ -175,11 +173,28 @@ input[type="checkbox"] {
     border: 2px #ddd solid;
     margin-right: 4px;
  }
+ .image-gallery-slide .image-gallery-description {
+    background: rgba(0, 0, 0, 0.4);
+    bottom: 70px;
+    color: #fff;
+    left: 45%; 
+    line-height: 1;
+    padding: 10px 20px;
+    position: absolute;
+    white-space: normal;
+    justify-content: center;
+    align-items: center;
+}
   
   .checkbox--active {
     border-color: purple;
     background: purple;
   }
+
+.coupon {
+  display: block;
+}
+  
 
 
   /* :hover{

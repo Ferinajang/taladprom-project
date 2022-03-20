@@ -21,9 +21,11 @@ router.get("/auth", auth, (req, res) => {
         image: req.user.image,
         address:req.user.address,
         cart:req.user.cart,
+        orderUser:req.user.orderUser,
         shopID:req.user.shopID,
         shopName:req.user.shopName,
-        history : req.user.history
+        history : req.user.history,
+        positionShop:req.user.positionShop
 
     });
     console.log("back1");
@@ -76,7 +78,6 @@ router.get("/logout", auth, (req, res) => {
 
 
 router.post("/addToCart" ,auth,(req,res) =>{
-    console.log("dddd");
     User.find({_id:req.user._id}
         ,(err,userInfo)=>{
         let duplicate = false;
@@ -121,6 +122,32 @@ router.post("/addToCart" ,auth,(req,res) =>{
     })
 
 })
+
+
+router.post("/addOrderToUser",auth,(req,res) =>{
+    User.find({_id:req.user._id}
+        ,(err,userInfo)=>{
+            User.findOneAndUpdate(
+                {_id:req.user._id},
+                {
+                    $push:{
+                        orderUser:{
+                            id: req.body._id,
+                        }
+                    }
+                },
+                {new:true},
+                (err,userInfo)=>{
+                    if(err) return res.json({success:false , err});
+                    return res.status(200).json(userInfo.orderUser)
+                    
+                }
+
+            )
+
+
+    })
+})
 router.put("/editProfile", auth, (req, res) => {
     const profile = new User(req.body)
     console.log("ffffffgf",req.body);
@@ -136,7 +163,6 @@ router.put("/editProfile", auth, (req, res) => {
 });
 
 router.get('/removeFromCart', auth, (req, res) => {
-
     User.findOneAndUpdate(
         { _id: req.user._id },
         {

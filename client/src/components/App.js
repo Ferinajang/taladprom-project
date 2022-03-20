@@ -16,7 +16,9 @@ import HomeShopManage from './views/HomeShopManage.js/HomeShopManage';
 import CartPage from './views/CartPage/CartPage';
 import OrderManage from './views/OrderManage/OrderManage';
 import TaladPromShop from './views/TaladPromShop/TaladPromShop';
-
+import DetailOrderPage from './views/DetailOrderPage/DetailOrderPage';
+import DetailProductPageSeller from './views/DetailProductPageSeller/DetailProductPageSeller';
+import CreateCoupon from './views/CreateCoupon/CreateCoupon';
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -40,6 +42,9 @@ function App() {
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route exact path="/orderManagement" component={Auth(OrderManage, true)} />
           <Route exact path="/taladprom-shop" component={Auth(TaladPromShop, true)} />
+          <Route exact path="/order/:orderId" component={Auth(DetailOrderPage, true)} />
+          <Route exact path="/productSeller/:productId" component={Auth(DetailProductPageSeller, null)} />
+          <Route exact path="/create-coupon" component={Auth(CreateCoupon, true)} />
         </Switch>
       </div>
       <Footer />

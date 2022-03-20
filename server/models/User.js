@@ -39,6 +39,10 @@ const userSchema = mongoose.Schema({
         type: Array,
         default:[]
     },
+    orderUser:{
+        type: Array,
+        default:[]
+    },
     history:{
         type: Array,
         default:[]
@@ -60,7 +64,9 @@ const userSchema = mongoose.Schema({
     tokenExp :{
         type: Number
     },
-    
+    positionShop:{
+        type: Number
+    }
 })
 
 

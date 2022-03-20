@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Checkbox, Collapse } from 'antd';
+import "../LandingPage.css"
 
 const { Panel } = Collapse
 
@@ -29,12 +30,13 @@ function CheckBox(props) {
                 checked ={Checked.indexOf(value._id) === -1 ? false:true}>
             </Checkbox>
             <span>{value.name}</span>
+            <br></br>
         </React.Fragment>
     ))
   return (
     <div>
-    <Collapse defaultActiveKey={['0']}>
-        <Panel header="Continents" key="1">
+    <Collapse defaultActiveKey={['0']} className="site-collapse-custom-collapse">
+        <Panel header="ประเภท" key="1">
            {renderCheckboxList()}
         </Panel>
     </Collapse>

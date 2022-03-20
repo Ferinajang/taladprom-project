@@ -1,3 +1,4 @@
+
 html{
     height:100%;
   }
@@ -17,25 +18,7 @@ html{
     justify-content:center;
   }
     
-    .file-upload{
-  
-      height:200px;
-      width:200px;
-      border-radius: 100px;
-      position:relative;
-      
-      display:flex;
-      justify-content:center;
-      align-items: center;  
-  
-      border:4px solid #FFFFFF;
-      overflow:hidden;
-      background-image: linear-gradient(to bottom, #000000 50%, #FFFFFF 50%);
-      background-size: 100% 200%;
-      transition: all 1s;
-      color: #FFFFFF;
-      font-size:100px;
-    }
+
   
     input[type='file']{
   
@@ -48,7 +31,7 @@ html{
         cursor:pointer;
   
     }
-   
+    
   
 
   

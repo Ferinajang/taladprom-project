@@ -20,7 +20,6 @@ router.post("/uploadImage", auth, (req, res) => {
 router.post("/uploadProduct", auth, (req, res) => {
     const product = new Product(req.body)
     product.save((err) =>{
-        console.log("fff");
         if(err) return res.status(404).json({success:false,err})
         return res.status(200).json({success:true})
     })
@@ -98,7 +97,6 @@ router.get("/product_by_id", auth, (req, res) => {
     })
     
 });
-
 
 
 router.put("/update/:id", auth, (req, res) => {

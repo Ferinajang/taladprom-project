@@ -13,7 +13,6 @@ console.log("dw");
 router.post("/uploadShop", auth, (req, res) => {
     const shop = new Shop(req.body)
     shop.save((err) =>{
-        console.log("fff");
         if(err) return res.status(404).json({success:false,err})
         return res.status(200).json({success:true})
     })

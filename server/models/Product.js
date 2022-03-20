@@ -58,6 +58,10 @@ const productSchema = mongoose.Schema({
     },
     views:{
         type: Number,
+    },
+    positionShop:{
+        type:String,
+
     }
 })
 
