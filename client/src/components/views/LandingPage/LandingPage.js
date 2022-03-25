@@ -5,6 +5,10 @@ import CheckBox from './Section/CheckBox';
 import RadioBox from './Section/RadioBox';
 import { continentsPD,price } from './Section/Data';
 import SearchFeature from './Section/SearchFeature';
+import { StarOutlined, StarFilled } from '@ant-design/icons';
+import { MdClear } from "react-icons/md";
+import Modal from "react-modal";
+import './LandingPage.css'
 const {Meta} =Card;
 
 
@@ -14,12 +18,19 @@ function LandingPage(props) {
     const [Limit, setLimit] = useState(9)
     const [postSize, setpostSize] = useState(0)
     const [SearchTerms, setSearchTerms] = useState("")
+    const [ModalRecomendedProduct, setModalRecomendedProduct] = useState(false)
     const [Filters, setFilters] = useState({
-        continentsPD:[],
+        continentsPD:[], 
         price:[]
     })
+    const [recomend, setrecomend] = useState(0)
+    const [disableAddRecomedButton, setdisableAddRecomedButton] = useState(false)
+    const [count, setcount] = useState(0)
+    const [arrayPD, setarrayPD] = useState([])
+    
 
     // console.log(props);
+    console.log(count);
 
     useEffect(() =>{
         const variables={
@@ -36,21 +47,13 @@ function LandingPage(props) {
         .then(response => {
             if(response.data.success){
                 console.log(response.data.products);
-                if (variables.loadMore) {
-                    setProducts([...Products,...response.data.products])
-                }else{
-                    setProducts(response.data.products)
-
-                }
-                setpostSize(response.data.postSize)
-                
+                    setProducts(response.data.products)         
             }else{
                 alert("Fialed to fecth data from mongodb")
 
             }
         }
     )
-
     }
 
     const onLoadMore=()=>{
@@ -110,16 +113,84 @@ function LandingPage(props) {
 
     }
 
+    const addRecommendedProduct = (product) => {
+        if(props.user.userData.recomendedItem == 10){
+            alert("ไม่สามารถเพิ่มสินค้าแนะนำได้มากกว่า 10 ชิ้น")
+
+        }else{
+            const variables = {
+                id: product,
+                recommended: "recommended",
+              };
+              Axios.put("/api/product/addRecommendedProduct", variables).then(
+                (response) => {
+                  if (response.data.success) {
+                        const variables ={
+                          id:props.user.userData._id,
+                          recomendedItem:props.user.userData.recomendedItem +1
+                      }
+                      Axios.put('/api/users/editProfile',variables)
+                            .then(response =>{
+                                if(response.data.success){
+                                    window.location.reload();
+                                }else{
+                                    alert(response)
+                                }
+                            })
+                      
+                
+                  }
+                   else {
+                    alert("failed to upload");
+                  }
+                }
+              );
+
+        }
+         
+        // }
+      }
+
+    const UnRecommendedProduct = (product) => {
+      if (product.recommended == "recommended") {
+        const variables = {
+          id: product,
+          recommended: "no recommend",
+        };
+        Axios.put("/api/product/addRecommendedProduct", variables).then(
+          (response) => {
+            if (response.data.success) {
+              const variables = {
+                id: props.user.userData._id,
+                recomendedItem: props.user.userData.recomendedItem - 1,
+              };
+              Axios.put("/api/users/editProfile", variables).then(
+                (response) => {
+                  if (response.data.success) {
+                    window.location.reload();
+                  } else {
+                    alert(response);
+                  }
+                }
+              );
+            } else {
+              alert("failed to upload");
+            }
+          }
+        );
+      }
+    };
 
     const renderCards = Products.map((product, index) => {
         if(!props.user.userData){
             //console.log("fffff");
         }else{
-         // console.log("eeee", product.namePD);
-         // console.log(props.user.userData.name);
           if(product.writerName == props.user.userData.name){
           return (
-            <Col lg={6} md={8} xs={24}>
+            <Col lg={4} md={8} xs={24}> 
+            {product.recommended == "recommended" ?  <div><Button onClick={()=>UnRecommendedProduct(product)} >สินค้าแนะนำ <StarFilled style={{color:'yellow'}}/></Button></div> :
+            <div><Button onClick={()=>addRecommendedProduct(product)} >สินค้าแนะนำ <StarOutlined /></Button></div>  
+            } 
               <a href={`/productSeller/${product._id}`}>
                 <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
                   <Meta
@@ -130,9 +201,44 @@ function LandingPage(props) {
               </a>
             </Col>
           );
+          
         }
        }
     });
+    
+    const renderCardsRecomended= Products.map((product, index) => {
+        if(!props.user.userData){
+            //console.log("fffff");
+        }else{
+          if(product.writerName == props.user.userData.name && product.recommended == "recommended"){
+          return (
+            <Col lg={4} md={8} xs={24}> 
+            {product.recommended == "recommended" ?  <div><Button onClick={()=>UnRecommendedProduct(product)} >สินค้าแนะนำ <StarFilled style={{color:'yellow'}}/></Button></div> :
+            <div><Button onClick={()=>addRecommendedProduct(product)} >สินค้าแนะนำ <StarOutlined /></Button></div>  
+            } 
+              <a href={`/productSeller/${product._id}`}>
+                <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
+                  <Meta
+                    title={product.namePD}
+                    description={`${product.pricePD}฿`}
+                  ></Meta>
+                </Card>
+              </a>
+            </Col>
+          );
+          
+        }
+       }
+    });
+
+    const manageRecomendedProduct =()=>{
+        setModalRecomendedProduct(true)
+        
+    }
+
+   
+
+
     
     const updateSearchTerms=(newSearchTerm)=>{
         const variables = {
@@ -152,43 +258,110 @@ function LandingPage(props) {
     }
 
     return (
-        <div style={{width :'95%' , margin:"1rem auto"}}>
-            <div style={{display:'flex',justifyContent:'flex-start' , width:'100%',backgroundColor:'white'}}>
-                
-                <Row gutter={[16,16]}>
-                    <Col style={{margin:"2"}} lg={30} xs={24}>
-                        <CheckBox list={continentsPD} handleFilters={filters => handleFilters(filters,"continentsPD")}></CheckBox>
-                    </Col>
-                    <Col style={{margin:"2"}} lg={30} xs={24}>
-                        <RadioBox  list ={price} handleFilters={filters => handleFilters(filters,"pricePD")}></RadioBox>
-                    </Col>
-                </Row>
-            </div>
-                <Button style={{width:'150px'}} size="large" shape='round' type='danger'
-                onClick={goToShop}
-                >เพิ่มสินค้า</Button>
-
-            <div style={{textAlign:'center',backgroundColor:'white'}}>
-                {Products.length === 0 ?
-                <div style={{display:'flex' , height:'300px' , justifyContent:'center' , alignItems:'center'}}>
-                    <h2>No post yet</h2>
-                </div>:
-                <div>
-                    <Row gutter ={[16,16]}>
-                        {renderCards}
-                    </Row>
-                </div>
-}
-                <br></br>
-                {postSize >= Limit && 
-                 <div style={{display:'flex' , justifyContent:'center'}}>
-                 <button onClick={onLoadMore}>Load more</button>
-                 </div>
+      <div style={{ width: "95%", margin: "1rem auto" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-start",
+            width: "100%",
+            backgroundColor: "white",
+          }}
+        >
+          <Row gutter={[16, 16]}>
+            <Col style={{ margin: "2" }} lg={30} xs={24}>
+              <CheckBox
+                list={continentsPD}
+                handleFilters={(filters) =>
+                  handleFilters(filters, "continentsPD")
                 }
-            </div>
+              ></CheckBox>
+            </Col>
+            <Col style={{ margin: "2" }} lg={30} xs={24}>
+              <RadioBox
+                list={price}
+                handleFilters={(filters) => handleFilters(filters, "pricePD")}
+              ></RadioBox>
+            </Col>
+          </Row>
         </div>
-       
-    )
+        <Button
+          style={{ width: "150px" }}
+          size="large"
+          shape="round"
+          type="danger"
+          onClick={goToShop}
+        >
+          เพิ่มสินค้า
+        </Button>
+        <Button
+          style={{ width: "150px" }}
+          size="large"
+          shape="round"
+          type="danger"
+          onClick={manageRecomendedProduct}
+        >จัดการสินค้าแนะนำ
+        </Button>
+
+        <div
+          style={{
+            textAlign: "center",
+            backgroundColor: "white",
+            marginTop: "50px",
+          }}
+        >
+          {Products.length === 0 ? (
+            <div
+              style={{
+                display: "flex",
+                height: "300px",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <h2>No post yet</h2>
+            </div>
+          ) : (
+            <div>
+              <Row gutter={[16, 16]}>{renderCards}</Row>
+            </div>
+          )}
+          <br></br>
+          {postSize >= Limit && (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <button onClick={onLoadMore}>Load more</button>
+            </div>
+          )}
+
+          <Modal
+            className="modal-recomendedProcuct"
+            isOpen={ModalRecomendedProduct}
+          >
+            <div
+              style={{
+                height: "15px",
+                fontSize: "25px",
+                textAlign: "right",
+                marginRight: "20px",
+                marginTop: "10px",
+              }}
+              onClick={() => setModalRecomendedProduct(false)}
+            >
+              <MdClear style={{ cursor: "pointer" }} />
+            </div>
+            <div  style={{
+                height: "15px",
+                fontSize: "25px",
+                textAlign: "center",
+                margin: "50px",
+                marginTop: "10px",
+              }}>
+              <h1>สินค้าแนะนำในร้านของคุณ</h1>
+              <Row gutter={[16, 16]}>{renderCardsRecomended}</Row>
+              </div>
+          </Modal>
+        </div>
+      </div>
+    );
 }
 
 

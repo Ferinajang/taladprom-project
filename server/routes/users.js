@@ -25,7 +25,8 @@ router.get("/auth", auth, (req, res) => {
         shopID:req.user.shopID,
         shopName:req.user.shopName,
         history : req.user.history,
-        positionShop:req.user.positionShop
+        positionShop:req.user.positionShop,
+        recomendedItem:req.user.recomendedItem
 
     });
     console.log("back1");
@@ -150,7 +151,6 @@ router.post("/addOrderToUser",auth,(req,res) =>{
 })
 router.put("/editProfile", auth, (req, res) => {
     const profile = new User(req.body)
-    console.log("ffffffgf",req.body);
     User.findByIdAndUpdate(req.body.id,
         {$set:req.body},
         (error,profile)=>{
@@ -187,6 +187,7 @@ router.get('/removeFromCart', auth, (req, res) => {
         }
     )
 })
+
 router.get('/userCartInfo',auth,(req,res)=>{
     User.findOne(
         {_id :req.user._id},

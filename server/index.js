@@ -36,6 +36,7 @@ app.use('/api/product', require('./routes/product'));
 app.use('/api/shop', require('./routes/shop'));
 app.use('/api/order', require('./routes/order'));
 app.use('/api/position', require('./routes/position'));
+app.use('/api/coupon', require('./routes/coupon'));
 
 
 //use this to show the image you have in node js server to client (react js)

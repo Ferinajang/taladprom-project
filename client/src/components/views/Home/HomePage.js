@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Icon, Col, Row } from "antd";
 import Modal from 'react-modal'
+import { get } from "mongoose";
 
 const { Meta } = Card;
 
@@ -15,17 +16,11 @@ function HomePage(props) {
   const [test, settest] = useState([])
   const [stateShop, setstateShop] = useState("false")
   const [modalIsOpen,setModalIsOpen] = useState(false);
-  useEffect(() => {
-    //console.log("w");
-    Axios.post("/api/product/getProducts").then((response) => {
-      if (response.data.success) {    
-        setProducts(response.data.products);
-        //console.log("product");    
-      } else {
-        alert("Fialed to fecth data from mongodb")
-      }
-    });
+  const [Coupon, setCoupon] = useState([])
+  const [CheckTime, setCheckTime] = useState(0)
 
+ 
+  useEffect(() => {
     Axios.post("/api/shop/getShops").then((response) => {
         if (response.data.success) {
           setShops(response.data.shops);
@@ -35,6 +30,42 @@ function HomePage(props) {
         }
       });
   }, []);
+
+  useEffect(( ) => {
+    Axios.post("/api/coupon/getCoupon").then((response) => {
+      if (response.data.success) {
+        let CouponTimeOut = []
+          response.data.coupon.forEach(item => {
+            let time = Date.parse(item.dateTimeOut) - Date.parse(new Date());
+            if (time < 0) {
+              console.log(item);
+              CouponTimeOutUpdate(item)
+            } 
+
+      } )}
+    
+      else {
+        alert("Fialed to fecth data from mongodb");
+      }
+    });
+}, [])
+
+const CouponTimeOutUpdate = (coupon) => {
+  const variables = {
+    id: coupon._id,
+    status: "timeOut",
+  };
+  Axios.put("/api/coupon/updateCouponTimeOut", variables).then((response) => {
+    if (response.data.success) {
+      console.log("update coupon Timeout success",response.data.CouponTimeout);
+    } else {
+      alert(response);
+    }
+  });
+};
+
+
+
 
   const checkShop =()=>{
       if(countShop > 0 ){
@@ -46,13 +77,11 @@ function HomePage(props) {
 
 
    const goToShopManage = Shops.map((shop,index) =>{
-       //console.log(Shops);
        if(!props.user.userData){
            //console.log("fdddd");
        }else{
             if(shop.ownerID == props.user.userData._id){
                 countShop++
-                //console.log(countShop);
 
             }else{
                 //console.log("5555");
@@ -61,30 +90,6 @@ function HomePage(props) {
 
     })
     
-
-  const renderCards = Products.map((product, index) => {
-      if(!props.user.userData){
-          //console.log("fffff");
-      }else{
-       // console.log("eeee", product.namePD);
-       // console.log(props.user.userData.name);
-        if(product.writerName == props.user.userData.name){
-        return (
-          <Col lg={6} md={8} xs={24}>
-            <a href={`/Home/${product.writer}`}>
-              <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
-                <Meta
-                  title={product.namePD}
-                  description={`${product.pricePD}฿`}
-                ></Meta>
-              </Card>
-            </a>
-          </Col>
-        );
-      }
-     }
-  });
-
   const setModalIsOpenToTrue =()=>{
     setModalIsOpen(true)
 }

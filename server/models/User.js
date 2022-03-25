@@ -66,6 +66,9 @@ const userSchema = mongoose.Schema({
     },
     positionShop:{
         type: Number
+    },
+    recomendedItem:{
+        type: Number
     }
 })
 

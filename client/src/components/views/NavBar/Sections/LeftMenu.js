@@ -14,6 +14,9 @@ function LeftMenu(props) {
   const GotoOrderManagement =()=>{
     window.location.href = "/orderManagement"
   }
+  const GotoCouponManagement =()=>{
+    window.location.href = "/create-coupon"
+  }
   return (
     <Menu mode={props.mode}>
     <Menu.Item key="mail">
@@ -27,6 +30,7 @@ function LeftMenu(props) {
         <Menu.Item key="setting:1" onClick={GotoHomeManagement}>Home Management</Menu.Item>
         <Menu.Item key="setting:2" onClick={GotoProductMangement}>Product Mangement</Menu.Item>
         <Menu.Item key="setting:3" onClick={GotoOrderManagement}>Order Mangement</Menu.Item>
+        <Menu.Item key="setting:4" onClick={GotoCouponManagement}>Coupon Mangement</Menu.Item>
       </MenuItemGroup>
       
     </SubMenu>

@@ -75,19 +75,16 @@ export function addOrderToUser(order) {
 }
 
 export function getOrderList(orderList,orderUser) {
-    console.log(orderList);
+    console.log("get action");
     const request = axios.get(`/api/order/order_by_id?id=${orderList}&type=array`)
         .then(response => {
-            console.log("fff0",response.data);
             orderUser.forEach(orderList => {
             response.data.forEach((orderDetail,i)=>{
                 if(orderList.id === orderDetail._id){
                     response.data[i].quantity = orderList.quantity;
                 }
             })
-            
         })
-        console.log(response.data);
         return response.data;
     });
     return {

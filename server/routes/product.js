@@ -29,7 +29,6 @@ router.post("/uploadProduct", auth, (req, res) => {
 router.post("/getProducts", (req, res) => {
     let order = req.body.order ? req.body.order:"desc";
     let sortBy = req.body.sortBy ? req.body.sortBy:"_id";
-    let limit = req.body.limit ? parseInt(req.body.limit) : 100;
     let skip = parseInt(req.body.skip);
     let findArg ={};
     let term = req.body.searchTerm;
@@ -56,10 +55,9 @@ router.post("/getProducts", (req, res) => {
         .populate("writer")
         .sort([[sortBy,order]])
         .skip(skip)
-        .limit(limit)
         .exec((err,products)=>{
             if(err) return res.status(400).json({success:false,err})
-            res.status(200).json({success:true,products,postSize: products.length})
+            res.status(200).json({success:true,products})
         })    
 
     }else{
@@ -67,16 +65,14 @@ router.post("/getProducts", (req, res) => {
         .populate("writer")
         .sort([[sortBy,order]])
         .skip(skip)
-        .limit(limit)
         .exec((err,products)=>{
             if(err) return res.status(400).json({success:false,err})
-            res.status(200).json({success:true,products,postSize: products.length})
+            res.status(200).json({success:true,products})
         })
-    
-
     }
 
 });
+
 //?id=${productId}&type=single
 router.get("/product_by_id", auth, (req, res) => {
     let type = req.query.type
@@ -113,6 +109,92 @@ router.put("/update/:id", auth, (req, res) => {
         }) 
 });
 
+router.put("/addRecommendedProduct", auth, (req, res) => {
+    const recommendedProduct = new Product(req.body)
+    Product.findByIdAndUpdate(req.body.id,
+        {$set:req.body},
+        (error,recommendedProduct)=>{
+            if(error){
+                return req.status(400).send(err)
+            }else{
+                return res.status(200).json({success:true,recommendedProduct})
+            }
+        }) 
+});
+
+
+router.put("/updateQuantityCancelOrder", auth, (req, res) => {
+    const recommendedProduct = new Product(req.body)
+    Product.findByIdAndUpdate({_id:req.body.id},
+        {$set:req.body},
+        (error,recommendedProduct)=>{
+            if(error){
+                return res.status(400).json({success:false,error})
+            }else{
+                return res.status(200).json({success:true,recommendedProduct})
+            }
+        }) 
+});
+
+router.post("/getProductByID", auth, (req, res) => {
+    Product.find({namePD:req.body.namePD})
+    .exec((err,productOrder)=>{
+        if(err) return res.status(400).json({success:false,err})
+        res.status(200).json({success:true,productOrder})
+})
+ });
+
+// router.post("/getProducts", (req, res) => {
+//     let order = req.body.order ? req.body.order:"desc";
+//     let sortBy = req.body.sortBy ? req.body.sortBy:"_id";
+//     let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+//     let skip = parseInt(req.body.skip);
+//     let findArg ={};
+//     let term = req.body.searchTerm;
+
+//     for(let key in req.body.filters){
+//         if(req.body.filters[key].length > 0){
+//             if(key === "pricePD"){
+//                 findArg[key] = {
+//                     $gte: req.body.filters[key][0],
+//                     $lte: req.body.filters[key][1]
+//                 }
+
+//             }else {
+//                 findArg[key] = req.body.filters[key];
+//             }
+//         }
+//     }
+//     console.log(findArg);
+    
+
+//     if(term){
+//         Product.find(findArg)
+//         .find({$text:{$search:term}})
+//         .populate("writer")
+//         .sort([[sortBy,order]])
+//         .skip(skip)
+//         .limit(limit)
+//         .exec((err,products)=>{
+//             if(err) return res.status(400).json({success:false,err})
+//             res.status(200).json({success:true,products,postSize: products.length})
+//         })    
+
+//     }else{
+//         Product.find(findArg)
+//         .populate("writer")
+//         .sort([[sortBy,order]])
+//         .skip(skip)
+//         .limit(limit)
+//         .exec((err,products)=>{
+//             if(err) return res.status(400).json({success:false,err})
+//             res.status(200).json({success:true,products,postSize: products.length})
+//         })
+    
+
+//     }
+
+// });
 
 
 module.exports = router;

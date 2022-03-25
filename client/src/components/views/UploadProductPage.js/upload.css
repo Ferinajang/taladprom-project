@@ -1,14 +1,14 @@
-.modal-create-coupon {
+.modal-coupon-uploadPhoto {
     margin: auto;
     display: block;
     margin-top: 7%;
     align-content: center;
     justify-content: center;
-    width: 30%;
-    height: 33%;
+    width: 80%;
+    height: 75%;
     overflow: auto;
-    background-color:rgb(255, 254, 236);
+    background-color:rgb(255, 255, 255);
     border-radius: 15px;
     position: relative;
-    border: 2px solid rgba(0, 0, 0, 0.05);
+    border: 3px solid rgba(0, 0, 0, 0.05);
   }

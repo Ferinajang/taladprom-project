@@ -85,3 +85,69 @@
     padding: 10px 20px;
   }
 }
+
+.modal-coupon-list {
+  margin: auto;
+  display: block;
+  margin-top: 7%;
+  align-content: center;
+  justify-content: center;
+  width: 80%;
+  height: 75%;
+  overflow: auto;
+  background-color:rgb(255, 255, 255);
+  border-radius: 15px;
+  position: relative;
+  border: 3px solid rgba(0, 0, 0, 0.05);
+}
+.modal-coupon-random {
+  margin: auto;
+  display: block;
+  margin-top: 7%;
+  align-content: center;
+  justify-content: center;
+  width: 40%;
+  height: 65%;
+  overflow: auto;
+  background-color:rgb(255, 255, 255);
+  border-radius: 15px;
+  position: relative;
+  border: 3px solid rgba(0, 0, 0, 0.05);
+}
+.scrollbar
+{
+	height: 100%;
+	width: 100%;
+	background: #F5F5F5;
+	overflow-y: scroll;
+}
+
+.force-overflow
+{
+	min-height: 450px;
+}
+
+#style-15::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+	background-color: #F5F5F5;
+	border-radius: 10px;
+}
+
+#style-15::-webkit-scrollbar
+{
+	width:10px;
+
+}
+
+#style-15::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: #FFF;
+	background-image: -webkit-gradient(linear,
+									   40% 0%,
+									   75% 84%,
+									   from(#004aaa),
+									   to(#02005c),
+									   color-stop(.6,#545ffa))
+}

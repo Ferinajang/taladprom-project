@@ -32,6 +32,21 @@ html{
   
     }
     
+    .modal-recomendedProcuct {
+      margin: auto;
+      display: block;
+      margin-top: 7%;
+      align-content: center;
+      align-items: center;
+      justify-content: center;
+      width: 90%;
+      height: 80%;
+      overflow: auto;
+      background-color:rgb(255, 254, 236);
+      border-radius: 15px;
+      position: relative;
+      border: 2px solid rgba(0, 0, 0, 0.05);
+    }
   
 
   

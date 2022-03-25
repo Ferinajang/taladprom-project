@@ -62,6 +62,9 @@ const productSchema = mongoose.Schema({
     positionShop:{
         type:String,
 
+    },
+    recommended:{
+        type:String,
     }
 })
 

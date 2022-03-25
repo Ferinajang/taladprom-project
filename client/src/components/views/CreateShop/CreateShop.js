@@ -147,7 +147,8 @@ function CreateShop(props) {
             emailShop : EmailShop,
             phoneNumberShop : PhoneNumberShop,
             imagesShopp : URLShop,
-            positionShop : positionShop
+            positionShop : positionShop,
+            
         }
         const DataShopToUser ={
             ownerName:props.user.userData.name,
@@ -193,7 +194,8 @@ function CreateShop(props) {
                       id:props.user.userData._id,
                       shopID:response.data.shops._id,
                       shopName:response.data.shops.nameShop,
-                      positionShop:response.data.shops.positionShop
+                      positionShop:response.data.shops.positionShop,
+                      recomendedItem:0
                   }
                   Axios.put('/api/users/editProfile',variables2)
                         .then(response =>{

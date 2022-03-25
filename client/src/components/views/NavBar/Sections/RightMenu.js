@@ -10,11 +10,12 @@ import Modal from "react-modal";
 import Axios from 'axios';
 import {getOrderList} from '../../../../_actions/user_actions'
 import {EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+import { FaMoneyBillWave } from 'react-icons/fa';
+import { MdClear } from "react-icons/md";
+
+
 const {Meta} =Card;
 const { Step } = Steps;
-
-
-
 
 
 
@@ -29,9 +30,20 @@ function RightMenu(props) {
   const [changeAddress, setchangeAddress] = useState("")
   const [stateCheck, setstateCheck] = useState(true)
   const [modalNoOrder, setmodalNoOrder] = useState(false)
+  const [modalCoupon, setmodalCoupon] = useState(false)
+  const [modalCouponRandom, setmodalCouponRandom] = useState(false)
+  const [Coupon, setCoupon] = useState([])
+  const [CouponRandom, setCouponRandom] = useState([])
+  const [CouponLength, setCouponLength] = useState(0)
   const { TextArea } = Input;
-
   const dispatch = useDispatch();
+
+  console.log("------------");
+        console.log("random",CouponLength);
+        console.log(CouponRandom);
+
+  
+
   const logoutHandler = () => {
     axios.get(`${USER_SERVER}/logout`).then((response) => {
       if (response.status === 200) {
@@ -52,7 +64,34 @@ function RightMenu(props) {
             dispatch(getOrderList(orderList,user.userData.orderUser))
         }
     }
+    ///////////////////////////random////////////////////////
+
+    
+    
 }, [user.userData])
+
+/////////////////////////edit//////////////////////
+
+const editName =()=>{
+  setstateCheck(false)
+}
+
+const OnSubmitEdit =(data)=>{
+  const variables ={
+    id:Data._id,
+    name:changeName,
+    phoneNumber:changePhoneNumber,
+    address : changeAddress
+}
+Axios.put('/api/users/editProfile',variables)
+      .then(response =>{
+          if(response.data.success){
+              alert('product success to upload')
+          }else{
+              alert(response)
+          }
+      })
+}
 
   const onChangeName = (event) => {
     setchangeName(event.currentTarget.value)
@@ -81,15 +120,24 @@ function RightMenu(props) {
   const setModalIsOpenToFalse = () => {
     setModalIsOpen(false);
   };
-  const setModalOrderIsOpenToFalse = () => {
-    setModalOrderIsOpen(false);
-  };
+
+
+  //////////////////////order/////////////////////////
+  const orderList =()=>{
+    setModalOrderIsOpenToTrue()
+  }
+
+
 
   const setModalNoOrderIsOpenToFalse = () => {
     setmodalNoOrder(false);
   };
   const setModalNoOrderIsOpenToTrue = () => {
     setmodalNoOrder(true);
+  };
+
+  const setModalOrderIsOpenToFalse = () => {
+    setModalOrderIsOpen(false);
   };
 
   const setModalOrderIsOpenToTrue = () => {
@@ -104,10 +152,9 @@ function RightMenu(props) {
     // setorder(props.user.userData.orderUser)
   };
 
-  
-
   const renderCards =
     order.map((order, index) => {
+      console.log(order);
         return (
           <Col lg={1000} md={100} xs={100}>
             <a href={`/order/${order._id}`}>
@@ -119,7 +166,7 @@ function RightMenu(props) {
                 <img width={100} src={order.imagesPD1}/>
                 <div style={{display: 'block', marginLeft:'100px'}}>
                       <h1>{order.namePD}</h1>
-                      <a>จำนวน {order.quantityPD} ชิ้น</a>
+                      <a>จำนวน {order.quantity} ชิ้น</a>
                       <p>ราคารวม {order.totalPrice} บาท</p>
                   </div>
                 </div>
@@ -129,38 +176,117 @@ function RightMenu(props) {
         );
     });
 
-  
+     //////////////////////conpon/////////////////////////
+
+  const couponList =()=>{
+    Axios.post('/api/coupon/getCoupon')
+    .then(response => {
+        if(response.data.success){
+            setCoupon(response.data.coupon)
+            console.log("5555",response.data.coupon);
+            setmodalCoupon(true)
+        }else{
+            alert("Fialed to fecth data from mongodb")
+        }
+    }
+)
  
 
 
-  const editName =()=>{
-    setstateCheck(false)
   }
+  const renderCardsCoupon = Coupon.map((coupon, index) => {
+    if (!user.userData) {
+      //console.log("fffff");
+    } else {
+      if (coupon.OwnerID == user.userData._id) {
+        return (
+          <Col lg={12}>
+            <a>
+              <Card>
+                <div style={{ display: "flex" }}>
+                  {coupon.typeCoupon == "DiscountPercent" ? (
+                    <img
+                      width={150}
+                      src={
+                        "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
+                      }
+                    />
+                  ) : coupon.typeCoupon == "DiscountMoney" ? (
+                    <img
+                      width={150}
+                      src={
+                        "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
+                      }
+                    />
+                  ) : (
+                    <img
+                      width={150}
+                      src={
+                        "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
+                      }
+                    />
+                  )}
+                  <div style={{ display: "block", marginLeft: "20px" }}>
+                    <h1>{coupon.nameCoupon}</h1>
+                    <a>ร้าน {coupon.shopName}</a>
+                    <p>ส่วนลด {coupon.discount} บาท</p>
+                  </div>
+                  <div style={{ float: "right" }}>
+                    <Button>รับคูปอง</Button>
+                  </div>
+                </div>
+              </Card>
+            </a>
+          </Col>
+        );
+      }
+    }
+  });
 
-  const OnSubmitEdit =(data)=>{
+  /////////////////random//////////////
+  const randomCoupon = () => {
+    Axios.post("/api/coupon/getCoupon").then((response) => {
+      if (response.data.success) {
+        let noOwnerCouponList = [];
+        response.data.coupon.forEach((item) => {
+          if (item.status == "no owner") {
+            console.log(item);
+            noOwnerCouponList.push(item);
+          }
+          // console.log(noOwnerCouponList);
+        });
+
+        setCouponLength(Math.floor(Math.random() * noOwnerCouponList.length));
+        setCouponRandom(noOwnerCouponList[CouponLength]);
+      } else {
+        alert("Fialed to fecth data from mongodb");
+      }
+    });
+    setmodalCouponRandom(true);
+  };
+
+  const gotCoupon=()=>{
     const variables ={
-      id:Data._id,
-      name:changeName,
-      phoneNumber:changePhoneNumber,
-      address : changeAddress
+      id:CouponRandom._id,
+      status:"have owner",
+      OwnerName : user.userData.name,
+      OwnerID:user.userData._id
   }
-  Axios.put('/api/users/editProfile',variables)
+  Axios.put('/api/coupon/addOwnerCoupon',variables)
         .then(response =>{
             if(response.data.success){
-                alert('product success to upload')
+                alert('คูปองได้จัดเก็บดข้าคลังของคุณแล้ว')
             }else{
                 alert(response)
             }
         })
+
   }
 
+ 
 
-  const orderList =()=>{
-    setModalOrderIsOpenToTrue()
-  }
-  const goToUpload =()=>{
-    
-  }
+
+
 
   if (user.userData && !user.userData.isAuth) {
     return (
@@ -180,6 +306,11 @@ function RightMenu(props) {
           <a href="/product/upload">upload</a>
         </Menu.Item>
 
+        <Menu.Item key="randon coupon">
+          <a  onClick={randomCoupon}>random coupon</a>
+        </Menu.Item>
+
+
         <Menu.Item key="cart">
           <Badge count={user.userData && user.userData.cart.length}>
             <a href="/user/cart" style={{ marginRight: -22, color: "#667777" }}>
@@ -198,6 +329,14 @@ function RightMenu(props) {
                 type="unordered-list"
                 style={{ fontSize: 30, marginBottom: 4 }}
               ></Icon>
+            </a>
+          </Badge>
+        </Menu.Item>
+
+        <Menu.Item key="coupon">
+          <Badge>
+            <a onClick={couponList}>
+              <FaMoneyBillWave size="2em" />
             </a>
           </Badge>
         </Menu.Item>
@@ -261,9 +400,7 @@ function RightMenu(props) {
           <button onClick={setModalOrderIsOpenToFalse}>x</button>
           <ul>
             <div>
-              <Row gutter={[30, 30]}>
-                {renderCards}
-              </Row>
+              <Row gutter={[30, 30]}>{renderCards}</Row>
             </div>
           </ul>
         </Modal>
@@ -271,10 +408,95 @@ function RightMenu(props) {
         <Modal isOpen={modalNoOrder}>
           <button onClick={setModalNoOrderIsOpenToFalse}>x</button>
           <ul>
-            <div>
-              No Order
-            </div>
+            <div>No Order</div>
           </ul>
+        </Modal>
+
+        <Modal className="modal-coupon-list" isOpen={modalCoupon}>
+          <div class="scrollbar" id="style-15">
+            <div class="force-overflow">
+              <div
+                style={{
+                  height: "15px",
+                  fontSize: "25px",
+                  textAlign: "right",
+                  margin: "10px",
+                }}
+                onClick={() => setmodalCoupon(false)}
+              >
+                <MdClear style={{ cursor: "pointer" }} />
+              </div>
+                <h1  style={{ alignItem:'center' }}>คูปองส่วนลดของคุณ</h1>
+              <div style={{ margin: "50px", marginRight: "70px" }}>
+                <ul>
+                  <Row gutter={[12, 12]}>{renderCardsCoupon}</Row>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </Modal>
+
+        <Modal className="modal-coupon-random" isOpen={modalCouponRandom}>
+              <div
+                style={{
+                  height: "15px",
+                  fontSize: "25px",
+                  textAlign: "right",
+                  margin: "10px",
+                }}
+                onClick={() => setmodalCouponRandom(false)}
+              >
+                <MdClear style={{ cursor: "pointer" }} />
+              </div>
+              <div style={{height:'50vh'}}>
+              <div style={{textAlign: "center" }}>
+                <h1>ยินดีด้วย!!</h1>
+                <h2>คุณได้รับคูปองส่วนลด</h2>
+              </div>
+              <div style={{alignItems: "center" ,margin:'20px' ,marginLeft:'50px'}}>
+              <Card  style={{width:'500px'}}>
+              <div style={{ display: "flex" }}>
+                {CouponRandom.typeCoupon == "DiscountPercent" ? (
+                  <img
+                    width={150}
+                    src={
+                      "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
+                    }
+                  />
+                ) : CouponRandom.typeCoupon == "DiscountMoney" ? (
+                  <img
+                    width={150}
+                    src={
+                      "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
+                    }
+                  />
+                ) : (
+                  <img
+                    width={150}
+                    src={
+                      "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
+                    }
+                  />
+                )}
+                <div style={{ display: "block", marginLeft: "20px" }}>
+                  <h1>{CouponRandom.nameCoupon}</h1>
+                  <a>ร้าน {CouponRandom.shopName}</a>
+                  <p>ส่วนลด {CouponRandom.discount} บาท</p>
+                </div>
+                <div style={{float:'right'}}>
+              </div>
+              </div>
+            </Card>
+
+              </div>
+              <div style={{ textAlign:'center'}}>
+              <Button onClick={gotCoupon}>รับคูปอง</Button>
+
+              </div>
+             
+            
+              </div>
+              
         </Modal>
       </Menu>
     );

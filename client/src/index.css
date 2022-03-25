@@ -1,4 +1,5 @@
 @import "~react-image-gallery/styles/css/image-gallery.css";
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
@@ -31,7 +32,7 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family:Prompt, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 body {
@@ -147,7 +148,7 @@ input[type="checkbox"] {
   .file-upload{
 
     height: 50px;
-    width:200px;
+    width:250px;
     border-radius: 50px;
     position:relative;
     
@@ -161,7 +162,7 @@ input[type="checkbox"] {
     background-size: 100% 200%;
     transition: all 1s;
     color: #FFFFFF;
-    font-size:30px;
+    font-size:20px;
   }
 
   

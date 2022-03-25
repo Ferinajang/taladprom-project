@@ -24,7 +24,7 @@ const orderSchema = mongoose.Schema({
         type: String,
     },
     quantityPD: {
-        type:String,
+        type:Number,
     },
     dateOrder: {
         type:String,
@@ -47,6 +47,9 @@ const orderSchema = mongoose.Schema({
     imagesPD1: {
         type:String,
     }, 
+    productID:{
+        type:String
+    }
 })
 
 

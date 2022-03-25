@@ -13,16 +13,31 @@ function DetailOrderPage(props) {
     const [Order, setOrder] = useState([])
     const [modalCheckPaymentIsOpen, setmodalCheckPaymentIsOpen] = useState(false)
     const [trackingNumber, settrackingNumber] = useState("")
+    const [Product, setProduct] = useState([])
+
 
     useEffect(()=>{
         //console.log(props.match.params.productId);
         Axios.get(`/api/order/order_by_id?id=${orderId}&type=single`)
         .then(response=>{
             setOrder(response.data[0])
-            
-        })
+            console.log(response.data[0]);
+            const variables = {
+              namePD: response.data[0].namePD,
+            };
+            Axios.post("/api/product/getProductByID", variables).then(
+              (response) => {
+                if (response.data.success) {
+                  setProduct(response.data.productOrder[0])
+                } else {
+                  alert("Fialed to fecth data from mongodb");
+                }
+              }
+            );
+          
+        })  
        
-    })
+    },[])
 
     
 
@@ -128,8 +143,41 @@ function DetailOrderPage(props) {
       settrackingNumber(event.currentTarget.value)
   }
 
+  const cancelOrder=()=>{
+    alert("คุณต้องการปฏิเสธออเดอร์นี้?")
+    const variables = {
+      id: Order._id,
+      status: "reject",
+      // quantityPD: productData.quantityPD + Order.quantity,
+    };
+    Axios.put("/api/order/rejectOrder", variables).then((response) => {
+      if (response.data.success) {
+        alert("product success to upload");
+        const variables = {
+          id: Order._id,
+          status: "reject",
+        }
+      } else {
+        alert(response);
+      }
+    });
 
-      
+    const variablesProduct = {
+      id: Product._id,
+      quantityPD: Product.quantityPD + Order.quantityPD,
+    };
+    Axios.put("/api/product/updateQuantityCancelOrder", variablesProduct).then(
+      (response) => {
+        if (response.data.success) {
+          console.log("เพิ่มแล้ว");
+        } else {
+          alert("Fialed to fecth data from mongodb");
+        }
+      }
+    );
+
+
+  }
 
   return (
     <div className="postPage" style={{ width: "100%", padding: "3rem 4rem" }}>
@@ -144,10 +192,10 @@ function DetailOrderPage(props) {
       <div
         style={{ display: "block", justifyContent: "center", float: "right" }}
       >
-        <h1>Total Price : {Order.totalPrice * Order.quantityPD}</h1>
+        <h1>Total Price : {Order.totalPrice}</h1>
         <button style={{ marginBottom: "20px" }} onClick={confirmOrder}>Confirm Order</button>
         <br></br>
-        <button style={{ marginBottom: "20px" }}>Cancle Order</button>
+        <button style={{ marginBottom: "20px" }} onClick={cancelOrder} >Cancle Order</button>
       </div>
       <button style={{ marginBottom: "20px" }} onClick={checkImagePayment}>Proof payment</button>
       <br />
