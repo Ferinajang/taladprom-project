@@ -11,9 +11,6 @@ import Axios from 'axios';
 import {getOrderList} from '../../../../_actions/user_actions'
 import { FaMoneyBillWave } from 'react-icons/fa';
 import { MdClear } from "react-icons/md";
-import { getOrderList } from '../../../../_actions/user_actions'
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-
 
 
 const {Meta} =Card;
@@ -66,10 +63,6 @@ function RightMenu(props) {
         dispatch(getOrderList(orderList, user.userData.orderUser))
       }
     }
-    ///////////////////////////random////////////////////////
-
-    
-    
 }, [user.userData])
 
 /////////////////////////edit//////////////////////
@@ -94,6 +87,7 @@ Axios.put('/api/users/editProfile',variables)
           }
       })
 }
+
 
   const onChangeName = (event) => {
     setchangeName(event.currentTarget.value)
@@ -128,8 +122,6 @@ Axios.put('/api/users/editProfile',variables)
   const orderList =()=>{
     setModalOrderIsOpenToTrue()
   }
-
-
 
   const setModalNoOrderIsOpenToFalse = () => {
     setmodalNoOrder(false);
@@ -198,16 +190,9 @@ Axios.put('/api/users/editProfile',variables)
             alert("Fialed to fecth data from mongodb")
         }
     }
-)
+) }
  
 
-
-
-
-
-  const editName = () => {
-    setstateCheck(false)
-  }
   const renderCardsCoupon = Coupon.map((coupon, index) => {
     if (!user.userData) {
       //console.log("fffff");
@@ -297,26 +282,7 @@ Axios.put('/api/users/editProfile',variables)
       }
     
       
-  const OnSubmitEdit = (data) => {
-    const variables = {
-      id: Data._id,
-      name: changeName,
-      phoneNumber: changePhoneNumber,
-      address: changeAddress
-    }
-    Axios.put('/api/users/editProfile', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
-  }
-
-  const orderList = () => {
-    setModalOrderIsOpenToTrue()
-  }
+ 
   
   if (user.userData && !user.userData.isAuth) {
     return (
@@ -531,6 +497,6 @@ Axios.put('/api/users/editProfile',variables)
       </Menu>
     );
   }
-}}
+}
 
 export default withRouter(RightMenu);
