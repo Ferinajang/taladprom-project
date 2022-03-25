@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
-import { Menu, Icon, Badge, Form, Input, Button ,Card,Col,Row,Steps,Avatar } from "antd";
-import {useDispatch} from 'react-redux'
+import { Menu, Icon, Badge, Form, Input, Button, Card, Col, Row, Steps, Avatar } from "antd";
+import { useDispatch } from 'react-redux'
 import axios from "axios";
 import { USER_SERVER } from "../../../Config";
 import { withRouter } from "react-router-dom";
@@ -9,9 +9,11 @@ import { useSelector } from "react-redux";
 import Modal from "react-modal";
 import Axios from 'axios';
 import {getOrderList} from '../../../../_actions/user_actions'
-import {EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { FaMoneyBillWave } from 'react-icons/fa';
 import { MdClear } from "react-icons/md";
+import { getOrderList } from '../../../../_actions/user_actions'
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
+
 
 
 const {Meta} =Card;
@@ -54,15 +56,15 @@ function RightMenu(props) {
     });
   };
 
-  useEffect(( ) => {
+  useEffect(() => {
     let orderList = [];
-    if(user.userData && user.userData.orderUser){
-        if(user.userData.orderUser.length >0){
-            user.userData.orderUser.forEach(item => {
-                orderList.push(item.id)
-            });
-            dispatch(getOrderList(orderList,user.userData.orderUser))
-        }
+    if (user.userData && user.userData.orderUser) {
+      if (user.userData.orderUser.length > 0) {
+        user.userData.orderUser.forEach(item => {
+          orderList.push(item.id)
+        });
+        dispatch(getOrderList(orderList, user.userData.orderUser))
+      }
     }
     ///////////////////////////random////////////////////////
 
@@ -114,7 +116,7 @@ Axios.put('/api/users/editProfile',variables)
     setchangeName(user.userData.name)
     setchangeAddress(user.userData.address)
     setchangePhoneNumber(user.userData.phoneNumber)
-    
+
   };
 
   const setModalIsOpenToFalse = () => {
@@ -141,40 +143,47 @@ Axios.put('/api/users/editProfile',variables)
   };
 
   const setModalOrderIsOpenToTrue = () => {
-    setorder(user.orderDetail)
-    console.log("fffgfg",user.userData.orderUser.length);
-    if(user.userData.orderUser.length > 0 ){
+    if (user.orderDetail !== undefined) {
+      setorder(user.orderDetail)
+    }
+    
+    console.log("fffgfg", user.userData.orderUser.length);
+    if (user.userData.orderUser.length > 0) {
       setModalOrderIsOpen(true);
       console.log("order");
-    }else{
+    } else {
       setmodalNoOrder(true);
     }
     // setorder(props.user.userData.orderUser)
   };
-
-  const renderCards =
-    order.map((order, index) => {
-      console.log(order);
+  // console.log(order)
+  // var renderCards;
+  // if (order.length !== 0) {
+    const renderCards =
+      order.map((order, index) => {
         return (
           <Col lg={1000} md={100} xs={100}>
             <a href={`/order/${order._id}`}>
               <Card>
-              <div style={{float:'right', backgroundColor:(order.status === "Not Confirmed" ? 'red' : order.status === "pending" ? 'yellow':order.status === "success" ?'green':'black')}}>
+                <div style={{ float: 'right', backgroundColor: (order.status === "Not Confirmed" ? 'red' : order.status === "pending" ? 'yellow' : order.status === "success" ? 'green' : 'black') }}>
                   <h1>{order.status}</h1>
-              </div>
-                <div style={{display: 'flex'}}>
-                <img width={100} src={order.imagesPD1}/>
-                <div style={{display: 'block', marginLeft:'100px'}}>
-                      <h1>{order.namePD}</h1>
-                      <a>จำนวน {order.quantity} ชิ้น</a>
-                      <p>ราคารวม {order.totalPrice} บาท</p>
+                </div>
+                <div style={{ display: 'flex' }}>
+                  <img width={100} src={order.imagesPD1} />
+                  <div style={{ display: 'block', marginLeft: '100px' }}>
+                    <h1>{order.namePD}</h1>
+                    <a>จำนวน {order.quantityPD} ชิ้น</a>
+                    <p>ราคารวม {order.totalPrice} บาท</p>
                   </div>
                 </div>
               </Card>
             </a>
           </Col>
         );
-    });
+      });
+  // }
+
+
 
      //////////////////////conpon/////////////////////////
 
@@ -193,6 +202,11 @@ Axios.put('/api/users/editProfile',variables)
  
 
 
+
+
+
+  const editName = () => {
+    setstateCheck(false)
   }
   const renderCardsCoupon = Coupon.map((coupon, index) => {
     if (!user.userData) {
@@ -280,14 +294,30 @@ Axios.put('/api/users/editProfile',variables)
                 alert(response)
             }
         })
-
+      }
+    
+      
+  const OnSubmitEdit = (data) => {
+    const variables = {
+      id: Data._id,
+      name: changeName,
+      phoneNumber: changePhoneNumber,
+      address: changeAddress
+    }
+    Axios.put('/api/users/editProfile', variables)
+      .then(response => {
+        if (response.data.success) {
+          alert('product success to upload')
+        } else {
+          alert(response)
+        }
+      })
   }
 
- 
-
-
-
-
+  const orderList = () => {
+    setModalOrderIsOpenToTrue()
+  }
+  
   if (user.userData && !user.userData.isAuth) {
     return (
       <Menu mode={props.mode}>
@@ -501,6 +531,6 @@ Axios.put('/api/users/editProfile',variables)
       </Menu>
     );
   }
-}
+}}
 
 export default withRouter(RightMenu);

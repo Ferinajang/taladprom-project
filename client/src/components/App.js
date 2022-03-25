@@ -16,6 +16,9 @@ import HomeShopManage from './views/HomeShopManage.js/HomeShopManage';
 import CartPage from './views/CartPage/CartPage';
 import OrderManage from './views/OrderManage/OrderManage';
 import TaladPromShop from './views/TaladPromShop/TaladPromShop';
+import GamePage from './views/GamePage/GamePage';
+
+
 import DetailOrderPage from './views/DetailOrderPage/DetailOrderPage';
 import DetailProductPageSeller from './views/DetailProductPageSeller/DetailProductPageSeller';
 import CreateCoupon from './views/CreateCoupon/CreateCoupon';
@@ -26,7 +29,9 @@ import CreateCoupon from './views/CreateCoupon/CreateCoupon';
 function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
-      <NavBar/>
+      <div id="NavBar">
+      <NavBar />
+      </div>
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Switch>
           <Route exact path="/" component={Auth(HomePage, true)} />
@@ -42,12 +47,15 @@ function App() {
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route exact path="/orderManagement" component={Auth(OrderManage, true)} />
           <Route exact path="/taladprom-shop" component={Auth(TaladPromShop, true)} />
+          <Route exact path="/gamepage" component={Auth(GamePage, null)} />
           <Route exact path="/order/:orderId" component={Auth(DetailOrderPage, true)} />
           <Route exact path="/productSeller/:productId" component={Auth(DetailProductPageSeller, null)} />
           <Route exact path="/create-coupon" component={Auth(CreateCoupon, true)} />
         </Switch>
       </div>
+      <div id="Footer">
       <Footer />
+      </div>
     </Suspense>
   );
 }

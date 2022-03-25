@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  font-family: 'Prompt';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.modal-cardPasswrong {
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.1)!important;
+    ;
+  }
+  
+  .modal-ShowAllProduct {
+    margin-left: 15%;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 75%;
+    height: 80%;
+    overflow: auto;
+    background-color:white;
+    border-radius: 15px;
+    position: relative;
+  }
+  
+  .modal-ShowProductOnShelf {
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.1)!important;
+    ;
+  }
+  .modal-ProductShelf {
+    margin: 0 auto;
+    display: block;
+    margin-top: 175px;
+    width: 500px;
+    height: 550px;
+    /* background-color: rgb(255, 255, 255)!important; */
+    border-radius: 15px;
+  }
