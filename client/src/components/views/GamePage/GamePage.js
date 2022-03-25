@@ -7,7 +7,7 @@ import './GamePage.css';
 // import { Card, Icon, Col, Row } from "antd";
 // import Modal from 'react-modal'
 import { MdClear } from "react-icons/md";
-import { Card, Icon, Col, Row } from 'antd';
+import { Card, Icon, Col, Row, Button } from 'antd';
 
 //Game
 import Header from '../SideMenu/Header'
@@ -20,16 +20,17 @@ import AgoraRTC from "agora-rtc-sdk-ng"
 const { Meta } = Card;
 
 const unityContext = new UnityContext({
-    loaderUrl: "Game/build16.loader.js",
-    dataUrl: "Game/build16.data",
-    frameworkUrl: "Game/build16.framework.js",
-    codeUrl: "Game/build16.wasm",
+    loaderUrl: "Game/build24.loader.js",
+    dataUrl: "Game/build24.data",
+    frameworkUrl: "Game/build24.framework.js",
+    codeUrl: "Game/build24.wasm",
 });
 
 
 function GamePage(props) {
     const [modalCounter, setModalCounter] = useState(false);
     const [modalMiniShelf, setModalMiniShelf] = useState(false);
+    const [modalSeller, setModalSeller] = useState(false);
     const [ShopNumberFromUnity, setShopNumberFromUnity] = useState("");
     const [CounterNumberFromUnity, setCounterNumberFromUnity] = useState("");
     const [Product, setProduct] = useState([]);
@@ -73,6 +74,13 @@ function GamePage(props) {
             setCounterNumberFromUnity(counterNumber.toString());
         });
 
+        unityContext.on("ClickOnConfirm", function (isTriggerClick) {
+            setModalSeller(isTriggerClick);
+            
+        });
+
+        
+
         unityContext.on("sendInShop",async function (isTrigger2, ShopNumber) {
             setModalMiniShelf(isTrigger2);
             setShopNumberFromUnity(ShopNumber.toString());
@@ -82,10 +90,10 @@ function GamePage(props) {
                 console.log("nulllll");
             }
             if(ShopNumber == "0"){
-                rtc.localAudioTrack.close();
+                // rtc.localAudioTrack.close();
     
-                  // Leave the channel.
-                await rtc.client.leave();
+                //   // Leave the channel.
+                // await rtc.client.leave();
             }
             else{
                 startBasicCall()
@@ -245,6 +253,8 @@ function GamePage(props) {
 
             }
         });
+        
+        
 
         
 
@@ -445,6 +455,15 @@ function GamePage(props) {
         //   }
       }
     
+    const onclickThatbutton = () =>{
+        console.log("getINTHAISCLICK")
+        unityContext.send("ConnectToserver", "ClickOKOnReact1",0);
+        unityContext.send("ConnectToserver", "ClickOKOnReact2","Player");
+
+        setModalSeller(false)
+        
+        console.log("getINTHAISCLICK")
+    }
 
     return (
         <div >
@@ -465,6 +484,19 @@ function GamePage(props) {
                     {renderCards}
                 </Row>
             </Modal>
+
+            <Modal className="modal-ShowAllProduct"
+                isOpen={modalSeller}
+                contentLabel="Example Modal"
+            >
+
+                <div style={{ height: '20px', fontSize: '36px', textAlign: 'right', marginRight: '10px' }} onClick={() => setModalSeller(false)}>
+                    <MdClear style={{ cursor: 'pointer' }} /></div>
+                <a1 style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold' }} onClick={onclickThatbutton}>คลิกกกก</a1>
+                
+                
+            </Modal>
+
         </div>
     );
 }
