@@ -143,7 +143,7 @@ function LandingPage(props) {
         <div style={{width :'75%' , margin:"3rem auto"}}>
             <div style={{textAlign:'center'}}>
             <a class="homeHeader"></a>
-                <h2> Order List <Icon type="rocket"></Icon> </h2>
+                <h2>รายการคำสั่งซื้อ <Icon type="rocket"></Icon> </h2>
                 {/* <Row gutter={[16,16]}>
                     <Col lg={12} xs={24}>
                         <CheckBox list={continentsPD} handleFilters={filters => handleFilters(filters,"continentsPD")}></CheckBox>

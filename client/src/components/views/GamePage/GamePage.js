@@ -11,6 +11,12 @@ import { Card, Icon, Col, Row } from 'antd';
 
 //Game
 import Header from '../SideMenu/Header'
+import AgoraRTC from "agora-rtc-sdk-ng"
+
+
+
+
+
 const { Meta } = Card;
 
 const unityContext = new UnityContext({
@@ -41,7 +47,12 @@ function GamePage(props) {
     const [ShopName10, setShopName10] = useState("")
     const [ShopName11, setShopName11] = useState("")
     const [ShopName12, setShopName12] = useState("")
+    //Voice
+    const [joinRoom, setJoinRoom] = useState(false)
+    const [leaveRoom, setLeaveRoom] = useState(false)
 
+    //cart
+    
 
 
 
@@ -54,15 +65,188 @@ function GamePage(props) {
     
 
     useEffect(function () {
+        document.getElementById("NavBar").style.display="none";
+        document.getElementById("Footer").style.display="none";
+
         unityContext.on("sendShelfShop", function (isTrigger1, counterNumber) {
             setModalCounter(isTrigger1);
             setCounterNumberFromUnity(counterNumber.toString());
         });
 
-        unityContext.on("sendInShop", function (isTrigger2, ShopNumber) {
+        unityContext.on("sendInShop",async function (isTrigger2, ShopNumber) {
             setModalMiniShelf(isTrigger2);
             setShopNumberFromUnity(ShopNumber.toString());
+            let options;
+            console.log(ShopNumberFromUnity);
+            if(ShopNumber == null){
+                console.log("nulllll");
+            }
+            if(ShopNumber == "0"){
+                rtc.localAudioTrack.close();
+    
+                  // Leave the channel.
+                await rtc.client.leave();
+            }
+            else{
+                startBasicCall()
+                const moonLanding = new Date();
+                if(ShopNumber == "1"){
+                    options = {
+                        // Pass your App ID here.
+                        appId: "165d56d0f0c14892810e3a89f2ac1133",
+                        // Set the channel name.
+                        channel: "shop1",
+                        // Pass your temp token here.
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADv5YzrDhkcthy/w6k6qrSaesWaQqJ+xJLPl4MuOiL3qj9HqLsAAAAAEAAhqfJE6Ho9YgEAAQDmej1i",
+                        // Set the user ID.
+                        uid: Math.ceil(moonLanding.getTime()/1000000)
+                    };
+                }
+                else if(ShopNumber == "2"){
+                    options = {
+                        // Pass your App ID here.
+                        appId: "165d56d0f0c14892810e3a89f2ac1133",
+                        // Set the channel name.
+                        channel: "shop2",
+                        // Pass your temp token here.
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        // Set the user ID.
+                        uid: Math.ceil(moonLanding.getTime()/1000000)
+                    };
+                }
+                else if(ShopNumber == "3"){
+                    options = {
+                        // Pass your App ID here.
+                        appId: "165d56d0f0c14892810e3a89f2ac1133",
+                        // Set the channel name.
+                        channel: "shop2",
+                        // Pass your temp token here.
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        // Set the user ID.
+                        uid: Math.ceil(moonLanding.getTime()/1000000)
+                    };
+                }
+                else if(ShopNumber == "4"){
+                    options = {
+                        // Pass your App ID here.
+                        appId: "165d56d0f0c14892810e3a89f2ac1133",
+                        // Set the channel name.
+                        channel: "shop2",
+                        // Pass your temp token here.
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        // Set the user ID.
+                        uid: Math.ceil(moonLanding.getTime()/1000000)
+                    };
+                }
+                else if(ShopNumber == "5"){
+                    options = {
+                        // Pass your App ID here.
+                        appId: "165d56d0f0c14892810e3a89f2ac1133",
+                        // Set the channel name.
+                        channel: "shop2",
+                        // Pass your temp token here.
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        // Set the user ID.
+                        uid: Math.ceil(moonLanding.getTime()/1000000)
+                    };
+                }
+                else if(ShopNumber == "6"){
+                    options = {
+                        // Pass your App ID here.
+                        appId: "165d56d0f0c14892810e3a89f2ac1133",
+                        // Set the channel name.
+                        channel: "shop2",
+                        // Pass your temp token here.
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        // Set the user ID.
+                        uid: Math.ceil(moonLanding.getTime()/1000000)
+                    };
+                }
+                else if(ShopNumber == "7"){
+                    options = {
+                        // Pass your App ID here.
+                        appId: "165d56d0f0c14892810e3a89f2ac1133",
+                        // Set the channel name.
+                        channel: "shop2",
+                        // Pass your temp token here.
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        // Set the user ID.
+                        uid: Math.ceil(moonLanding.getTime()/1000000)
+                    };
+                }
+                else if(ShopNumber == "8"){
+                    options = {
+                        // Pass your App ID here.
+                        appId: "165d56d0f0c14892810e3a89f2ac1133",
+                        // Set the channel name.
+                        channel: "shop2",
+                        // Pass your temp token here.
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        // Set the user ID.
+                        uid: Math.ceil(moonLanding.getTime()/1000000)
+                    };
+                }
+                else if(ShopNumber == "9"){
+                    options = {
+                        // Pass your App ID here.
+                        appId: "165d56d0f0c14892810e3a89f2ac1133",
+                        // Set the channel name.
+                        channel: "shop2",
+                        // Pass your temp token here.
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        // Set the user ID.
+                        uid: Math.ceil(moonLanding.getTime()/1000000)
+                    };
+                }
+                else if(ShopNumber == "10"){
+                    options = {
+                        // Pass your App ID here.
+                        appId: "165d56d0f0c14892810e3a89f2ac1133",
+                        // Set the channel name.
+                        channel: "shop2",
+                        // Pass your temp token here.
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        // Set the user ID.
+                        uid: Math.ceil(moonLanding.getTime()/1000000)
+                    };
+                }
+                else if(ShopNumber == "11"){
+                    options = {
+                        // Pass your App ID here.
+                        appId: "165d56d0f0c14892810e3a89f2ac1133",
+                        // Set the channel name.
+                        channel: "shop2",
+                        // Pass your temp token here.
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        // Set the user ID.
+                        uid: Math.ceil(moonLanding.getTime()/1000000)
+                    };
+                }
+                else if(ShopNumber == "12"){
+                    options = {
+                        // Pass your App ID here.
+                        appId: "165d56d0f0c14892810e3a89f2ac1133",
+                        // Set the channel name.
+                        channel: "shop2",
+                        // Pass your temp token here.
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        // Set the user ID.
+                        uid: Math.ceil(moonLanding.getTime()/1000000)
+                    };
+                }
+
+                await rtc.client.join(options.appId, options.channel, options.token, options.uid);
+                  // Create a local audio track from the audio sampled by a microphone.
+                  rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+                  // Publish the local audio tracks to the RTC channel.
+                  await rtc.client.publish([rtc.localAudioTrack]);
+    
+                  console.log("publish success!");
+
+            }
         });
+
+        
 
         Axios.post('/api/product/getProductToGame')
             .then(response => {
@@ -166,6 +350,8 @@ function GamePage(props) {
 
     }, []);
 
+    
+
     const renderCards = Product.map((product, index) => {
         // console.log("getsuccess");
         // console.log(ShopNumberFromUnity);
@@ -203,27 +389,81 @@ function GamePage(props) {
 
     // });
 
+    document.body.style.overflow = 'hidden';
+
+    //Voice Chat
+    let rtc = {
+        localAudioTrack: null,
+        client: null
+      };
+    
+      
+    
+      async function startBasicCall() {
+          // Create an AgoraRTCClient object.
+          rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+    
+          // Listen for the "user-published" event, from which you can get an AgoraRTCRemoteUser object.
+          rtc.client.on("user-published", async (user, mediaType) => {
+              // Subscribe to the remote user when the SDK triggers the "user-published" event
+              await rtc.client.subscribe(user, mediaType);
+              console.log("subscribe success");
+    
+              // If the remote user publishes an audio track.
+              if (mediaType === "audio") {
+                  // Get the RemoteAudioTrack object in the AgoraRTCRemoteUser object.
+                  const remoteAudioTrack = user.audioTrack;
+                  // Play the remote audio track.
+                  remoteAudioTrack.play();
+              }
+    
+              // Listen for the "user-unpublished" event
+              rtc.client.on("user-unpublished", async user => {
+                  // Unsubscribe from the tracks of the remote user.
+                  await rtc.client.unsubscribe(user);
+              });
+    
+          });
+    
+        //   window.onload = function () {
+    
+            //   document.getElementById("join").onclick = async function () {
+            //       // Join an RTC channel.
+            //       await rtc.client.join(options.appId, options.channel, options.token, options.uid);
+            //       // Create a local audio track from the audio sampled by a microphone.
+            //       rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+            //       // Publish the local audio tracks to the RTC channel.
+            //       await rtc.client.publish([rtc.localAudioTrack]);
+    
+            //       console.log("publish success!");
+            //   }
+    
+            //   document.getElementById("leave").onclick = async function () {
+            //       // Destroy the local audio track.
+                  
+            //   }
+        //   }
+      }
+    
 
     return (
-        <div>
+        <div >
             <Header />
+            
             <div style={{ marginTop: "-69px" }}>
-                <Unity unityContext={unityContext} style={{ width: "100%", height: "100%",border: "2px solid black",background: "grey" }} />
+                <Unity unityContext={unityContext} style={{ width: "100%", height: "100vh",border: "2px solid black",background: "grey" }} />
             </div>
             <Modal className="modal-ShowAllProduct"
                 isOpen={modalCounter}
                 contentLabel="Example Modal"
             >
+
                 <div style={{ height: '20px', fontSize: '36px', textAlign: 'right', marginRight: '10px' }} onClick={() => setModalCounter(false)}>
                     <MdClear style={{ cursor: 'pointer' }} /></div>
                 <p style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold' }}>{window["SHOPNAME_" + ShopNumberFromUnity]}</p>
                 <Row style={{padding:'15px'}}>
                     {renderCards}
                 </Row>
-                
-
-
-
             </Modal>
         </div>
     );

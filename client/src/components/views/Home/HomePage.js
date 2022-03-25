@@ -100,7 +100,7 @@ const setModalIsOpenToFalse =()=>{
   
   return (
     <div>
-      <a class="homeHeader">Welcome To TALADPROM</a>
+      <a class="homeHeader">ยินดีต้อนรับสู่ TALADPROM</a>
       <div class="wrapperImgHome">
         <div>
           <img
@@ -124,12 +124,12 @@ const setModalIsOpenToFalse =()=>{
         style={{ marginLeft: "50vh", color: "black" }} 
         onClick={checkShop}
       >
-        create your shop
+        พื้นที่สำหรับร้านค้า
       </button>
       <button
         onClick={goToGamePage}
         style={{ marginLeft: "78vh", color: "black" }}>
-        go to shopping
+        เลือกชมสินค้าในตลาด
       </button>
       {/* <button onClick={testApi()} style={{marginLeft:'78vh',color:'black'}}>test</button> */}
 

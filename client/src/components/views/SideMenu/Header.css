@@ -1,6 +1,61 @@
-.iconClose{
-    height:'20px';
-    font-size:'36px';
-    text-align:'right';
-    margin-right:'10px';
-}
+body {
+    margin: 0;
+    font-family: 'Prompt';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+.modal-ModalCart {
+    margin-left: 15%;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 75%;
+    height: 80%;
+    overflow: auto;
+    background-color:white;
+    border-radius: 15px;
+    position: relative;
+  }
+.modal-ModalOrder {
+    margin-left: 15%;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 75%;
+    height: 80%;
+    overflow: auto;
+    background-color:white;
+    border-radius: 15px;
+    position: relative;
+  }
+
+  .modal-ModalCoupon {
+    margin-left: 15%;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 75%;
+    height: 80%;
+    overflow: auto;
+    background-color:white;
+    border-radius: 15px;
+    position: relative;
+  }
+
+  .modal-ModalNoOrder {
+    margin-left: 15%;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 75%;
+    height: 80%;
+    overflow: auto;
+    background-color:white;
+    border-radius: 15px;
+    position: relative;
+  }

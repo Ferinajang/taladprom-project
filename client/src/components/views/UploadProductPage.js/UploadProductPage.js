@@ -210,9 +210,9 @@ function UploadProductPage(props) {
       
     <div style={{maxWidth:'700px', margin:'2rem auto'}}>
         <div style={{textAlign:'center' , marginBottom:'2rem auto'}}>
-            <Title level={2} >Upload Product</Title>
+            <Title level={2} >เพิ่มสินค้าในร้านของคุณ</Title>
         </div>
-        <a>image1</a>
+        <a>เลือกรูปที่ 1</a>
         <div class="wrapper">
         <div class="file-upload">
             <input type="file" 
@@ -228,10 +228,10 @@ function UploadProductPage(props) {
                 <h1></h1>
            <FontAwesomeIcon icon={faArrowUp} />
         </div>
-        <button onClick={handleUploadImage1}>Upload</button>
+        <button onClick={handleUploadImage1}>อัปโหลด</button>
         <a>{URL}</a>
         </div>
-        <a>image2</a>
+        <a>เลือกรูปที่ 2</a>
         <div class="wrapper">
         <div class="file-upload">
             <input type="file" 
@@ -247,10 +247,10 @@ function UploadProductPage(props) {
                 <h1></h1>
            <FontAwesomeIcon icon={faArrowUp} />
         </div>
-        <button onClick={handleUploadImage2}>Upload</button>
+        <button onClick={handleUploadImage2}>อัปโหลด</button>
         <a>{URL}</a>
         </div>
-        <a>image3</a>
+        <a>เลือกรูปที่ 3</a>
         <div class="wrapper">
         <div class="file-upload">
             <input type="file" 
@@ -266,25 +266,25 @@ function UploadProductPage(props) {
                 <h1></h1>
            <FontAwesomeIcon icon={faArrowUp} />
         </div>
-        <button onClick={handleUploadImage3}>Upload</button>
+        <button onClick={handleUploadImage3}>อัปโหลด</button>
         <a>{URL}</a>
         </div>
 
         <Form onSubmit={onSubmit}>
             <br></br>
-            <label>Title</label>
+            <label>ชื่อสินค้า</label>
             <Input onChange={onTitleChange} value={TitleValue}></Input>
             <br></br>
             <br></br>
-            <label>Description</label>
+            <label>รายละเอียดสินค้า</label>
             <TextArea onChange={onDesciptionChange} value={DescriptionValue}></TextArea>
             <br></br>
             <br></br>
-            <label>Price</label>
+            <label>ราคา</label>
             <Input onChange={onPriceChange} value={PriceValue} type='number'></Input>
             <br></br>
             <br></br>
-            <label>Quantity</label>
+            <label>จำนวน</label>
             <Input onChange={onQuanityChange} value={QuantityValue} type='number'></Input>
             <br></br>
             <br></br>
@@ -300,7 +300,7 @@ function UploadProductPage(props) {
             </select>
             <br></br>
             <br></br>
-            <Button onClick={onSubmit}> Submit</Button>
+            <Button onClick={onSubmit}>ยืนยัน</Button>
             
         </Form>
 

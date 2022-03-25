@@ -13,9 +13,9 @@ function HomeShopManage(props) {
     })
   return (
     <div style={{display:'flex'}} >
-        <button onClick={() => (window.location.href = "/Landing")} >Product Management</button>
-        <button onClick={() => (window.location.href = "/orderManagement")} >Order Management</button>
-        <button >Coupon Management</button>
+        <button onClick={() => (window.location.href = "/Landing")} >จัดการสินค้าในร้านค้า</button>
+        <button onClick={() => (window.location.href = "/orderManagement")} >จัดการรายการสั่งซื้อ</button>
+        <button >จัดการโปรโมชัน</button>
     </div>
     
   )
