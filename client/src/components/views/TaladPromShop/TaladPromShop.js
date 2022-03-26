@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React ,{useEffect ,useState} from 'react'
-import {Card, Icon,Col,Row} from 'antd';
+import {Card,Col,Row} from 'antd';
 import CheckBox from './Section/CheckBox';
 import RadioBox from './Section/RadioBox';
 import { continentsPD,price } from './Section/Data';
@@ -144,7 +144,7 @@ function TaladPromShop(props) {
         <div style={{width :'75%' , margin:"3rem auto"}}>
             <div style={{textAlign:'center'}}>
             <a class="homeHeader">{Products.writerName}</a>
-                <h2> Prodcut List <Icon type="rocket"></Icon> </h2>
+                <h2> Prodcut List</h2>
                 <Row gutter={[16,16]}>
                     <Col lg={12} xs={24}>
                         <CheckBox list={continentsPD} handleFilters={filters => handleFilters(filters,"continentsPD")}></CheckBox>

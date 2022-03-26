@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
-import { Menu, Icon, Badge, Form, Input, Button, Card, Col, Row, Steps, Avatar } from "antd";
+import { Menu, Badge, Form, Input, Button, Card, Col, Row, Steps } from "antd";
 import { useDispatch } from 'react-redux'
 import axios from "axios";
 import { USER_SERVER } from "../../../Config";
@@ -11,12 +11,11 @@ import Axios from 'axios';
 import {getOrderList} from '../../../../_actions/user_actions'
 import { FaMoneyBillWave } from 'react-icons/fa';
 import { MdClear } from "react-icons/md";
+import { ShoppingCartOutlined, EditOutlined ,UnorderedListOutlined} from '@ant-design/icons';
 
 
 const {Meta} =Card;
 const { Step } = Steps;
-
-
 
 function RightMenu(props) {
   const user = useSelector((state) => state.user);
@@ -281,12 +280,11 @@ Axios.put('/api/users/editProfile',variables)
         })
       }
     
-      
- 
+    
   
   if (user.userData && !user.userData.isAuth) {
     return (
-      <Menu mode={props.mode}>
+      <Menu  mode="horizontal">
         <Menu.Item key="mail">
           <a href="/login">Signin</a>
         </Menu.Item>
@@ -297,55 +295,44 @@ Axios.put('/api/users/editProfile',variables)
     );
   } else {
     return (
-      <Menu mode={props.mode}>
-        <Menu.Item key="upload">
+
+      <Menu mode="horizontal">
+        {/* <Menu.Item key="upload">
           <a href="/product/upload">upload</a>
-        </Menu.Item>
-
-        <Menu.Item key="randon coupon">
+        </Menu.Item> */}
+        {/* <Menu.Item key="randon coupon">
           <a  onClick={randomCoupon}>random coupon</a>
-        </Menu.Item>
-
-
-        <Menu.Item key="cart">
+        </Menu.Item> */}
+        <Menu.Item key="cart" style={{paddingTop: '11px',marginRight:'-30px'}}>
           <Badge count={user.userData && user.userData.cart.length}>
-            <a href="/user/cart" style={{ marginRight: -22, color: "#667777" }}>
-              <Icon
-                type="shopping-cart"
-                style={{ fontSize: 30, marginBottom: 4 }}
-              ></Icon>
+            <a href="/user/cart" style={{ color: "#667777" }}>
+              <ShoppingCartOutlined style={{ fontSize: '35px',textAlign:'center'}}/>
             </a>
           </Badge>
         </Menu.Item>
-
-        <Menu.Item key="order">
+        <Menu.Item key="order" style={{paddingTop: '10px',marginRight:'-20px'}}>
           <Badge count={user.userData && user.userData.orderUser.length}>
-            <a onClick={orderList}>
-              <Icon
-                type="unordered-list"
-                style={{ fontSize: 30, marginBottom: 4 }}
-              ></Icon>
+            <a onClick={orderList}> 
+            <UnorderedListOutlined style={{ fontSize: '26px',textAlign:'center'}}/>
             </a>
           </Badge>
         </Menu.Item>
-
-        <Menu.Item key="coupon">
+        <Menu.Item key="coupon" style={{paddingTop: '10px',marginRight:'-10px'}}>
           <Badge>
             <a onClick={couponList}>
               <FaMoneyBillWave size="2em" />
             </a>
           </Badge>
         </Menu.Item>
-
-        <Menu.Item key="editProfile">
+        <Menu.Item key="editProfile" style={{paddingTop: '11px',marginLeft:'-10px'}}>
           <a onClick={setModalIsOpenToTrue}>
-            <Icon type="edit" style={{ fontSize: 30 }}></Icon>
+          <EditOutlined style={{ fontSize: '30px',textAlign:'center'}}/>
           </a>
         </Menu.Item>
-
-        <Menu.Item key="logout">
+        <Menu.Item key="logout" style={{paddingTop: '11px',marginRight:'-40px'}}>
           <a onClick={logoutHandler}>Logout</a>
         </Menu.Item>
+      
 
         <Modal isOpen={modalIsOpen}>
           <button onClick={setModalIsOpenToFalse}>x</button>
@@ -489,12 +476,13 @@ Axios.put('/api/users/editProfile',variables)
               <Button onClick={gotCoupon}>รับคูปอง</Button>
 
               </div>
-             
-            
+          
               </div>
               
         </Modal>
-      </Menu>
+        </Menu>
+
+
     );
   }
 }

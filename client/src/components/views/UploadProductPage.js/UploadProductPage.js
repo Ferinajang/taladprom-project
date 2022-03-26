@@ -224,6 +224,7 @@ function UploadProductPage(props) {
             continentsPD : ContinentsValue,
             positionShop: props.user.userData.positionShop,
             recommended:'no recommend',
+            descripstionPD: DescriptionValue,
             imagesPD1 : urlList[0],
             imagesPD2 :urlList[1],
             imagesPD2 :urlList[2],

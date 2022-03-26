@@ -30,6 +30,7 @@ router.post("/getShops", auth, (req, res) => {
 
 });
 router.post("/getShopsById", auth, (req, res) => {
+    console.log("dsgsdgsefopodjgmkpo;[j");
     console.log(req.body);
     Shop.findOne({ownerID: {$gte:req.body.id}})
     .exec((err,shops)=>{

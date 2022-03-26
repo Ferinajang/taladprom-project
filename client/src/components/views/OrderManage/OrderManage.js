@@ -1,11 +1,9 @@
 import Axios from 'axios';
 import React ,{useEffect ,useState} from 'react'
-import {Card, Icon,Col,Row} from 'antd';
+import {Card, Col,Row,Tabs } from 'antd';
 
 const {Meta} =Card;
-
-
-
+const { TabPane } = Tabs;
 function LandingPage(props) {
     const [Order, setOrder] = useState([])
     const [Skip, setSkip] = useState(0)
@@ -102,6 +100,10 @@ function LandingPage(props) {
 
     // }
 
+    const callback =(key)=>{
+        console.log(key);
+    }
+
 
     const renderCards = Order.map((order, index) => {
         if(!props.user.userData){
@@ -111,7 +113,7 @@ function LandingPage(props) {
           if(order.shopID == props.user.userData.shopID){
           return (
             <Col lg={1000} md={100} xs={100}>
-               <a href={`/order/${order._id}`}> 
+               <a href={`/orderSeller/${order._id}`}> 
                 <Card hoverable={true} >
                   <Meta
                     title={order.namePD}
@@ -140,46 +142,30 @@ function LandingPage(props) {
     }
 
     return (
-        <div style={{width :'75%' , margin:"3rem auto"}}>
-            <div style={{textAlign:'center'}}>
-            <a class="homeHeader"></a>
-                <h2>รายการคำสั่งซื้อ <Icon type="rocket"></Icon> </h2>
-                {/* <Row gutter={[16,16]}>
-                    <Col lg={12} xs={24}>
-                        <CheckBox list={continentsPD} handleFilters={filters => handleFilters(filters,"continentsPD")}></CheckBox>
-                    </Col>
-                    <Col lg={12} xs={24}>
-                        
-                        <RadioBox  list ={price} handleFilters={filters => handleFilters(filters,"pricePD")}></RadioBox>
-                    </Col>
-                </Row> */}
-                {/* <div style={{display:'flex',justifyContent:'flex-end',margin:'1rem auto'}}>
-                <SearchFeature
-                   refreshFunction={updateSearchTerms}
-                />
-                </div> */}
-                {/* {Products.length === 0 ?
-                <div style={{display:'flex' , height:'300px' , justifyContent:'center' , alignItems:'center'}}>
-                    <h2>No post yet</h2>
-                </div>: */}
-                <div>
-                    <Row gutter ={[30,30]}>
-                        {renderCards} 
-                    </Row>
-
-                </div>
-
-                <br></br>
-                {/* {postSize >= Limit && 
-                 <div style={{display:'flex' , justifyContent:'center'}}>
-                 <button onClick={onLoadMore}>Load more</button>
-                 </div>
-                } */}
-               
-            </div>
+      <div style={{ width: "75%", margin: "3rem auto" }}>
+        <div style={{ textAlign: "center" }}>
+          <a class="homeHeader"></a>
+          <h2>รายการคำสั่งซื้อ </h2>
+          <Tabs defaultActiveKey="1" onChange={callback}>
+            <TabPane tab="รอการยืนยันคำสั่งซื้อ" key="1">
+            {renderCards}
+            </TabPane>
+            <TabPane tab="รอการยืนยันคำสั่งซื้อ" key="2">
+            {renderCards}
+            </TabPane>
+            <TabPane tab="เสร็จสิ้น" key="3">
+            {renderCards}
+            </TabPane>
+            <TabPane tab="ยกเลิกคำสั่งซื้อ" key="3">
+            {renderCards}
+            </TabPane>
+          </Tabs>
+          <div>
+            <Row gutter={[30, 30]}>{renderCards}</Row>
+          </div>
         </div>
-       
-    )
+      </div>
+    );
 }
 
 

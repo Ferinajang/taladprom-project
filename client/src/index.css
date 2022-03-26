@@ -1,5 +1,6 @@
 @import "~react-image-gallery/styles/css/image-gallery.css";
 
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
@@ -20,8 +21,6 @@ body {
   color: #24292e;
   background-color: #fff;
 }
-
-@import "~react-image-gallery/styles/css/image-gallery.css";
 
 body {
   margin: 0;

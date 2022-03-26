@@ -1,4 +1,3 @@
-@import '~antd/dist/antd.css';
 
 .menu {
   padding: 0 20px;
@@ -41,7 +40,8 @@
 }
 
 .menu__container .menu_rigth {
-  float: right;
+  margin-left: 65%;
+  margin-top:  9px;
 }
 
 .menu__mobile-button {
@@ -151,3 +151,4 @@
 									   to(#02005c),
 									   color-stop(.6,#545ffa))
 }
+@import '~antd/dist/antd.css';

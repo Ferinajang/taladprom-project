@@ -19,28 +19,29 @@ function ProductInfoSeller(props) {
     
   return (
     <div>
-        <Descriptions>
-            <Descriptions.Item label ="Price">{Product.pricePD}</Descriptions.Item>
-            <Descriptions.Item label ="Sold"> {Product.sold}</Descriptions.Item>
-            <Descriptions.Item label ="Name">{Product.namePD} </Descriptions.Item>
-            <Descriptions.Item label ="Shop">{Product.writerName}</Descriptions.Item>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <div style={{display: 'flex' , justifyContent:'center'}}> 
-                <Button size="large" shape='round' type='danger'
-                onClick={() => window.location.href = `/product/update/${Product._id}`}
-                >Edit</Button>
-            </div>
-
-
-        </Descriptions>
-
+      <div>
+        <div style={{textAlign:'left' }}>
+          <h1>ราคา {Product.pricePD} บาท</h1>
+          <h2>รายละเอียดสินค้า {Product.descripstionPD}</h2>
+          <h2>ค่าจัดส่ง {Product.shippingCostPD} บาท</h2>
+          <h2>สินค้าในคลัง {Product.quantityPD} ชิ้น</h2>
+        </div>
+      </div>
+      {/* <Descriptions>
+        <Descriptions.Item label="Price">{Product.pricePD}</Descriptions.Item>
+        <Descriptions.Item label="Sold"> {Product.sold}</Descriptions.Item>
+        <Descriptions.Item label="Name">{Product.namePD} </Descriptions.Item>
+        <Descriptions.Item label="Shop">{Product.writerName}</Descriptions.Item>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br /> */}
+       
+      {/* </Descriptions> */}
     </div>
-  )
+  );
 }
 
 export default ProductInfoSeller

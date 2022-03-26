@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React ,{useEffect ,useState} from 'react'
-import {Card, Icon,Col,Row,Button} from 'antd';
+import {Card, Icon,Col,Row,Button,Tooltip} from 'antd';
 import CheckBox from './Section/CheckBox';
 import RadioBox from './Section/RadioBox';
 import { continentsPD,price } from './Section/Data';
@@ -8,6 +8,7 @@ import SearchFeature from './Section/SearchFeature';
 import { StarOutlined, StarFilled } from '@ant-design/icons';
 import { MdClear } from "react-icons/md";
 import Modal from "react-modal";
+import Loading from '../../Loading';
 import './LandingPage.css'
 const {Meta} =Card;
 
@@ -27,6 +28,20 @@ function LandingPage(props) {
     const [disableAddRecomedButton, setdisableAddRecomedButton] = useState(false)
     const [count, setcount] = useState(0)
     const [arrayPD, setarrayPD] = useState([])
+    const [loading, setloading] = useState(true);
+    const [UserData, setUserData] = useState([])
+
+
+    const loadingData = () => {
+      if (!props.user.userData) {
+        
+      } else {
+        setUserData(props.user.userData)
+        setloading(false)
+      }
+    };
+  
+    
     
 
     // console.log(props);
@@ -188,8 +203,9 @@ function LandingPage(props) {
           if(product.writerName == props.user.userData.name){
           return (
             <Col lg={4} md={8} xs={24}> 
-            {product.recommended == "recommended" ?  <div><Button onClick={()=>UnRecommendedProduct(product)} >สินค้าแนะนำ <StarFilled style={{color:'yellow'}}/></Button></div> :
-            <div><Button onClick={()=>addRecommendedProduct(product)} >สินค้าแนะนำ <StarOutlined /></Button></div>  
+            {product.recommended == "recommended" ?  
+            <div><Tooltip title="นำออกจากสินค้าเเนะนำ"><Button  type="text" style={{ width: "220px",height:"50px",fontSize:'18px',fontWeight:'normal'}} onClick={()=>UnRecommendedProduct(product)} >สินค้าแนะนำ <StarFilled style={{color:'yellow'}}/></Button></Tooltip></div> :
+            <div><Tooltip title="เพิ่มเป็นสินค้าเเนะนำ"><Button type="text" style={{ width: "220px",height:"50px",fontSize:'18px',fontWeight:'normal'}} onClick={()=>addRecommendedProduct(product)} >สินค้าแนะนำ <StarOutlined /></Button></Tooltip></div>  
             } 
               <a href={`/productSeller/${product._id}`}>
                 <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
@@ -213,8 +229,8 @@ function LandingPage(props) {
           if(product.writerName == props.user.userData.name && product.recommended == "recommended"){
           return (
             <Col lg={4} md={8} xs={24}> 
-            {product.recommended == "recommended" ?  <div><Button onClick={()=>UnRecommendedProduct(product)} >สินค้าแนะนำ <StarFilled style={{color:'yellow'}}/></Button></div> :
-            <div><Button onClick={()=>addRecommendedProduct(product)} >สินค้าแนะนำ <StarOutlined /></Button></div>  
+            {product.recommended == "recommended" ?  <div><Button style={{ width: "160px" ,margin:'10px'}} onClick={()=>UnRecommendedProduct(product)} >สินค้าแนะนำ <StarFilled style={{color:'yellow'}}/></Button></div> :
+            <div><Button style={{ width: "160px"}}  onClick={()=>addRecommendedProduct(product)} >สินค้าแนะนำ <StarOutlined /></Button></div>  
             } 
               <a href={`/productSeller/${product._id}`}>
                 <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
@@ -257,50 +273,73 @@ function LandingPage(props) {
         window.location.href = "/product/upload"
     }
 
+
+    if (loading) {
+      return (
+        <div>
+          <Loading />;{loadingData()}
+        </div>
+      )
+    }else{
+
     return (
       <div style={{ width: "95%", margin: "1rem auto" }}>
         <div
           style={{
             display: "flex",
-            justifyContent: "flex-start",
             width: "100%",
-            backgroundColor: "white",
           }}
         >
-          <Row gutter={[16, 16]}>
-            <Col style={{ margin: "2" }} lg={30} xs={24}>
-              <CheckBox
-                list={continentsPD}
-                handleFilters={(filters) =>
-                  handleFilters(filters, "continentsPD")
-                }
-              ></CheckBox>
-            </Col>
-            <Col style={{ margin: "2" }} lg={30} xs={24}>
-              <RadioBox
-                list={price}
-                handleFilters={(filters) => handleFilters(filters, "pricePD")}
-              ></RadioBox>
-            </Col>
-          </Row>
+        <div style={{paddingLeft:'20px' ,width:'50%'}}>
+        <h2 style={{fontWeight:'bolder' ,fontSize:'30px'}}>ยินดีต้อนรับ คุณ {UserData.name}</h2>
+        <h2 style={{fontWeight:'bolder' ,fontSize:'20px'}}>ร้าน {UserData.shopName}</h2>
+      
         </div>
-        <Button
-          style={{ width: "150px" }}
-          size="large"
-          shape="round"
-          type="danger"
-          onClick={goToShop}
-        >
-          เพิ่มสินค้า
-        </Button>
-        <Button
-          style={{ width: "150px" }}
-          size="large"
-          shape="round"
-          type="danger"
-          onClick={manageRecomendedProduct}
-        >จัดการสินค้าแนะนำ
-        </Button>
+        <div style={{
+            display: "block",
+            width: "100%",
+            backgroundColor: "white",
+            textAlign:'end'
+          }}>
+          <Button
+            style={{ width: "150px" ,margin:'10px'}}
+            size="large"
+            shape="round"
+            type="danger"
+            onClick={goToShop}
+          >
+            เพิ่มสินค้า
+          </Button>
+          <Button
+            style={{ width: "160px" ,margin:'10px'}}
+            size="large"
+            shape="round"
+            type="danger"
+            onClick={manageRecomendedProduct}
+          >
+            จัดการสินค้าแนะนำ
+          </Button>
+        </div>
+        
+
+
+          {/* <Col style={{ margin: "2" }} lg={30} xs={24}>
+            <CheckBox
+              list={continentsPD}
+              handleFilters={(filters) =>
+                handleFilters(filters, "continentsPD")
+              }
+            ></CheckBox>
+          </Col>
+          <Col style={{ margin: "2" }} lg={30} xs={24}>
+            <RadioBox
+              list={price}
+              handleFilters={(filters) => handleFilters(filters, "pricePD")}
+            ></RadioBox>
+          </Col> */}
+        </div>
+
+        
 
         <div
           style={{
@@ -348,20 +387,24 @@ function LandingPage(props) {
             >
               <MdClear style={{ cursor: "pointer" }} />
             </div>
-            <div  style={{
+            <div
+              style={{
                 height: "15px",
                 fontSize: "25px",
                 textAlign: "center",
                 margin: "50px",
                 marginTop: "10px",
-              }}>
+              }}
+            >
               <h1>สินค้าแนะนำในร้านของคุณ</h1>
               <Row gutter={[16, 16]}>{renderCardsRecomended}</Row>
-              </div>
+            </div>
           </Modal>
         </div>
       </div>
     );
+
+  }
 }
 
 

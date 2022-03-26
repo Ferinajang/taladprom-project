@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Typography, Button, Form, message, Input, Icon } from 'antd';
+import { Typography, Button, Form, message, Input, Icon,Alert ,notification} from 'antd';
 import FileUpload from '../../utils/FileUpload';
 import Axios from 'axios';
 import { render } from "react-dom";
@@ -58,6 +58,7 @@ function CreateShop(props) {
       )
 
   }, [])
+  console.log(positionShop);
 
   const checkAllPosition = () => {
     console.log("ggggggg");
@@ -123,52 +124,240 @@ function CreateShop(props) {
             positionShop : positionShop,
             
         }
-        const DataShopToUser ={
-            ownerName:props.user.userData.name,
-            nameShop: TitleShop,
-        }
-       /* if(!TitleShop || !DescriptionShop || !EmailShop || !PhoneNumberShop ){
-            return alert("fill all field")
-        }*/
-        Axios.post('/api/shop/uploadShop',variables)
-        .then(response =>{
-            if(response.data.success){
-                console.log("ggg",response.data);
-                alert('product success to upload')
-                sendShopInfoToUser()
-                // props.history.push("/HomeShop")
-            }else{
-                alert('failed to upload')
+
+        if(!TitleShop || !DescriptionShop || !EmailShop || !PhoneNumberShop ||!positionShop ){
+          let placement ="top"
+          notification.error({
+            message: "คุณกรอกข้อมูลไม่ครบ",
+            description:
+              'กรุณากรอกข้อมูลและเลือกตำแหน่งของร้านให้ครบถ้วน',
+            placement,
+          });
+        }else{
+          Axios.post("/api/shop/uploadShop", variables).then((response) => {
+            if (response.data.success) {
+              console.log("ggg", response.data);
+              if (positionShop == "1") {
+                setPSTS1(true);
+                const variables = {
+                  id: "622fa7e4374d6e188407dc0f",
+                  shop1: true,
+                };
+                Axios.put("/api/position/editPosition", variables).then(
+                  (response) => {
+                    if (response.data.success) {
+                      alert("product success to upload");
+                    } else {
+                      alert(response);
+                    }
+                  }
+                );
+              } else if (positionShop == "2") {
+                setPSTS2(true);
+                setpositionShop("2");
+                const variables = {
+                  id: "622fa7e4374d6e188407dc0f",
+                  shop2: true,
+                };
+                Axios.put("/api/position/editPosition", variables).then(
+                  (response) => {
+                    if (response.data.success) {
+                      alert("product success to upload");
+                    } else {
+                      alert(response);
+                    }
+                  }
+                );
+              } else if (positionShop == "3") {
+                setPSTS3(true);
+                setpositionShop("3");
+                const variables = {
+                  id: "622fa7e4374d6e188407dc0f",
+                  shop3: true,
+                };
+                Axios.put("/api/position/editPosition", variables).then(
+                  (response) => {
+                    if (response.data.success) {
+                      alert("product success to upload");
+                    } else {
+                      alert(response);
+                    }
+                  }
+                );
+              } else if (positionShop == "4") {
+                setPSTS4(true);
+                setpositionShop("4");
+                const variables = {
+                  id: "622fa7e4374d6e188407dc0f",
+                  shop4: true,
+                };
+                Axios.put("/api/position/editPosition", variables).then(
+                  (response) => {
+                    if (response.data.success) {
+                      alert("product success to upload");
+                    } else {
+                      alert(response);
+                    }
+                  }
+                );
+              } else if (positionShop == "5") {
+                setPSTS5(true);
+                setpositionShop("5");
+                const variables = {
+                  id: "622fa7e4374d6e188407dc0f",
+                  shop5: true,
+                };
+                Axios.put("/api/position/editPosition", variables).then(
+                  (response) => {
+                    if (response.data.success) {
+                      alert("product success to upload");
+                    } else {
+                      alert(response);
+                    }
+                  }
+                );
+              } else if (positionShop == "6") {
+                setPSTS6(true);
+                setpositionShop("6");
+                const variables = {
+                  id: "622fa7e4374d6e188407dc0f",
+                  shop6: true,
+                };
+                Axios.put("/api/position/editPosition", variables).then(
+                  (response) => {
+                    if (response.data.success) {
+                      alert("product success to upload");
+                    } else {
+                      alert(response);
+                    }
+                  }
+                );
+              } else if (positionShop == "7") {
+                const checkPosition7 = () => {
+                  setPSTS7(true);
+                  setpositionShop("7");
+                  const variables = {
+                    id: "622fa7e4374d6e188407dc0f",
+                    shop7: true,
+                  };
+                  Axios.put("/api/position/editPosition", variables).then(
+                    (response) => {
+                      if (response.data.success) {
+                        alert("product success to upload");
+                      } else {
+                        alert(response);
+                      }
+                    }
+                  );
+                };
+              } else if (positionShop == "8") {
+                setPSTS8(true);
+                setpositionShop("8");
+                const variables = {
+                  id: "622fa7e4374d6e188407dc0f",
+                  shop8: true,
+                };
+                Axios.put("/api/position/editPosition", variables).then(
+                  (response) => {
+                    if (response.data.success) {
+                      alert("product success to upload");
+                    } else {
+                      alert(response);
+                    }
+                  }
+                );
+              } else if (positionShop == "9") {
+                setPSTS9(true);
+                setpositionShop("9");
+                const variables = {
+                  id: "622fa7e4374d6e188407dc0f",
+                  shop9: true,
+                };
+                Axios.put("/api/position/editPosition", variables).then(
+                  (response) => {
+                    if (response.data.success) {
+                      alert("product success to upload");
+                    } else {
+                      alert(response);
+                    }
+                  }
+                );
+              } else if (positionShop == "10") {
+                setPSTS10(true);
+                setpositionShop("10");
+                const variables = {
+                  id: "622fa7e4374d6e188407dc0f",
+                  shop10: true,
+                };
+                Axios.put("/api/position/editPosition", variables).then(
+                  (response) => {
+                    if (response.data.success) {
+                      alert("product success to upload");
+                    } else {
+                      alert(response);
+                    }
+                  }
+                );
+              } else if (positionShop == "11") {
+                setPSTS11(true);
+                setpositionShop("11");
+                const variables = {
+                  id: "622fa7e4374d6e188407dc0f",
+                  shop11: true,
+                };
+                Axios.put("/api/position/editPosition", variables).then(
+                  (response) => {
+                    if (response.data.success) {
+                      alert("product success to upload");
+                    } else {
+                      alert(response);
+                    }
+                  }
+                );
+              } else if (positionShop == "12") {
+                setPSTS12(true);
+                setpositionShop("12");
+                const variables = {
+                  id: "622fa7e4374d6e188407dc0f",
+                  shop12: true,
+                };
+                Axios.put("/api/position/editPosition", variables).then(
+                  (response) => {
+                    if (response.data.success) {
+                      alert("product success to upload");
+                    } else {
+                      alert(response);
+                    }
+                  }
+                );
+              }
+              sendShopInfoToUser();
+              // props.history.push("/HomeShop")
+            } else {
+              alert("failed to upload");
             }
-        })      
-        // Axios.post('/api/shop/uploadShop',variables)
-        // .then(response =>{
-        //     if(response.data.success){
-        //         alert('product success to upload')
-        //         props.history.push("/Landing")
-        //     }else{
-        //         alert('failed to upload')
-        //     }
-        // })
-    }
+          });      
 
+      }
+  
 
-    const DataShopToUser = {
-      ownerName: props.user.userData.name,
-      nameShop: TitleShop,
-    }
+        }
+        
+       
+       
 
     const sendShopInfoToUser =()=>{
+      console.log("ddd");
       const variables1 = {
         id: props.user.userData._id,
       }
     Axios.post('/api/shop/getShopsById',variables1)
           .then(response =>{
               if(response.data.success){
-                console.log(response.data.shops.ownerID);
+                console.log("getsho0p",response.data.shops.ownerID);
                 if(response.data.shops.ownerID ==  props.user.userData._id){
                   if(response.data.shops.ownerID ==  props.user.userData._id){
-                    console.log(response.data.shops);
+                    console.log("getsho0ffdddp",response.data.shops);
                     const variables2 ={
                       id:props.user.userData._id,
                       shopID:response.data.shops._id,
@@ -179,7 +368,13 @@ function CreateShop(props) {
                   Axios.put('/api/users/editProfile',variables2)
                         .then(response =>{
                             if(response.data.success){
-                                alert('product success to upload')
+                              let placement ="top"
+                              notification.success({
+                                message: "สร้างร้านค้าสำเร็จ",
+                                description:
+                                  'คุณสามารถจัดการกับร้านค้าของคุณได้เลยตอนนี้!!',
+                                placement,
+                              });
                                 props.history.push("/HomeShop")
                             }else{
                                 alert(response)
@@ -228,267 +423,194 @@ function CreateShop(props) {
 
 
   const checkPosition1 = () => {
-    setPSTS1(true)
     setpositionShop("1")
-    const variables = {
-      id: "622fa7e4374d6e188407dc0f",
-      shop1: true
-    }
-    Axios.put('/api/position/editPosition', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
+    message.success('คุณได้เลือกร้านในตำแหน่งที่ 1');
+    
   }
+
 
   const checkPosition2 = () => {
-    setPSTS2(true)
     setpositionShop("2")
-    const variables = {
-      id: "622fa7e4374d6e188407dc0f",
-      shop2: true
-    }
-    Axios.put('/api/position/editPosition', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
-
+    message.success('คุณได้เลือกร้านในตำแหน่งที่ 2');
   }
   const checkPosition3 = () => {
-    setPSTS3(true)
     setpositionShop("3")
-    const variables = {
-      id: "622fa7e4374d6e188407dc0f",
-      shop3: true
-    }
-    Axios.put('/api/position/editPosition', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
-
+    message.success('คุณได้เลือกร้านในตำแหน่งที่ 3');
   }
   const checkPosition4 = () => {
-    setPSTS4(true)
     setpositionShop("4")
-    const variables = {
-      id: "622fa7e4374d6e188407dc0f",
-      shop4: true
-    }
-    Axios.put('/api/position/editPosition', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
-
+    message.success('คุณได้เลือกร้านในตำแหน่งที่ 4');
   }
   const checkPosition5 = () => {
-    setPSTS5(true)
     setpositionShop("5")
-    const variables = {
-      id: "622fa7e4374d6e188407dc0f",
-      shop5: true
-    }
-    Axios.put('/api/position/editPosition', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
-
+    message.success('คุณได้เลือกร้านในตำแหน่งที่ 5');
   }
   const checkPosition6 = () => {
-    setPSTS6(true)
     setpositionShop("6")
-    const variables = {
-      id: "622fa7e4374d6e188407dc0f",
-      shop6: true
-    }
-    Axios.put('/api/position/editPosition', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
-
+    message.success('คุณได้เลือกร้านในตำแหน่งที่ 6');
   }
   const checkPosition7 = () => {
-    setPSTS7(true)
     setpositionShop("7")
-    const variables = {
-      id: "622fa7e4374d6e188407dc0f",
-      shop7: true
-    }
-    Axios.put('/api/position/editPosition', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
-
+    message.success('คุณได้เลือกร้านในตำแหน่งที่ 7');
   }
   const checkPosition8 = () => {
-    setPSTS8(true)
     setpositionShop("8")
-    const variables = {
-      id: "622fa7e4374d6e188407dc0f",
-      shop8: true
-    }
-    Axios.put('/api/position/editPosition', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
-
+    message.success('คุณได้เลือกร้านในตำแหน่งที่ 8');
+    notification['warning']({
+      message: 'คุณสามารถเลือกตำแหน่งร้านได้เพียงครั้งเดียว!!!',
+      description:
+        'คุณไม่สามารถเปลี่ยนตำแหน่งของร้านค้าได้ในภายหลัง เพราะฉะนั้น เลือกดีๆนะ',
+    });
+   
   }
   const checkPosition9 = () => {
-    setPSTS9(true)
     setpositionShop("9")
-    const variables = {
-      id: "622fa7e4374d6e188407dc0f",
-      shop9: true
-    }
-    Axios.put('/api/position/editPosition', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
-
+    message.success('คุณได้เลือกร้านในตำแหน่งที่ 9');
   }
   const checkPosition10 = () => {
-    setPSTS10(true)
     setpositionShop("10")
-    const variables = {
-      id: "622fa7e4374d6e188407dc0f",
-      shop10: true
-    }
-    Axios.put('/api/position/editPosition', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
-
+    message.success('คุณได้เลือกร้านในตำแหน่งที่ 10');
   }
   const checkPosition11 = () => {
-    setPSTS11(true)
     setpositionShop("11")
-    const variables = {
-      id: "622fa7e4374d6e188407dc0f",
-      shop11: true
-    }
-    Axios.put('/api/position/editPosition', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
-
+    message.success('คุณได้เลือกร้านในตำแหน่งที่ 11');
   }
   const checkPosition12 = () => {
-    setPSTS12(true)
     setpositionShop("12")
-    const variables = {
-      id: "622fa7e4374d6e188407dc0f",
-      shop12: true
-    }
-    Axios.put('/api/position/editPosition', variables)
-      .then(response => {
-        if (response.data.success) {
-          alert('product success to upload')
-        } else {
-          alert(response)
-        }
-      })
-
+    message.success('คุณได้เลือกร้านในตำแหน่งที่ 12');
   }
+
+  const openNotificationWithIcon = type => {
+    notification[type]({
+      message: 'Notification Title',
+      description:
+        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+    });
+  };
   return (
-    <div style={{ maxWidth: '700px', margin: '2rem auto' }}>
-      <div style={{ textAlign: 'center', marginBottom: '2rem auto' }}>
-        <Title level={2} >สร้างร้านค้าของคุณได้ที่นี่</Title>
-      </div>
-      <a>เลือกรูป</a>
-      <div class="wrapper">
-        <div class="file-upload">
-          <input type="file"
-            onChange={onDropImageShop}
-            style={{
-              height: '200px',
-              width: '200px',
-              position: 'absolute',
-              top: '0',
-              left: '0',
-              opacity: '0',
-              cursor: 'pointer'
-            }} />
-          <h1></h1>
-          <FontAwesomeIcon icon={faArrowUp} />
-        </div>
+    <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
+      <div style={{ textAlign: "center", marginBottom: "2rem auto" }}>
+        <Title level={2}>สร้างร้านค้าของคุณ</Title>
       </div>
       <Modal className="modalChoosePosition" isOpen={modalIsOpen}>
-      <div style={{ height: '20px', fontSize: '36px', textAlign: 'right', marginRight: '10px' ,paddingTop:'5px'}} onClick={setModalIsOpenToFalse}>
-                    <MdClear style={{ cursor: 'pointer' }} /></div>
-        
-        <p style={{color:'red',fontSie:'30px'}}>*โปรดเลือกตำแหน่งร้านภายในเกมของคุณ*</p>
+        <div
+          style={{
+            height: "20px",
+            fontSize: "36px",
+            textAlign: "right",
+            marginRight: "10px",
+            paddingTop: "5px",
+          }}
+          onClick={setModalIsOpenToFalse}
+        >
+          <MdClear style={{ cursor: "pointer" }} />
+        </div>
+
+        <p style={{ color: "red", fontSie: "30px" }}>
+          *โปรดเลือกตำแหน่งร้านภายในเกมของคุณ*
+        </p>
         <ul>
-          <div style={{ }}>
+          <div style={{}}>
             <div style={{}}>
+            
               <div style={{}}>
-                <Button style={{ width: '100px', height: '100px', fontSize: '36px' }} disabled={PSTS7} onClick={checkPosition7}>7</Button>
-                <Button style={{ width: '100px', height: '100px' }} disabled={PSTS8} onClick={checkPosition8}>8</Button>
-                <Button style={{ width: '100px', height: '100px' }} disabled={PSTS9} onClick={checkPosition9}>9</Button>
+                <Button
+                  style={{ width: "100px", height: "100px", fontSize: "36px" }}
+                  disabled={PSTS7}
+                  onClick={checkPosition7}
+                >
+                  7
+                </Button>
+                <Button
+                  style={{ width: "100px", height: "100px" }}
+                  disabled={PSTS8}
+                  onClick={checkPosition8}
+                >
+                  8
+                </Button>
+                <Button
+                  style={{ width: "100px", height: "100px" }}
+                  disabled={PSTS9}
+                  onClick={checkPosition9}
+                >
+                  9
+                </Button>
               </div>
-              <div style={{ marginTop: '20px' }}>
-                <Button style={{ width: '100px', height: '100px' }} disabled={PSTS1} onClick={checkPosition1}>1</Button>
-                <Button style={{ width: '100px', height: '100px' }} disabled={PSTS2} onClick={checkPosition2}>2</Button>
-                <Button style={{ width: '100px', height: '100px' }} disabled={PSTS3} onClick={checkPosition3}>3</Button>
+              <div style={{ marginTop: "20px" }}>
+                <Button
+                  style={{ width: "100px", height: "100px" }}
+                  disabled={PSTS1}
+                  onClick={checkPosition1}
+                >
+                  1
+                </Button>
+                <Button
+                  style={{ width: "100px", height: "100px" }}
+                  disabled={PSTS2}
+                  onClick={checkPosition2}
+                >
+                  2
+                </Button>
+                <Button
+                  style={{ width: "100px", height: "100px" }}
+                  disabled={PSTS3}
+                  onClick={checkPosition3}
+                >
+                  3
+                </Button>
               </div>
             </div>
-            <div style={{ }}>
+            <div style={{}}>
               <div>
-                <Button style={{ width: '100px', height: '100px' }} disabled={PSTS10} onClick={checkPosition10}>10</Button>
-                <Button style={{ width: '100px', height: '100px' }} disabled={PSTS11} onClick={checkPosition11}>11</Button>
-                <Button style={{ width: '100px', height: '100px' }} disabled={PSTS12} onClick={checkPosition12}>12</Button>
-
+                <Button
+                  style={{ width: "100px", height: "100px" }}
+                  disabled={PSTS10}
+                  onClick={checkPosition10}
+                >
+                  10
+                </Button>
+                <Button
+                  style={{ width: "100px", height: "100px" }}
+                  disabled={PSTS11}
+                  onClick={checkPosition11}
+                >
+                  11
+                </Button>
+                <Button
+                  style={{ width: "100px", height: "100px" }}
+                  disabled={PSTS12}
+                  onClick={checkPosition12}
+                >
+                  12
+                </Button>
               </div>
-              <div style={{ }}>
-                <Button style={{ width: '100px', height: '100px' }} disabled={PSTS4} onClick={checkPosition4}>4</Button>
-                <Button style={{ width: '100px', height: '100px' }} disabled={PSTS5} onClick={checkPosition5}>5</Button>
-                <Button style={{ width: '100px', height: '100px' }} disabled={PSTS6} onClick={checkPosition6}>6</Button>
+              <div style={{}}>
+                <Button
+                  style={{ width: "100px", height: "100px" }}
+                  disabled={PSTS4}
+                  onClick={checkPosition4}
+                >
+                  4
+                </Button>
+                <Button
+                  style={{ width: "100px", height: "100px" }}
+                  disabled={PSTS5}
+                  onClick={checkPosition5}
+                >
+                  5
+                </Button>
+                <Button
+                  style={{ width: "100px", height: "100px" }}
+                  disabled={PSTS6}
+                  onClick={checkPosition6}
+                >
+                  6
+                </Button>
+                <Button style={{textAlign:'end',float:'right'}} onClick={()=>setModalIsOpen(false)}>ยืนยัน</Button>
               </div>
-
+              
             </div>
           </div>
-
         </ul>
       </Modal>
 
@@ -499,27 +621,34 @@ function CreateShop(props) {
         <br></br>
         <br></br>
         <label>อีเมล</label>
-        <TextArea onChange={onEmailShopChange} value={EmailShop}></TextArea>
+        <Input onChange={onEmailShopChange} value={EmailShop}></Input>
         <br></br>
         <br></br>
         <label>หมายเลขโทรศัพท์</label>
-        <Input onChange={onPhoneNumberShopChange} value={PhoneNumberShop} type='text'></Input>
+        <Input
+          onChange={onPhoneNumberShopChange}
+          value={PhoneNumberShop}
+          type="text"
+        ></Input>
         <br></br>
         <br></br>
         <label>รายละเอียดร้านค้า</label>
-        <Input onChange={onDesciptionShopChange} value={DescriptionShop} type='text'></Input>
+        <TextArea
+          onChange={onDesciptionShopChange}
+          value={DescriptionShop}
+          type="text"
+        ></TextArea>
         <br></br>
         <br></br>
-        <Button onClick={selectPositionShop}>เลือกตำแหน่งร้านของคุณ</Button>
-
-        <Button onClick={onSubmit}>ยืนยัน</Button>
+        <div  >
+          <Button onClick={selectPositionShop}>เลือกตำแหน่งร้านของคุณ</Button>
+          <Button style={{textAlign:'end',float:'right'}} onClick={onSubmit}>ยืนยัน</Button>
+        </div>
 
         {/* <Button onClick={sendShopInfoToUser}> test</Button> */}
-
       </Form>
-
     </div>
-  )
+  );
 }
 export default CreateShop;
 

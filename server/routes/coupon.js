@@ -112,5 +112,18 @@ router.get("/order_by_id", auth, (req, res) => {
     
 });
 
+router.put("/updateCouponTimeOut", auth, (req, res) => {
+    const couponUsed = new Coupon(req.body)
+    Coupon.findByIdAndUpdate(req.body.id,
+        {$set:req.body},
+        (error,couponUsed)=>{
+            if(error){
+                return res.status(400).json({success:false,err})
+            }else{
+                return res.status(200).json({success:true,couponUsed})
+            }
+        }) 
+});
+
 
 module.exports = router;

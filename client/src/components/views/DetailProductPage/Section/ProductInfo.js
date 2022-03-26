@@ -19,17 +19,15 @@ function ProductInfo(props) {
     
   return (
     <div>
+        <div>
+            <div><h1>{Product.pricePD}</h1></div>
+
+        </div>
         <Descriptions>
             <Descriptions.Item label ="Price">{Product.pricePD}</Descriptions.Item>
             <Descriptions.Item label ="Sold"> {Product.sold}</Descriptions.Item>
             <Descriptions.Item label ="Name">{Product.namePD} </Descriptions.Item>
             <Descriptions.Item label ="Shop">{Product.writerName}</Descriptions.Item>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
             <div style={{display: 'flex' , justifyContent:'center'}}>
                 <Button size="large" shape='round' type='danger'
                 onClick ={addToCarthandler}
