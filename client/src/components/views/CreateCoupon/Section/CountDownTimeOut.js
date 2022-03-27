@@ -37,12 +37,7 @@ function CountDownTimeOut(props) {
           sethours(hours)
           setminutes(minutes)
           }
-        }
-      
-
-      
-
-      
+        }  
   return (
     <div>
         <p>{leading0(days)} วัน {leading0(hours)} ชั่วโมง {leading0(minutes)} นาที</p>

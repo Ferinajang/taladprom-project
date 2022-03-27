@@ -6,6 +6,7 @@ import LandingPage from "./views/LandingPage/LandingPage.js";
 import  HomePage  from './views/Home/HomePage';
 import LoginPage from "./views/LoginPage/LoginPage.js";
 import RegisterPage from "./views/RegisterPage/RegisterPage.js";
+import RightMenu from './views/NavBar/Sections/RightMenu';
 import NavBar from "./views/NavBar/NavBar";
 import Footer from "./views/Footer/Footer"
 import UploadProductPage from './views/UploadProductPage.js/UploadProductPage';
@@ -21,6 +22,7 @@ import DetailOrderPage from './views/DetailOrderPage/DetailOrderPage';
 import DetailProductPageSeller from './views/DetailProductPageSeller/DetailProductPageSeller';
 import CreateCoupon from './views/CreateCoupon/CreateCoupon';
 import DetailOrderSellerPage from './views/DetailOrderSellerPage/DetailOrderSellerPage';
+import Header from './views/SideMenuHome/Header';
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -29,7 +31,9 @@ function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
       <div id="NavBar">
-      <NavBar />
+      {/* <NavBar /> */}
+      <Header/>
+      {/* <RightMenu/> */}
       </div>
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Switch>

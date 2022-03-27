@@ -1,13 +1,56 @@
 .modal-create-coupon {
     margin: auto;
     display: block;
-    margin-top: 7%;
+    margin-top: 10%;
     align-content: center;
     justify-content: center;
-    width: 30%;
-    height: 33%;
+    width: 33%;
+    height: 45%;
     overflow: auto;
-    background-color:rgb(255, 254, 236);
+    background-color:#FFCE31;
+    border-radius: 15px;
+    position: relative;
+    border: 2px solid rgba(0, 0, 0, 0.05);
+  }
+  .modal-create-coupon-percent {
+    margin: auto;
+    display: block;
+    margin-top: 8%;
+    align-content: center;
+    justify-content: center;
+    width: 33%;
+    height: 63%;
+    overflow: auto;
+    background-color:#FFCE31;
+    border-radius: 15px;
+    position: relative;
+    border: 2px solid rgba(0, 0, 0, 0.05);
+  }
+  .modal-create-coupon-money {
+    margin: auto;
+    display: block;
+    margin-top: 8%;
+    align-content: center;
+    justify-content: center;
+    width: 33%;
+    height: 63%;
+    overflow: auto;
+    background-color:#FFCE31;
+    border-radius: 15px;
+    position: relative;
+    border: 2px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .modal-create-coupon-shipping {
+    margin: auto;
+    display: block;
+    margin-top: 8%;
+    align-content: center;
+    justify-content: center;
+    width: 33%;
+    height: 55%;
+    overflow: auto;
+    background-color:#FFCE31;
     border-radius: 15px;
     position: relative;
     border: 2px solid rgba(0, 0, 0, 0.05);

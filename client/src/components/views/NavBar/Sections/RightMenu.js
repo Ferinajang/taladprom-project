@@ -10,8 +10,21 @@ import Modal from "react-modal";
 import Axios from 'axios';
 import {getOrderList} from '../../../../_actions/user_actions'
 import { FaMoneyBillWave } from 'react-icons/fa';
+import { RiPencilLine, RiCoupon3Fill } from "react-icons/ri";
 import { MdClear } from "react-icons/md";
-import { ShoppingCartOutlined, EditOutlined ,UnorderedListOutlined} from '@ant-design/icons';
+import {
+  AppstoreOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  ShoppingCartOutlined,
+  DesktopOutlined,
+  ContainerOutlined,
+  MailOutlined,
+  UnorderedListOutlined,
+  LogoutOutlined,UserOutlined
+} from '@ant-design/icons';
+
+const { SubMenu } = Menu;
 
 
 const {Meta} =Card;
@@ -33,6 +46,7 @@ function RightMenu(props) {
   const [Coupon, setCoupon] = useState([])
   const [CouponRandom, setCouponRandom] = useState([])
   const [CouponLength, setCouponLength] = useState(0)
+  const [collapsed, setcollapsed] = useState(true)
   const { TextArea } = Input;
   const dispatch = useDispatch();
 
@@ -279,9 +293,11 @@ Axios.put('/api/users/editProfile',variables)
             }
         })
       }
-    
-    
-  
+
+      const toggleCollapsed = () => {
+        setcollapsed(!collapsed)
+      };
+
   if (user.userData && !user.userData.isAuth) {
     return (
       <Menu  mode="horizontal">
@@ -296,44 +312,82 @@ Axios.put('/api/users/editProfile',variables)
   } else {
     return (
 
-      <Menu mode="horizontal">
-        {/* <Menu.Item key="upload">
-          <a href="/product/upload">upload</a>
-        </Menu.Item> */}
-        {/* <Menu.Item key="randon coupon">
-          <a  onClick={randomCoupon}>random coupon</a>
-        </Menu.Item> */}
-        <Menu.Item key="cart" style={{paddingTop: '11px',marginRight:'-30px'}}>
-          <Badge count={user.userData && user.userData.cart.length}>
-            <a href="/user/cart" style={{ color: "#667777" }}>
-              <ShoppingCartOutlined style={{ fontSize: '35px',textAlign:'center'}}/>
-            </a>
-          </Badge>
-        </Menu.Item>
-        <Menu.Item key="order" style={{paddingTop: '10px',marginRight:'-20px'}}>
-          <Badge count={user.userData && user.userData.orderUser.length}>
-            <a onClick={orderList}> 
-            <UnorderedListOutlined style={{ fontSize: '26px',textAlign:'center'}}/>
-            </a>
-          </Badge>
-        </Menu.Item>
-        <Menu.Item key="coupon" style={{paddingTop: '10px',marginRight:'-10px'}}>
-          <Badge>
-            <a onClick={couponList}>
-              <FaMoneyBillWave size="2em" />
-            </a>
-          </Badge>
-        </Menu.Item>
-        <Menu.Item key="editProfile" style={{paddingTop: '11px',marginLeft:'-10px'}}>
-          <a onClick={setModalIsOpenToTrue}>
-          <EditOutlined style={{ fontSize: '30px',textAlign:'center'}}/>
-          </a>
-        </Menu.Item>
-        <Menu.Item key="logout" style={{paddingTop: '11px',marginRight:'-40px'}}>
-          <a onClick={logoutHandler}>Logout</a>
-        </Menu.Item>
-      
+      // <Menu mode="horizontal">
+      //   <Menu.Item key="upload">
+      //     <a href="/product/upload">upload</a>
+      //   </Menu.Item>
+      //   <Menu.Item key="randon coupon">
+      //     <a  onClick={randomCoupon}>random coupon</a>
+      //   </Menu.Item>
+      //   <Menu.Item key="cart" style={{paddingTop: '11px',marginRight:'-30px'}}>
+      //     <Badge count={user.userData && user.userData.cart.length}>
+      //       <a href="/user/cart" style={{ color: "#667777" }}>
+      //         <ShoppingCartOutlined style={{ fontSize: '35px',textAlign:'center'}}/>
+      //       </a>
+      //     </Badge>
+      //   </Menu.Item>
+      //   <Menu.Item key="order" style={{paddingTop: '10px',marginRight:'-20px'}}>
+      //     <Badge count={user.userData && user.userData.orderUser.length}>
+      //       <a onClick={orderList}> 
+      //       <UnorderedListOutlined style={{ fontSize: '26px',textAlign:'center'}}/>
+      //       </a>
+      //     </Badge>
+      //   </Menu.Item>
+      //   <Menu.Item key="coupon" style={{paddingTop: '10px',marginRight:'-10px'}}>
+      //     <Badge>
+      //       <a onClick={couponList}>
+      //       <RiCoupon3Fill style={{fontSize:'30px'}} />
+      //       </a>
+      //     </Badge>
+      //   </Menu.Item>
+      //   <Menu.Item key="editProfile" style={{paddingTop: '11px',marginLeft:'-10px'}}>
+      //     <a onClick={setModalIsOpenToTrue}>
+      //     <EditOutlined style={{ fontSize: '30px',textAlign:'center'}}/>
+      //     </a>
+      //   </Menu.Item>
+      //   <Menu.Item key="logout" style={{paddingTop: '11px',marginRight:'-40px'}}>
+      //     <a onClick={logoutHandler}>Logout</a>
+      //   </Menu.Item>
 
+      <div style={{ width: "30%" ,position: 'fixed', zIndex: 5,height:'72px',float:'right',alignItems:'end'}}>
+        <Button type="primary" onClick={()=>toggleCollapsed()} style={{ margin: 16,float:"right",width:'100px' }}>
+          {React.createElement(collapsed == false ? MenuUnfoldOutlined : MenuFoldOutlined)}
+        </Button>
+        <Menu
+          defaultSelectedKeys={['1']}
+          defaultOpenKeys={['sub1']}
+          mode="inline"
+          theme="dark"
+          inlineCollapsed={collapsed}
+          style={{float:'right',marginTop:'70px',position: 'fixed'}}
+        >
+         
+         <Menu.Item key="cart" icon={<ShoppingCartOutlined style={{fontSize:'20px'}}/>} onClick={()=>window.location.href = "/user/cart"}>
+          <Badge count={user.userData && user.userData.cart.length}>
+            ตะกร้าสินค้า
+            </Badge>
+          </Menu.Item>
+          <Menu.Item key="2" style={{color:'red'}} icon={<UnorderedListOutlined />} onClick={orderList} >
+          <Badge count={user.userData && user.userData.orderUser.length}>
+            รายการสั่งซื้อ
+            </Badge>
+          </Menu.Item>
+          <Menu.Item key="3" icon={<RiCoupon3Fill />} onClick={couponList}>
+            คูปองของฉัน
+          </Menu.Item>
+          <Menu.Item key="4" icon={<UserOutlined />}onClick={setModalIsOpenToTrue}>
+            รายละเอียดส่วนตัว
+          </Menu.Item>
+          <Menu.Item key="5" icon={<LogoutOutlined />} onClick={logoutHandler}>
+            ออกจากระบบ
+          </Menu.Item>
+        </Menu>
+      
+    
+
+
+
+    
         <Modal isOpen={modalIsOpen}>
           <button onClick={setModalIsOpenToFalse}>x</button>
           <ul>
@@ -480,7 +534,9 @@ Axios.put('/api/users/editProfile',variables)
               </div>
               
         </Modal>
-        </Menu>
+        </div>
+ 
+        
 
 
     );

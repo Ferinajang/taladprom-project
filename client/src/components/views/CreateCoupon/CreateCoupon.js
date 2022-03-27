@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Radio ,Input, Button,DatePicker,Col,Card,Row} from 'antd';
+import { Radio ,Input, Button,DatePicker,Col,Card,Row,Tabs,Popover} from 'antd';
 import Modal from "react-modal";
 import "./CreateCoupon.css"
 import { MdClear } from "react-icons/md";
@@ -7,6 +7,7 @@ import Axios from 'axios'
 import moment from "moment";
 import {useDispatch} from 'react-redux'
 import CountDownTimeOut from './Section/CountDownTimeOut';
+const { TabPane } = Tabs;
 
 function CreateCoupon(props) {
   const [value1, setvalue1] = useState("");
@@ -57,16 +58,26 @@ const timeOut =(time)=>{
   console.log(d,h,m);
 
 }
+const callback =(key)=>{
+  console.log(key);
+}
 
-const renderCardsCouponShop=
+const content =(coupon)=>{
+  return(
+    <CountDownTimeOut deadline={coupon.dateTimeOut}/>
+  )
+   
+}
+
+const renderCardsCouponShopHaveOwner=
 CouponShop.map((coupon, index) => {
   if(!props.user.userData){
     //console.log("fffff");
 }else{
-  if(coupon.shopID == props.user.userData.shopID){
+  if(coupon.shopID == props.user.userData.shopID && coupon.status == "have owner"){
   return (
-      <Col lg={12}>
-        <a>
+      <Col lg={10} style={{marginLeft:'100px'}}>
+         <Popover placement="topLeft" title="คูปองจะหมดอายุในอีก" content={content(coupon)}>
           <Card>
             <div style={{ display: "flex" }}>
               {coupon.typeCoupon == "DiscountPercent" ? (
@@ -91,24 +102,121 @@ CouponShop.map((coupon, index) => {
                   }
                 />
               )}
-              <div style={{ display: "block", marginLeft: "20px" }}>
-                <h1>{coupon.nameCoupon}</h1>
-                <a>ร้าน {coupon.shopName}</a>
+              <div style={{ display: "block", marginLeft: "70px" ,textAlign:'left'}}>
+                <h2>{coupon.nameCoupon}</h2>
+                <p>ร้าน {coupon.shopName}</p>
                 <p>ส่วนลด {coupon.discount} บาท</p>
-              </div>
-              <div style={{ display: "block", marginLeft: "20px" }}>
-               <p>จะหมดอายุในอีก <CountDownTimeOut deadline={coupon.dateTimeOut}/></p>
+                <p>ยอดสั่งซื้อขั้นต่ำ {coupon.discount} บาท</p>
               </div>
               <div style={{float:'right'}}>
               {/* <Button>รับคูปอง</Button> */}
             </div>
             </div>
           </Card>
-        </a>
+         </Popover>
       </Col>
     );
                 }
               
+}});
+
+const renderCardsCouponShopNoOwner=
+CouponShop.map((coupon, index) => {
+  if(!props.user.userData){
+    //console.log("fffff");
+}else{
+  if(coupon.shopID == props.user.userData.shopID && coupon.status == "no owner"){
+  return (
+      <Col lg={10} style={{marginLeft:'100px'}}>
+         <Popover placement="topLeft" title="คูปองจะหมดอายุในอีก" content={content(coupon)}>
+          <Card>
+            <div style={{ display: "flex" }}>
+              {coupon.typeCoupon == "DiscountPercent" ? (
+                <img
+                  width={150}
+                  src={
+                    "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
+                  }
+                />
+              ) : coupon.typeCoupon == "DiscountMoney" ? (
+                <img
+                  width={150}
+                  src={
+                    "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
+                  }
+                />
+              ) : (
+                <img
+                  width={150}
+                  src={
+                    "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
+                  }
+                />
+              )}
+              <div style={{ display: "block", marginLeft: "70px" ,textAlign:'left'}}>
+                <h2>{coupon.nameCoupon}</h2>
+                <p>ร้าน {coupon.shopName}</p>
+                <p>ส่วนลด {coupon.discount} บาท</p>
+                <p>ยอดสั่งซื้อขั้นต่ำ {coupon.discount} บาท</p>
+              </div>
+              <div style={{float:'right'}}>
+              {/* <Button>รับคูปอง</Button> */}
+            </div>
+            </div>
+          </Card>
+         </Popover>
+      </Col>
+    );
+                }
+              
+}});
+
+
+const renderCardsCouponShopTimeOut=
+CouponShop.map((coupon, index) => {
+  if(!props.user.userData){
+    //console.log("fffff");
+}else{
+  if(coupon.shopID == props.user.userData.shopID && coupon.status == "timeOut"){
+  return (
+      <Col lg={10} md={10} xs={10} style={{marginLeft:'100px'}}>
+        <Popover placement="topLeft" title="คูปองจะหมดอายุในอีก" content={content(coupon)}> <Card>
+            <div style={{ display: "flex" }}>
+              {coupon.typeCoupon == "DiscountPercent" ? (
+                <img
+                  width={150}
+                  src={
+                    "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
+                  }
+                />
+              ) : coupon.typeCoupon == "DiscountMoney" ? (
+                <img
+                  width={150}
+                  src={
+                    "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
+                  }
+                />
+              ) : (
+                <img
+                  width={150}
+                  src={
+                    "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
+                  }
+                />
+              )}
+               <div style={{ display: "block", marginLeft: "70px",textAlign:'left'}}>
+                <h2>{coupon.nameCoupon}</h2>
+                <p>ร้าน {coupon.shopName}</p>
+                <p>ส่วนลด {coupon.discount} บาท</p>
+                <p>ยอดสั่งซื้อขั้นต่ำ {coupon.discount} บาท</p>
+              </div>
+            </div>
+          </Card>
+          </Popover>
+         
+      </Col>
+    );
+                }          
 }});
 //////////////////////////////////////////
 
@@ -243,26 +351,80 @@ const chooseTypeCoupon =()=>{
 
 
   return (
-    
-    <div style={{ display: "block", backgroundColor: "green" ,width:'100%',height:'80vh'}}>
-      <h1 style={{marginLeft:'30px' }} >คูปองภายในร้านของคุณ</h1>
-      <CountDownTimeOut deadline={"January, 10, 2022"} checktime={timeOut}/>
-      <div style={{ display: "block", backgroundColor: "pink" }}>
-        <Button onClick={chooseTypeCoupon}>สร้างคูปอง</Button>
-        <div style={{ display: "block", backgroundColor: "red" }}>
-        <Row gutter={[16, 16]}>{renderCardsCouponShop}</Row>
-        
+    <div
+      style={{
+        width: "100%",
+      }}
+    >
+      <Button
+        style={{ float: "right", marginRight: "70px" }}
+        size="large"
+        onClick={chooseTypeCoupon}
+      >
+        สร้างคูปอง
+      </Button>
+      <div>
+        <h1
+          style={{
+            marginTop: "50px",
+            textAlign: "center",
+            marginLeft: "180px",
+            fontWeight: "bolder",
+          }}
+        >
+          คูปองภายในร้านของคุณ
+        </h1>
+      </div>
 
+      <div style={{ display: "block" }}>
+        <div
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
+            flexDirection: "row",
+            width: "100%",
+            height: "70vh",
+          }}
+        >
+          <Tabs
+            defaultActiveKey="1"
+            onChange={callback}
+            style={{
+              marginTop: "50px",
+              marginRight: "50px",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <TabPane tab="คูปองส่วนลดยังไม่ถูกเก็บ" key="1">
+              <div style={{ width: "100%", float: "-moz-initial" }}>
+                <Row gutter={[24, 24]} style={{ alignItems: "center" }}>
+                  {renderCardsCouponShopNoOwner}
+                </Row>
+              </div>
+            </TabPane>
+            <TabPane tab="คูปองส่วนลดถูกเก็บแล้ว" key="2">
+              <Row gutter={[12, 12]} style={{ alignItems: "center" }}>
+                {renderCardsCouponShopHaveOwner}
+              </Row>
+            </TabPane>
+            <TabPane
+              tab="คูปองส่วนลดถูกใช้แล้ว/หมดเวลา"
+              style={{ alignItems: "center" }}
+              key="3"
+            >
+              <div>
+                <Row gutter={[24, 24]} style={{ alignItems: "center" }}>
+                  {renderCardsCouponShopTimeOut}
+                </Row>
+              </div>
+            </TabPane>
+          </Tabs>
         </div>
+      </div>
 
-        <div>
-
-    </div>
-        </div>
-        
-        
-      
-      <Modal className="modal-create-coupon" isOpen={ModalFreeShipping}>
+      <Modal className="modal-create-coupon-shipping" isOpen={ModalFreeShipping}>
         <div
           style={{
             height: "15px",
@@ -276,20 +438,35 @@ const chooseTypeCoupon =()=>{
           <MdClear style={{ cursor: "pointer" }} />
         </div>
         <ul>
-          <h1>คูปองส่งฟรี</h1>
-          <div style={{ marginTop: "20px" }}>
+          <h1 style={{ fontWeight: "bolder" }}>คูปองส่งฟรี</h1>
+          <div
+            style={{
+              marginTop: "10px",
+              width: "70%",
+              height: "20vh",
+            }}
+          >
+            <h3 style={{ fontWeight: "bolder" }}>
+              เลือกรูปแบบยอดสั่งซื้อขั้นต่ำ
+            </h3>
             <Radio.Group>
-              <Radio onChange={onChange1_1} value={1}>
+              <Radio
+                onChange={onChange1_1}
+                value={1}
+                style={{ fontSize: "16px" }}
+              >
                 ไม่มียอดซื้อขั้นต่ำ
               </Radio>
-              <Radio onChange={onChange1_2} value={2}>
+              <Radio
+                onChange={onChange1_2}
+                value={2}
+                style={{ fontSize: "16px" }}
+              >
                 มียอดซื้อขั้นต่ำ
               </Radio>
             </Radio.Group>
-            <div style={{ width: "100px", float: "right", marginTop: "43px" }}>
-              <Button onClick={createCoupon}>Submit</Button>
-            </div>
             <div id="1_2" style={{ display: "none", marginTop: "20px" }}>
+              <h3 style={{ fontWeight: "bolder" }}>กรุณากรอกยอดซื้อขั้นต่ำ</h3>
               <label style={{ marginRight: "20px" }}>
                 {"\n"}ยอดซื้อขั้นต่ำ
               </label>
@@ -299,12 +476,27 @@ const chooseTypeCoupon =()=>{
                 onChange={onChangeFreeShip}
               ></Input>
             </div>
-            <DatePicker onChange={onChangeDate} format={dateFormat} />
+            <div style={{ marginTop: "8px", fontWeight: "bolder" }}>
+              <h3 style={{ fontWeight: "bolder" }}>เลือกวันหมดอายุของคูปอง</h3>
+              <DatePicker onChange={onChangeDate} format={dateFormat} />
+            </div>
+            <div style={{ width: "100px", marginTop: "10px" }}>
+              <Button 
+              style={{
+                width: "180px",
+                backgroundColor: "#2F2851",
+                color: "white",
+                borderColor: "#2F2851",
+                borderRadius: "15px",
+              }}
+              size="large" onClick={createCoupon}>สร้างคูปอง</Button>
+            </div>
+        
           </div>
         </ul>
       </Modal>
 
-      <Modal className="modal-create-coupon" isOpen={ModalPersent}>
+      <Modal className="modal-create-coupon-percent" isOpen={ModalPersent}>
         <div
           style={{
             height: "15px",
@@ -318,16 +510,30 @@ const chooseTypeCoupon =()=>{
           <MdClear style={{ cursor: "pointer" }} />
         </div>
         <ul>
-          <h1>คูปองส่วนลดแบบเปอร์เซ็น</h1>
-          <div style={{ marginRight: "20px" }}>
-            <label style={{ marginRight: "20px" }}>{"\n"}ยอดซื้อขั้นต่ำ</label>
+          <h1 style={{ fontWeight: "bolder" }}>คูปองส่วนลดแบบเปอร์เซ็น</h1>
+          <h3 style={{ fontWeight: "bolder" }}>
+              กรอกส่วนลด
+            </h3>
+          <div
+            style={{
+              marginTop: "10px",
+              width: "70%",
+              display:'flex'
+            }}
+          >
+            <h3 style={{ marginRight:'10px' }} >ส่วนลด</h3>
             <Input
-              style={{ width: "100px" }}
+              style={{ width: "150px" }}
               type="number"
               onChange={onChangePercent}
             ></Input>
+            <h3 style={{ marginLeft:'10px' }}>บาท</h3>
+            
           </div>
-          <div style={{ marginTop: "20px" }}>
+          <div style={{ marginTop: "10px" }}>
+          <h3 style={{ fontWeight: "bolder" }}>
+              เลือกรูปแบบยอดสั่งซื้อขั้นต่ำ
+            </h3>
             <Radio.Group>
               <Radio onChange={onChange2_1} value={1}>
                 ไม่มียอดซื้อขั้นต่ำ
@@ -336,11 +542,10 @@ const chooseTypeCoupon =()=>{
                 มียอดซื้อขั้นต่ำ
               </Radio>
             </Radio.Group>
-            <div style={{ width: "100px", float: "right", marginTop: "43px" }}>
-              <Button onClick={createCoupon}>Submit</Button>
-            </div>
+            
             <div id="2_2" style={{ display: "none", marginTop: "20px" }}>
-              <label style={{ marginRight: "15px" }}>
+            <h3 style={{ fontWeight: "bolder" }}>กรุณากรอกยอดซื้อขั้นต่ำ</h3>
+              <label style={{ marginRight: "20px" }}>
                 {"\n"}ยอดซื้อขั้นต่ำ
               </label>
               <Input
@@ -349,12 +554,27 @@ const chooseTypeCoupon =()=>{
                 onChange={onChangeMiniumCost}
               ></Input>
             </div>
-            <DatePicker onChange={onChangeDate}  format={dateFormat} />
+            <div style={{ marginTop: "8px", fontWeight: "bolder" }}>
+              <h3 style={{ fontWeight: "bolder" }}>เลือกวันหมดอายุของคูปอง</h3>
+              <DatePicker onChange={onChangeDate} format={dateFormat} />
+            </div>
+            <div style={{ width: "100px", marginTop: "20px" }}>
+              <Button  style={{
+                width: "180px",
+                backgroundColor: "#2F2851",
+                color: "white",
+                borderColor: "#2F2851",
+                borderRadius: "15px",
+              }}
+              size="large"
+              onClick={createCoupon}>สร้างคูปอง</Button>
+            </div>
           </div>
         </ul>
       </Modal>
+      
 
-      <Modal className="modal-create-coupon" isOpen={ModalDiscount}>
+      <Modal className="modal-create-coupon-money" isOpen={ModalDiscount}>
         <div
           style={{
             height: "15px",
@@ -363,23 +583,34 @@ const chooseTypeCoupon =()=>{
             marginRight: "20px",
             marginTop: "10px",
           }}
-          onClick={() => setModalDiscount(false)}
-        >
+          onClick={() => setModalDiscount(false)}>
           <MdClear style={{ cursor: "pointer" }} />
         </div>
         <div style={{ textAlign: "Left", marginTop: "5px" }}>
           <ul>
-            <h1>คูปองส่วนลดแบบจำนวนเงิน</h1>
-            <div style={{ marginRight: "20px" }}>
-              <label style={{ marginRight: "20px" }}>{"\n"}ส่วนลด</label>
+            <h1 style={{ fontWeight: "bolder" }}>คูปองส่วนลดแบบจำนวนเงิน</h1>
+            <h3 style={{ fontWeight: "bolder" }}>
+              กรอกส่วนลด
+            </h3>
+          <div
+            style={{
+              marginTop: "10px",
+              width: "70%",
+              display:'flex'
+            }}
+          >
+            <h3 style={{ marginRight:'10px' }} >ส่วนลด</h3>
               <Input
                 style={{ width: "100px" }}
                 type="number"
                 onChange={onChangeDiscount}
               ></Input>
-              <label> %</label>
+              <h3> %</h3>
             </div>
-            <div style={{ marginTop: "20px" }}>
+            <div style={{ marginTop: "10px" }}>
+            <h3 style={{ fontWeight: "bolder" }}>
+              เลือกรูปแบบยอดสั่งซื้อขั้นต่ำ
+            </h3>
               <Radio.Group>
                 <Radio onChange={onChange3_1} value={1}>
                   ไม่มียอดซื้อขั้นต่ำ
@@ -388,22 +619,36 @@ const chooseTypeCoupon =()=>{
                   มียอดซื้อขั้นต่ำ
                 </Radio>
               </Radio.Group>
-              <div
-                style={{ width: "100px", float: "right", marginTop: "43px" }}
-              >
-                <Button onClick={createCoupon}>Submit</Button>
               </div>
+
+             
               <div id="3_2" style={{ display: "none", marginTop: "20px" }}>
-                <label style={{ marginRight: "15px" }}>
-                  {"\n"}ยอดซื้อขั้นต่ำ
-                </label>
-                <Input
-                  style={{ width: "100px" }}
-                  type="number"
-                  onChange={onChangeMiniumCost}
-                ></Input>
+            <h3 style={{ fontWeight: "bolder" }}>กรุณากรอกยอดซื้อขั้นต่ำ</h3>
+              <label style={{ marginRight: "20px" }}>
+                {"\n"}ยอดซื้อขั้นต่ำ
+              </label>
+              <Input
+                style={{ width: "100px" }}
+                type="number"
+                onChange={onChangeMiniumCost}
+              ></Input>
               </div>
-              <DatePicker onChange={onChangeDate}  format={dateFormat} />
+
+            <div style={{ marginTop: "8px", fontWeight: "bolder" }}>
+              <h3 style={{ fontWeight: "bolder" }}>เลือกวันหมดอายุของคูปอง</h3>
+              <DatePicker onChange={onChangeDate} format={dateFormat} />
+            </div>
+
+            <div style={{ width: "100px", marginTop: "20px" }}>
+              <Button  style={{
+                width: "180px",
+                backgroundColor: "#2F2851",
+                color: "white",
+                borderColor: "#2F2851",
+                borderRadius: "15px",
+              }}
+              size="large"
+              onClick={createCoupon}>สร้างคูปอง</Button>
             </div>
           </ul>
         </div>
@@ -422,18 +667,67 @@ const chooseTypeCoupon =()=>{
         >
           <MdClear style={{ cursor: "pointer" }} />
         </div>
-        <div style={{ textAlign: "Left", marginTop: "5px"}}>
-            <h1 style={{marginLeft:'30px' }}>เลือกชนิดของคูปอง</h1>
-            <div style={{ textAlign:'center',alignItems:'center',width:'456px',height:'10vh'}}>
-            <Button style={{margin:'5px'}} onClick={ModalFreeShippingOpen}> ส่งฟรี</Button>
+        <div style={{ textAlign: "Left", marginTop: "5px", display: "block" }}>
+          <h1 style={{ textAlign: "center", fontWeight: "bolder" }}>
+            เลือกชนิดของคูปอง
+          </h1>
+          <div
+            style={{
+              textAlign: "center",
+              alignItems: "center",
+              width: "456px",
+              height: "10vh",
+              marginLeft: "20px",
+            }}
+          >
+            <Button
+              style={{
+                margin: "5px",
+                width: "180px",
+                textAlign: "center",
+                backgroundColor: "#2F2851",
+                color: "white",
+                borderColor: "#2F2851",
+                borderRadius: "15px",
+              }}
+              size="large"
+              onClick={ModalFreeShippingOpen}
+            >
+              ส่งฟรี
+            </Button>
             <br></br>
-            <Button style={{margin:'5px'}} onClick={ModalPercentOpen}>ส่วนลดแบบเปอร์เซ็น</Button>
+            <Button
+              style={{
+                margin: "5px",
+                width: "180px",
+                backgroundColor: "#2F2851",
+                color: "white",
+                borderColor: "#2F2851",
+                borderRadius: "15px",
+              }}
+              size="large"
+              onClick={ModalPercentOpen}
+            >
+              ส่วนลดแบบเปอร์เซ็น
+            </Button>
             <br></br>
-            <Button style={{margin:'5px'}} onClick={ModalDiscountOpen}>ส่วนลดแบบจำนวนเงิน</Button>
-            </div>
+            <Button
+              style={{
+                margin: "5px",
+                width: "180px",
+                backgroundColor: "#2F2851",
+                color: "white",
+                borderColor: "#2F2851",
+                borderRadius: "15px",
+              }}
+              size="large"
+              onClick={ModalDiscountOpen}
+            >
+              ส่วนลดแบบจำนวนเงิน
+            </Button>
+          </div>
         </div>
       </Modal>
-
     </div>
   );
 }

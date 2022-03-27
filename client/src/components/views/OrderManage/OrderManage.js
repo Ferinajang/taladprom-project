@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import React ,{useEffect ,useState} from 'react'
 import {Card, Col,Row,Tabs } from 'antd';
+import {QuestionCircleTwoTone } from '@ant-design/icons';
 
 const {Meta} =Card;
 const { TabPane } = Tabs;
@@ -14,7 +15,8 @@ function LandingPage(props) {
         continentsPD:[],
         price:[]
     })
-
+    
+  
     // console.log(props);
 
     useEffect(() =>{
@@ -22,7 +24,6 @@ function LandingPage(props) {
             skip : Skip,
             limit : Limit,
         }
-
         getOrder(variables);
     },[])
 
@@ -105,6 +106,105 @@ function LandingPage(props) {
     }
 
 
+    const renderCardsNotConfirm = Order.map((order, index) => {
+        if(!props.user.userData){
+        }else{
+         // console.log("eeee", product.namePD);
+         // console.log(props.user.userData.name);
+          if(order.shopID == props.user.userData.shopID && order.status == "Not Confirmed"){
+          return (
+            <Col lg={6}>
+               
+               <a href={`/orderSeller/${order._id}`}> 
+               
+                <Card hoverable={true} style={{border: '3px solid #ffb6ad'}}>
+                  <Meta
+                    title={order.namePD}
+                  ></Meta>
+                   <div style={{display:'block',marginTop:'10px'}}>
+                  <h4>ผู้สั่งสินค้า : {order.customerName}</h4>
+                  <h4>  ราคารวม {order.totalPrice}</h4>
+                  </div>
+                </Card>
+              </a> 
+            </Col>
+          );
+        }
+       }
+    });
+    const renderCardsPending = Order.map((order, index) => {
+        if(!props.user.userData){
+        }else{
+         // console.log("eeee", product.namePD);
+         // console.log(props.user.userData.name);
+          if(order.shopID == props.user.userData.shopID && order.status == "pending"){
+          return (
+            <Col lg={6}>
+               <a href={`/orderSeller/${order._id}`}> 
+                <Card hoverable={true} >
+                  <Meta
+                    title={order.namePD}
+                  ></Meta>
+                  <div style={{display:'block',marginTop:'10px'}}>
+                  <h4>ผู้สั่งสินค้า : {order.customerName}</h4>
+                  <h4>  ราคารวม {order.totalPrice}</h4>
+                  </div>
+                </Card>
+              </a> 
+            </Col>
+          );
+        }
+       }
+    });
+    const renderCardsSuccess = Order.map((order, index) => {
+        if(!props.user.userData){
+        }else{
+         // console.log("eeee", product.namePD);
+         // console.log(props.user.userData.name);
+          if(order.shopID == props.user.userData.shopID && order.status == "success"){
+          return (
+            <Col lg={6}>
+               <a href={`/orderSeller/${order._id}`}> 
+                <Card hoverable={true} >
+                  <Meta
+                    title={order.namePD}
+                  ></Meta>
+                   <div style={{display:'block',marginTop:'10px'}}>
+                  <h4>ผู้สั่งสินค้า : {order.customerName}</h4>
+                  <h4>  ราคารวม {order.totalPrice}</h4>
+                  </div>
+                </Card>
+              </a> 
+            </Col>
+          );
+        }
+       }
+    });
+    const renderCardsReject = Order.map((order, index) => {
+        if(!props.user.userData){
+        }else{
+         // console.log("eeee", product.namePD);
+         // console.log(props.user.userData.name);
+          if(order.shopID == props.user.userData.shopID && order.status == "reject"){
+          return (
+            <Col lg={6}>
+               <a href={`/orderSeller/${order._id}`}> 
+                <Card hoverable={true} >
+                  <Meta
+                    title={order.namePD}
+                  ></Meta>
+                   <div style={{display:'block',marginTop:'10px'}}>
+                  <h4>ผู้สั่งสินค้า : {order.customerName}</h4>
+                  <h4>  ราคารวม {order.totalPrice}</h4>
+                  </div>
+                </Card>
+              </a> 
+            </Col>
+          );
+        }
+       }
+    });
+
     const renderCards = Order.map((order, index) => {
         if(!props.user.userData){
         }else{
@@ -112,14 +212,15 @@ function LandingPage(props) {
          // console.log(props.user.userData.name);
           if(order.shopID == props.user.userData.shopID){
           return (
-            <Col lg={1000} md={100} xs={100}>
+            <Col lg={6}>
                <a href={`/orderSeller/${order._id}`}> 
                 <Card hoverable={true} >
-                  <Meta
-                    title={order.namePD}
-                  ></Meta>
-                   <a1>ผู้สั่งสินค้า {order.customerName}</a1>
+                  <Meta title={order.namePD}></Meta>
+                  <div style={{display:'block'}}>
+                  <h1>ผู้สั่งสินค้า {order.customerName}</h1>
                   <a2>  ราคารวม {order.totalPrice}</a2>
+                  </div>
+                   
                 </Card>
               </a> 
             </Col>
@@ -148,21 +249,29 @@ function LandingPage(props) {
           <h2>รายการคำสั่งซื้อ </h2>
           <Tabs defaultActiveKey="1" onChange={callback}>
             <TabPane tab="รอการยืนยันคำสั่งซื้อ" key="1">
-            {renderCards}
+              <Row gutter={[24, 24]}>
+                {renderCardsNotConfirm}
+              </Row>
+              
             </TabPane>
             <TabPane tab="รอการยืนยันคำสั่งซื้อ" key="2">
-            {renderCards}
+            <Row gutter={[24, 24]}>
+              {renderCardsPending}
+              </Row>
             </TabPane>
             <TabPane tab="เสร็จสิ้น" key="3">
-            {renderCards}
+            <Row gutter={[24, 24]}>
+              {renderCardsSuccess}
+              </Row>
             </TabPane>
-            <TabPane tab="ยกเลิกคำสั่งซื้อ" key="3">
-            {renderCards}
+            <TabPane tab="ยกเลิกคำสั่งซื้อ" key="4">
+            <Row gutter={[24, 24]}>
+              {renderCardsReject}
+              </Row>
+              
+
             </TabPane>
           </Tabs>
-          <div>
-            <Row gutter={[30, 30]}>{renderCards}</Row>
-          </div>
         </div>
       </div>
     );

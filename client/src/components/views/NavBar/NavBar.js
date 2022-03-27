@@ -18,19 +18,23 @@ function NavBar() {
   };
 
   return (
-    <nav className="menu" style={{ position: 'fixed', zIndex: 5, width: '100%',height:'70px' }}>
+    <div>
+       <nav className="menu" style={{ position: 'fixed', zIndex: 5, width: '100%',height:'72px' }}>
       <div className="menu__logo">
         <a href="/">TALADPROM</a>
       </div>
-      <div className="menu__container">
+      {/* <div className="menu__container">
         <div className="menu_left">
           <LeftMenu mode="horizontal" />
         </div>
         <div className="menu_rigth">
           <RightMenu mode="horizontal" />
         </div>
-      </div>
+      </div> */}
     </nav>
+
+    </div>
+   
   )
 }
 export default NavBar

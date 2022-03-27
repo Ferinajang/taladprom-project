@@ -468,7 +468,6 @@ function GamePage(props) {
     return (
         <div >
             <Header />
-            
             <div style={{ marginTop: "-69px" }}>
                 <Unity unityContext={unityContext} style={{ width: "100%", height: "100vh",border: "2px solid black",background: "grey" }} />
             </div>
