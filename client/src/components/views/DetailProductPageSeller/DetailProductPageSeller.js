@@ -44,7 +44,7 @@ function DetailProductPageSeller(props) {
   ];
 
   return (
-    <div>
+    <div >
       <div
         className="postPage"
         style={{

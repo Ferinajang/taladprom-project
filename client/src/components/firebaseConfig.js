@@ -2,14 +2,13 @@ import firebase from "firebase/app";
 import "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCGqVS9jgrcJiSPudb-U3WH3vXx7ylZyOk",
-  authDomain: "ferina-436c2.firebaseapp.com",
-  databaseURL: "https://ferina-436c2.firebaseio.com",
-  projectId: "ferina-436c2",
-  storageBucket: "ferina-436c2.appspot.com",
-  messagingSenderId: "1053686992585",
-  appId: "1:1053686992585:web:015210c342b7af4dc48718",
-  measurementId: "G-CD4M01YL9M"
+  apiKey: "AIzaSyBfkieIIYISE7bZuYAYCUfh69Ec-NgaqC0",
+  authDomain: "taladprom-b8753.firebaseapp.com",
+  projectId: "taladprom-b8753",
+  storageBucket: "taladprom-b8753.appspot.com",
+  messagingSenderId: "588619559907",
+  appId: "1:588619559907:web:1adf60f694219346fa66d6",
+  measurementId: "G-ZGVSQ4HW9C"
 };
 
 firebase.initializeApp(firebaseConfig);

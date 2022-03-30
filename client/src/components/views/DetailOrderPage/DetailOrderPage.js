@@ -1,11 +1,17 @@
+
 import Axios from 'axios'
-import { Row, Col,Table } from 'antd';
+import { Row, Col,Table,Select ,Button,Input,Tooltip ,Modal,Steps} from 'antd';
 import React, { useEffect, useState } from 'react'
 import ImageGallery from 'react-image-gallery';
 import { addToCart } from '../../../_actions/user_actions';
+import { UserOutlined, SolutionOutlined, LoadingOutlined, SmileOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
-import Modal from 'react-modal'
+import 'antd/dist/antd.css';
+import { Image } from 'antd';
 
+
+const { Step } = Steps;
+const { Option } = Select;
 
 function DetailOrderPage(props) {
     const dispatch = useDispatch();
@@ -14,6 +20,8 @@ function DetailOrderPage(props) {
     const [modalCheckPaymentIsOpen, setmodalCheckPaymentIsOpen] = useState(false)
     const [trackingNumber, settrackingNumber] = useState("")
     const [Product, setProduct] = useState([])
+    const [addess, setaddess] = useState("บ้านเลขที่ 9 บางบอน 4 ซอย 7 ถนนเอกชัย เขตบางบอน เเขวงบางบอน กรุงเทพมหานคร")
+    const [color, setcolor] = useState("red")
 
 
     useEffect(()=>{
@@ -38,6 +46,7 @@ function DetailOrderPage(props) {
         })  
        
     },[])
+
 
     
 
@@ -180,34 +189,98 @@ function DetailOrderPage(props) {
   }
 
   return (
-    <div className="postPage" style={{ width: "100%", padding: "3rem 4rem" }}>
+    <div className="postPage" style={{ width: "90%", padding: "2rem 4rem" ,marginLeft:'90px'}}>
       <div style={{ display: "block", justifyContent: "center" }}>
-        <h1>Order NO : {Order._id}</h1>
-        <h2 style={{ color: "red" }}>Status : {Order.status}</h2>
-      </div>
-      <br />
-      <Table columns={columns} dataSource={data} />
-      <br />
-      <br />
-      <div
-        style={{ display: "block", justifyContent: "center", float: "right" }}
-      >
-        <h1>Total Price : {Order.totalPrice}</h1>
-        <button style={{ marginBottom: "20px" }} onClick={confirmOrder}>Confirm Order</button>
-        <br></br>
-        <button style={{ marginBottom: "20px" }} onClick={cancelOrder} >Cancle Order</button>
-      </div>
-      <button style={{ marginBottom: "20px" }} onClick={checkImagePayment}>Proof payment</button>
-      <br />
-      <h3>Enter Tracking Number</h3>
-      <input type="text" onChange={onTrackingChange}></input>
-      <button style={{ marginBottom: "20px" }} onClick={sendTrackingNumber}>send tracking</button>
 
-      <Modal className="modal-checkpayment" isOpen={modalCheckPaymentIsOpen}>
-        <button button onClick={setModalCheckPaymentIsOpenTofalse}>
-          x
-        </button>
-         <img style={{ width: "100%" }} src={Order.imagesPayment} /> 
+      {Order.status == "Not Confirmed" ?
+      <div style={{marginBottom:'15px'  }}>
+          <Steps current={0}>
+            <Step status="process" title="รอการยืนยันออเดอร์" icon={<UserOutlined />} />
+            <Step status="wait" title="รอการส่งเลขพัศดุ" icon={<SolutionOutlined />}/>
+            <Step status="wait" title="เสร็จสิ้น" icon={<SmileOutlined />} />
+          </Steps>
+        </div>:
+        Order.status == "pending" ?
+        <div style={{marginBottom:'15px'  }}>
+        <Steps current={0}>
+          <Step status="finish" title="รอการยืนยันคำสั่งซื้อ" icon={<UserOutlined />} />
+          <Step status="process" title="รอการส่งเลขพัศดุ" icon={<SolutionOutlined />}/>
+          <Step status="wait" title="เสร็จสิ้น" icon={<SmileOutlined />} />
+        </Steps>
+      </div>:  Order.status == "success" ?
+      <div style={{marginBottom:'15px'  }}>
+      <Steps current={0}>
+        <Step status="finish" title="รอการยืนยันคำสั่งซื้อ" icon={<UserOutlined />} />
+        <Step status="finish" title="รอการส่งเลขพัศดุ" icon={<SolutionOutlined />}/>
+        <Step status="process" title="เสร็จสิ้น" icon={<SmileOutlined />} />
+      </Steps>
+    </div>:
+      <div style={{marginBottom:'15px'  }}>
+      <Steps current={0}>
+        <Step status="finish" title="รอการยืนยันคำสั่งซื้อ" icon={<UserOutlined />} />
+        <Step status="finish" title="รอการส่งเลขพัศดุ" icon={<SolutionOutlined />}/>
+        <Step status="process" title="ยกเลิกคำสั่งซื้อ" icon={<SmileOutlined />} />
+      </Steps>
+    </div>
+    
+     }
+    
+     <h1>Order NO : {Order._id}</h1>
+     <div  style={{display:'flex'}} >
+        <h2 style={{fontWeight:'bold' }}>สถานะคำสั่งซื้อ :</h2>
+        {Order.status == "Not Confirmed" ? <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'red'}} >รอการยืนยันคำสั่งซื้อ</h2>:
+        Order.status == "pending" ? <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'#ffc53d'}}>รอการส่งเลขพัlดุ</h2>:
+        Order.status == "success" ? <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'green'}}>เสร็จสิ้น</h2>:
+        <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'#cf1322'}}>ยกเลิกคำสั่งซื้อ</h2>
+        }
+     </div>
+      </div>
+      <h3 style={{ marginTop: "20px", fontWeight: "" }}>รายการสินค้า :</h3>
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination={{ position: ["none"] }}
+      />
+
+      <div
+        style={{
+          display: "block",
+          float: "right",
+          marginTop: "30px",
+          textAlign: "start",
+          marginLeft: "500px",
+          width:'200px'
+        }}
+      >
+        <h3>ราคาสินค้า : {Order.pricePD * Order.quantityPD}</h3>
+        <h3>ค่าจัดส่ง : {Order.shippingCostPD}</h3>
+        <h3>ส่วนลด : {Order.totalPrice}</h3>
+        <h1>รวม : {Order.totalPrice}</h1>
+       
+      </div>
+      <div style={{ marginTop: "30px" }}>
+        <h3>ที่อยู่: {" "} </h3>
+        <h4>{addess}</h4>
+      </div>
+      <div style={{ marginTop: "30px" }}>
+        <h2>หมายเลขพัสดุ: {" "} </h2>
+        <h3>บริษัทขนส่งสินค้า ไปรษณีย์ไทย</h3>
+        <h3>รหัส EU999955550TH</h3>
+      </div>
+
+    
+      <Modal
+        title="หลักฐานการชำระเงิน"
+        visible={modalCheckPaymentIsOpen}
+        onOk={() => setmodalCheckPaymentIsOpen(false)}
+        onCancel={() => setmodalCheckPaymentIsOpen(true)}
+        footer={[
+          <Button key="back" onClick={() => setmodalCheckPaymentIsOpen(false)}>
+            ยืนยัน
+          </Button>,
+        ]}
+      >
+        <img style={{ width: "100%" }} src={Order.imagesPayment} />
       </Modal>
     </div>
   );

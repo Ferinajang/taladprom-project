@@ -76,7 +76,7 @@ CouponShop.map((coupon, index) => {
 }else{
   if(coupon.shopID == props.user.userData.shopID && coupon.status == "have owner"){
   return (
-      <Col lg={10} style={{marginLeft:'100px'}}>
+      <Col lg={12} style={{marginLeft:'100px'}}>
          <Popover placement="topLeft" title="คูปองจะหมดอายุในอีก" content={content(coupon)}>
           <Card>
             <div style={{ display: "flex" }}>
@@ -127,13 +127,15 @@ CouponShop.map((coupon, index) => {
 }else{
   if(coupon.shopID == props.user.userData.shopID && coupon.status == "no owner"){
   return (
-      <Col lg={10} style={{marginLeft:'100px'}}>
+      <Col lg={12} style={{marginLeft:'100px'}}>
          <Popover placement="topLeft" title="คูปองจะหมดอายุในอีก" content={content(coupon)}>
           <Card>
             <div style={{ display: "flex" }}>
               {coupon.typeCoupon == "DiscountPercent" ? (
                 <img
-                  width={150}
+                width={150}
+                  // width={150}
+                  // height={10}
                   src={
                     "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
                   }
@@ -153,7 +155,7 @@ CouponShop.map((coupon, index) => {
                   }
                 />
               )}
-              <div style={{ display: "block", marginLeft: "70px" ,textAlign:'left'}}>
+              <div style={{ display: "block", marginLeft: "70px" ,textAlign:'left',width:'100%'}}>
                 <h2>{coupon.nameCoupon}</h2>
                 <p>ร้าน {coupon.shopName}</p>
                 <p>ส่วนลด {coupon.discount} บาท</p>
@@ -179,7 +181,7 @@ CouponShop.map((coupon, index) => {
 }else{
   if(coupon.shopID == props.user.userData.shopID && coupon.status == "timeOut"){
   return (
-      <Col lg={10} md={10} xs={10} style={{marginLeft:'100px'}}>
+      <Col  style={{marginLeft:'100px'}}>
         <Popover placement="topLeft" title="คูปองจะหมดอายุในอีก" content={content(coupon)}> <Card>
             <div style={{ display: "flex" }}>
               {coupon.typeCoupon == "DiscountPercent" ? (

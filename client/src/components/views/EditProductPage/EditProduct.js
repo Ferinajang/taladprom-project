@@ -11,7 +11,7 @@ const {Title} = Typography;
 const {TextArea} = Input ;
 
 const Continents =[
-    {key : 1, value:"Shoe1"},
+    {key : 1, value:"เสื้อผ้า"},
     {key : 2, value:"Shoe2"},
     {key : 3, value:"Shoe3"},
     {key : 4, value:"Shoe4"},
@@ -193,7 +193,7 @@ function EditProduct(props) {
         <div style={{textAlign:'center' , marginBottom:'2rem auto'}}>
             <Title level={2} >แก้ไขสินค้าในร้านค้าของคุณ</Title>
         </div>
-        <a>เลือกรูปที่ 1</a>
+        {/* <a>เลือกรูปที่ 1</a>
         <div class="wrapper">
         <div class="file-upload">
             <input type="file" 
@@ -249,12 +249,12 @@ function EditProduct(props) {
         </div>
         <button onClick={handleUploadImage3}>อัปโหลด</button>
         <a>{URL}</a>
-        </div>
+        </div> */}
 
         <Form onSubmit={onSubmit}>
             <br></br>
             <label>ชื่อสินค้า</label>
-            <Input onChange={onTitleChange} value={TitleValue}></Input>
+            <Input onChange={onTitleChange} value={TitleValue} placeholder={productId.namePD}></Input>
             <br></br>
             <br></br>
             <label>รายละเอียดสินค้า</label>

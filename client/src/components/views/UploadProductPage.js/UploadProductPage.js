@@ -163,7 +163,7 @@ function UploadProductPage(props) {
 
       const images = [
         {
-          original: "https://firebasestorage.googleapis.com/v0/b/ferina-436c2.appspot.com/o/images%2Fforest_tree_nature_garden_wood_spring_icon_191925.png?alt=media&token=7d819df5-5f09-4f38-8a7c-91c5353d99da",
+          original: urlList[0],
           thumbnail: urlList[0],
         },
         {
@@ -274,11 +274,10 @@ function UploadProductPage(props) {
 
 
   return (
-    <div>
+    <div style={{width: "90%", margin: "1rem auto",marginLeft:'95px'}}>
       <div
         style={{
           textAlign: "center",
-          backgroundColor: "red",
         }}
       >
         <Title level={2}>เพิ่มสินค้าในร้านค้า</Title>
@@ -289,12 +288,11 @@ function UploadProductPage(props) {
           style={{
             width: "60%",
             margin:'20px',
-            marginTop:'50px',
             alignItem:'center',
             display:'grid'
           }}
         >
-          <div style={{width:'500px',marginLeft:'100px'}}>
+          <div style={{width:'500px',marginLeft:'50px'}}>
           <ImageGallery  items={images} />
 
           </div>
@@ -302,7 +300,6 @@ function UploadProductPage(props) {
         </div>
         <div
           style={{
-            backgroundColor: "pink",
             height: "auto",
             width: "60%",
             margin:'50px',

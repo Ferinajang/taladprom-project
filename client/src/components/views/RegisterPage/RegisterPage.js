@@ -104,13 +104,13 @@ function RegisterPage(props) {
         } = props;
         return (
           <div className="app">
-            <h2>Sign up</h2>
+            <h1 style={{textAlign:'center',fontWeight:'bolder',margin:'30px'}}>สมัครสมาชิก</h1>
             <Form style={{ minWidth: '375px' }} {...formItemLayout} onSubmit={handleSubmit} >
 
-              <Form.Item required label="Name">
+              <Form.Item required label="ชื่อ">
                 <Input
                   id="name"
-                  placeholder="Enter your name"
+                  placeholder="กรอกชื่อของคุณ"
                   type="text"
                   value={values.name}
                   onChange={handleChange}
@@ -124,10 +124,10 @@ function RegisterPage(props) {
                 )}
               </Form.Item>
 
-              <Form.Item required label="Last Name">
+              <Form.Item required label="นามสกุล">
                 <Input
                   id="lastName"
-                  placeholder="Enter your Last Name"
+                  placeholder="กรอกนามสกุลของคุณ"
                   type="text"
                   value={values.lastName}
                   onChange={handleChange}
@@ -141,10 +141,10 @@ function RegisterPage(props) {
                 )}
               </Form.Item>
 
-              <Form.Item required label="Email" hasFeedback validateStatus={errors.email && touched.email ? "error" : 'success'}>
+              <Form.Item required label="อีเมล" hasFeedback validateStatus={errors.email && touched.email ? "error" : 'success'}>
                 <Input
                   id="email"
-                  placeholder="Enter your Email"
+                  placeholder="กรอกอีเมลของคุณ"
                   type="email"
                   value={values.email}
                   onChange={handleChange}
@@ -157,10 +157,10 @@ function RegisterPage(props) {
                   <div className="input-feedback">{errors.email}</div>
                 )}
               </Form.Item>
-              <Form.Item required label="Password" hasFeedback validateStatus={errors.password && touched.password ? "error" : 'success'}>
+              <Form.Item required label="รหัสผ่าน" hasFeedback validateStatus={errors.password && touched.password ? "error" : 'success'}>
                 <Input
                   id="password"
-                  placeholder="Enter your password"
+                  placeholder="ตั้งรหัสผ่านของคุณ"
                   type="password"
                   value={values.password}
                   onChange={handleChange}
@@ -174,10 +174,10 @@ function RegisterPage(props) {
                 )}
               </Form.Item>
 
-              <Form.Item required label="Confirm" hasFeedback>
+              <Form.Item required label="ยืนยันรหัสผ่าน" hasFeedback>
                 <Input
                   id="confirmPassword"
-                  placeholder="Enter your confirmPassword"
+                  placeholder="กรอกรหัสผ่านอีกครั้งเพื่อยืนยัน"
                   type="password"
                   value={values.confirmPassword}
                   onChange={handleChange}
@@ -190,10 +190,10 @@ function RegisterPage(props) {
                   <div className="input-feedback">{errors.confirmPassword}</div>
                 )}
               </Form.Item>
-              <Form.Item required label="Address">
+              <Form.Item required label="ที่อยู่">
                 <Input
                   id="address"
-                  placeholder="Enter your Address"
+                  placeholder="กรอกที่อยู่ของคุณ"
                   type="text-area"
                   value={values.address}
                   onChange={handleChange}
@@ -207,11 +207,11 @@ function RegisterPage(props) {
                 )}
               </Form.Item>
 
-              <Form.Item required label="phoneNumber">
+              <Form.Item required label="เบอร์โทรศัพท์">
                 <Input
                   id="phoneNumber"
-                  placeholder="Enter your PhoneNumber"
-                  type="text-area"
+                  placeholder="กรอกเบอร์โทรศัพท์ของคุณ"
+                  type="text"
                   value={values.phoneNumber}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -227,7 +227,7 @@ function RegisterPage(props) {
 
               <Form.Item {...tailFormItemLayout}>
                 <Button onClick={handleSubmit} type="primary" disabled={isSubmitting}>
-                  Submit
+                  สมัครสมาชิก
                 </Button>
               </Form.Item>
             </Form>

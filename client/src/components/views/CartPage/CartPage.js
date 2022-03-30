@@ -146,6 +146,7 @@ function CartPage(props) {
         })
 
   }
+  
   const CreateOrderModal = (productId) => {
     console.log(productId);
     if (productId.quantityPD == 0) {

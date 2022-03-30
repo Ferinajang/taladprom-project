@@ -94,7 +94,7 @@ input.error {
 .input-feedback {
   color: red;
   height: 5px;
-  margin-top: -12px;
+  margin-top: 1px;
 }
 html{
   height:100%;
@@ -157,13 +157,32 @@ input[type="checkbox"] {
 
     border:4px solid #FFFFFF;
     overflow:hidden;
-    background-image: linear-gradient(to bottom, #8fb5d6 50%, #FFFFFF 50%);
+    background-image: linear-gradient(to bottom, #eaf5ff 50%, #FFFFFF 50%);
     background-size: 100% 200%;
     transition: all 1s;
     color: #FFFFFF;
     font-size:20px;
   }
 
+  .file-upload-cart{
+
+    height: 40px;
+    width:325px;
+    border-radius: 50px;
+    position:relative;
+    
+    display:flex;
+    justify-content:center;
+    align-items: center;  
+
+    border:4px solid #FFFFFF;
+    overflow:hidden;
+    background-image: linear-gradient(to bottom,#2F2851 50%, #FFFFFF 50%);
+    background-size: 100% 200%;
+    transition: all 1s;
+    color: #FFFFFF;
+    font-size:14px;
+  }
   
 .checkbox {
     display: inline-block;

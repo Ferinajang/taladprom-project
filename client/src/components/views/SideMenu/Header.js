@@ -86,6 +86,12 @@ const Header = (props) => {
     const [ImagePayment, setImagePayment] = useState("")
     const [Image, setImage] = useState("")
     const [progress, setProgress] = useState(0)
+        //random
+    const [modalCouponRandom, setmodalCouponRandom] = useState(false)
+    const [Coupon, setCoupon] = useState([])
+    const [CouponRandom, setCouponRandom] = useState([])
+    const [CouponLength, setCouponLength] = useState(0)
+
 
 
 
@@ -347,6 +353,45 @@ const Header = (props) => {
     const goToUpload = () => {
 
     }
+
+    ////////////////////////////////random///////////////////////////
+    const randomCoupon = () => {
+        Axios.post("/api/coupon/getCoupon").then((response) => {
+          if (response.data.success) {
+            let noOwnerCouponList = [];
+            response.data.coupon.forEach((item) => {
+              if (item.status == "no owner") {
+                console.log(item);
+                noOwnerCouponList.push(item);
+              }
+              // console.log(noOwnerCouponList);
+            });
+    
+            setCouponLength(Math.floor(Math.random() * noOwnerCouponList.length));
+            setCouponRandom(noOwnerCouponList[CouponLength]);
+          } else {
+            alert("Fialed to fecth data from mongodb");
+          }
+        });
+        setmodalCouponRandom(true);
+      };
+    
+      const gotCoupon=()=>{
+        const variables ={
+          id:CouponRandom._id,
+          status:"have owner",
+          OwnerName : user.userData.name,
+          OwnerID:user.userData._id
+      }
+      Axios.put('/api/coupon/addOwnerCoupon',variables)
+            .then(response =>{
+                if(response.data.success){
+                    alert('คูปองได้จัดเก็บดข้าคลังของคุณแล้ว')
+                }else{
+                    alert(response)
+                }
+            })
+          }
     return (
         
             <div id="header">
@@ -375,7 +420,7 @@ const Header = (props) => {
                             <MenuItem active={false} icon={<FiShoppingCart />} onClick={() => setModalCart(true)}>CART</MenuItem>
                             <MenuItem active={false} icon={<FaClipboardList />} onClick={orderList}>MY ORDER</MenuItem>
                             <MenuItem active={false} icon={<RiCoupon3Fill />} onClick={() => setModalCoupon(true)}>COUPON</MenuItem>
-                            <MenuItem active={false} icon={<FiHome />} onClick={() => window.location.href = "/"}>HOME</MenuItem>
+                            <MenuItem active={false} icon={<FiHome />} onClick={() =>randomCoupon()}>HOME</MenuItem>
                         </Menu>
                     </SidebarContent>
                     <SidebarFooter>
@@ -527,6 +572,67 @@ const Header = (props) => {
 
 
                 </Modal>
+
+                <Modal className="modal-coupon-random-head" isOpen={modalCouponRandom}>
+              <div
+                style={{
+                  height: "15px",
+                  fontSize: "25px",
+                  textAlign: "right",
+                  margin: "10px",
+                }}
+                onClick={() => setmodalCouponRandom(false)}
+              >
+                <MdClear style={{ cursor: "pointer" }} />
+              </div>
+              <div style={{height:'50vh'}}>
+              <div style={{textAlign: "center" }}>
+                <h1>ยินดีด้วย!!</h1>
+                <h2>คุณได้รับคูปองส่วนลด</h2>
+              </div>
+              <div style={{alignItems: "center" ,margin:'20px' ,marginLeft:'50px'}}>
+              <Card  style={{width:'500px'}}>
+              <div style={{ display: "flex" }}>
+                {CouponRandom.typeCoupon == "DiscountPercent" ? (
+                  <img
+                    width={150}
+                    src={
+                      "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
+                    }
+                  />
+                ) : CouponRandom.typeCoupon == "DiscountMoney" ? (
+                  <img
+                    width={150}
+                    src={
+                      "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
+                    }
+                  />
+                ) : (
+                  <img
+                    width={150}
+                    src={
+                      "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
+                    }
+                  />
+                )}
+                <div style={{ display: "block", marginLeft: "20px" }}>
+                  <h1>{CouponRandom.nameCoupon}</h1>
+                  <a>ร้าน {CouponRandom.shopName}</a>
+                  <p>ส่วนลด {CouponRandom.discount} บาท</p>
+                </div>
+                <div style={{float:'right'}}>
+              </div>
+              </div>
+            </Card>
+
+              </div>
+              <div style={{ textAlign:'center'}}>
+              <Button onClick={gotCoupon}>รับคูปอง</Button>
+
+              </div>
+        
+              </div>
+        </Modal>
             </div>
 
     );

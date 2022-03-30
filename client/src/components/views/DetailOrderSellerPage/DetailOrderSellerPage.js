@@ -189,7 +189,7 @@ function DetailOrderSellerPage(props) {
   }
 
   return (
-    <div className="postPage" style={{ width: "100%", padding: "2rem 4rem" }}>
+    <div className="postPage" style={{ width: "90%", padding: "2rem 4rem" ,marginLeft:'90px'}}>
       <div style={{ display: "block", justifyContent: "center" }}>
 
       {Order.status == "Not Confirmed" ?
@@ -228,7 +228,7 @@ function DetailOrderSellerPage(props) {
      <h1>Order NO : {Order._id}</h1>
      <div  style={{display:'flex'}} >
         <h2 style={{fontWeight:'bold' }}>สถานะคำสั่งซื้อ :</h2>
-        {Order.status == "Not Confirmed" ? <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'green'}} >รอการยืนยันคำสั่งซื้อ</h2>:
+        {Order.status == "Not Confirmed" ? <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'red'}} >รอการยืนยันคำสั่งซื้อ</h2>:
         Order.status == "pending" ? <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'#ffc53d'}}>รอการส่งเลขพัศดุ</h2>:
         Order.status == "success" ? <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'green'}}>เสร็จสิ้น</h2>:
         <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'#cf1322'}}>ยกเลิกคำสั่งซื้อ</h2>
@@ -330,7 +330,7 @@ function DetailOrderSellerPage(props) {
           </Button>,
         ]}
       >
-        <img style={{ width: "100%" }} src={Order.imagesPayment} />
+        <img style={{ width: "100%" }} src={"https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/277232762_1148139832650601_2965467530729032920_n.jpg?alt=media&token=6f15da42-9559-4bb7-85ee-2b62bdc679b9"} />
       </Modal>
     </div>
   );

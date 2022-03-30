@@ -229,8 +229,9 @@ function LandingPage(props) {
           if(product.writerName == props.user.userData.name && product.recommended == "recommended"){
           return (
             <Col lg={4} md={8} xs={24}> 
-            {product.recommended == "recommended" ?  <div><Button style={{ width: "160px" ,margin:'10px'}} onClick={()=>UnRecommendedProduct(product)} >สินค้าแนะนำ <StarFilled style={{color:'yellow'}}/></Button></div> :
-            <div><Button style={{ width: "160px"}}  onClick={()=>addRecommendedProduct(product)} >สินค้าแนะนำ <StarOutlined /></Button></div>  
+           {product.recommended == "recommended" ?  
+            <div><Tooltip title="นำออกจากสินค้าเเนะนำ"><Button  type="text" style={{ width: "220px",height:"50px",fontSize:'18px',fontWeight:'normal'}} onClick={()=>UnRecommendedProduct(product)} >สินค้าแนะนำ <StarFilled style={{color:'yellow'}}/></Button></Tooltip></div> :
+            <div><Tooltip title="เพิ่มเป็นสินค้าเเนะนำ"><Button type="text" style={{ width: "220px",height:"50px",fontSize:'18px',fontWeight:'normal'}} onClick={()=>addRecommendedProduct(product)} >สินค้าแนะนำ <StarOutlined /></Button></Tooltip></div>  
             } 
               <a href={`/productSeller/${product._id}`}>
                 <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
@@ -283,7 +284,7 @@ function LandingPage(props) {
     }else{
 
     return (
-      <div style={{ width: "95%", margin: "1rem auto" }}>
+      <div style={{ width: "90%", margin: "1rem auto",marginLeft:'95px' }}>
         <div
           style={{
             display: "flex",
@@ -394,9 +395,10 @@ function LandingPage(props) {
                 textAlign: "center",
                 margin: "50px",
                 marginTop: "10px",
+
               }}
             >
-              <h1>สินค้าแนะนำในร้านของคุณ</h1>
+              <h2 style={{fontWeight:'bold' }}>สินค้าแนะนำในร้านของคุณ</h2>
               <Row gutter={[16, 16]}>{renderCardsRecomended}</Row>
             </div>
           </Modal>

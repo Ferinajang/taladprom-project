@@ -114,10 +114,8 @@ function LandingPage(props) {
           if(order.shopID == props.user.userData.shopID && order.status == "Not Confirmed"){
           return (
             <Col lg={6}>
-               
                <a href={`/orderSeller/${order._id}`}> 
-               
-                <Card hoverable={true} style={{border: '3px solid #ffb6ad'}}>
+                <Card hoverable={true}>
                   <Meta
                     title={order.namePD}
                   ></Meta>
@@ -246,13 +244,12 @@ function LandingPage(props) {
       <div style={{ width: "75%", margin: "3rem auto" }}>
         <div style={{ textAlign: "center" }}>
           <a class="homeHeader"></a>
-          <h2>รายการคำสั่งซื้อ </h2>
+          <h1  style={{fontWeight:'bold' }}>รายการคำสั่งซื้อ </h1>
           <Tabs defaultActiveKey="1" onChange={callback}>
             <TabPane tab="รอการยืนยันคำสั่งซื้อ" key="1">
               <Row gutter={[24, 24]}>
                 {renderCardsNotConfirm}
               </Row>
-              
             </TabPane>
             <TabPane tab="รอการยืนยันคำสั่งซื้อ" key="2">
             <Row gutter={[24, 24]}>

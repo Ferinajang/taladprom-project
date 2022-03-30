@@ -43,7 +43,7 @@ function HomeShopManage(props) {
     );
   } else {
     return (
-      <div style={{ display: "block",padding:'20px' }}>
+      <div style={{ display: "block",padding:'20px',marginLeft:"80px" }}>
         <div style={{paddingLeft:'20px' }}>
         <h2 style={{fontWeight:'bolder' ,}}>ยินดีต้อนรับ คุณ {ShopData.ownerName}</h2>
           <h1 style={{fontWeight:'bolder' ,}}>{ShopData.nameShop}</h1>

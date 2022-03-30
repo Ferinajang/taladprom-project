@@ -49,6 +49,12 @@ const orderSchema = mongoose.Schema({
     }, 
     productID:{
         type:String
+    },
+    addressOrder:{
+        type:String
+    },
+    phoneNumberOrder:{
+        type:String
     }
 })
 
