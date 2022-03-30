@@ -670,7 +670,7 @@ const Header = (props) => {
             {/* collapsed props to change menu size using menucollapse state */}
             <ProSidebar collapsed={menuCollapse}>
               <SidebarHeader>
-                <div className="logotext">
+                <div className="logotext" style={{margin:"5px"}}>
                   {/* small and big change using menucollapse state */}
                   <p>{menuCollapse ? "Logo" : "Big Logo"}</p>
                 </div>
@@ -679,7 +679,7 @@ const Header = (props) => {
                   {menuCollapse ? (
                     <FiArrowRightCircle
                       style={{
-                        color: "#FFC269",
+                        color: "#2F2851",
                         marginTop: "6px",
                         marginRight: "22px",
                       }}
@@ -687,7 +687,7 @@ const Header = (props) => {
                   ) : (
                     <FiArrowLeftCircle
                       style={{
-                        color: "#FFC269",
+                        color: "#2F2851",
                         marginTop: "6px",
                         marginRight: "100px",
                       }}
