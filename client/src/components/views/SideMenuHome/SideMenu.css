@@ -20,6 +20,11 @@
   #header .pro-sidebar {
     width: 100%;
     min-width: 100%;
+    
+  }
+  #header .pro-sidebar-header {
+    height: "60px";
+    
   }
   #header .pro-sidebar.collapsed {
     width: 40px;

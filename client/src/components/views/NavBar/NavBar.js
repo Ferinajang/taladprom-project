@@ -22,7 +22,7 @@ function NavBar() {
     <div>
       <nav
         className="menu"
-        style={{ position: "fixed", zIndex: 5, width: "100%", height: "72px" }}
+        style={{ position: "fixed", zIndex: 5, width: "100%", height: "60px" }}
       >
         {/* <div className="menu__logo">
         <a href="/">TALADPROM</a>

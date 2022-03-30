@@ -670,7 +670,7 @@ const Header = (props) => {
             {/* collapsed props to change menu size using menucollapse state */}
             <ProSidebar collapsed={menuCollapse}>
               <SidebarHeader>
-                <div className="logotext" style={{margin:"5px"}}>
+                <div className="logotext" style={{marginTop:"7.5px"}}>
                   {/* small and big change using menucollapse state */}
                   <p>{menuCollapse ? "Logo" : "Big Logo"}</p>
                 </div>
