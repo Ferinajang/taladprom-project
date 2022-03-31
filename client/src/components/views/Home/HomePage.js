@@ -2,7 +2,7 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Icon, Col, Row } from "antd";
 import Modal from 'react-modal'
-import { get } from "mongoose";
+import Header from "../SideMenuHome/Header";
 
 const { Meta } = Card;
 
@@ -26,7 +26,6 @@ function HomePage(props) {
           setShops(response.data.shops);
           //console.log("shop");
         } else {
-          alert("Fialed to fecth data from mongodb")
         }
       });
   }, []);
@@ -45,7 +44,6 @@ function HomePage(props) {
       } )}
     
       else {
-        alert("Fialed to fecth data from mongodb");
       }
     });
 }, [])
@@ -105,6 +103,7 @@ const setModalIsOpenToFalse =()=>{
   
   return (
     <div>
+       <Header/>
       <a class="homeHeader">ยินดีต้อนรับสู่ TALADPROM</a>
       <div class="wrapperImgHome">
         <div>

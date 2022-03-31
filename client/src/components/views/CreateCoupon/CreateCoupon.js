@@ -7,6 +7,7 @@ import Axios from 'axios'
 import moment from "moment";
 import {useDispatch} from 'react-redux'
 import CountDownTimeOut from './Section/CountDownTimeOut';
+import HeaderHomeSeller from '../SlideMenuHomeSeller/HeaderHomeSeller';
 const { TabPane } = Tabs;
 
 function CreateCoupon(props) {
@@ -40,6 +41,8 @@ function CreateCoupon(props) {
 
   
   useEffect(( ) => {
+    document.getElementById("HeaderHome").style.display = "none";
+
     Axios.post("/api/coupon/getCoupon").then((response) => {
       if (response.data.success) {
         setCouponShop(response.data.coupon)
@@ -76,7 +79,7 @@ CouponShop.map((coupon, index) => {
 }else{
   if(coupon.shopID == props.user.userData.shopID && coupon.status == "have owner"){
   return (
-      <Col lg={12} style={{marginLeft:'100px'}}>
+      <Col  lg={12} md={8} xs={24} style={{alignItems:'center'}}>
          <Popover placement="topLeft" title="คูปองจะหมดอายุในอีก" content={content(coupon)}>
           <Card>
             <div style={{ display: "flex" }}>
@@ -102,7 +105,7 @@ CouponShop.map((coupon, index) => {
                   }
                 />
               )}
-              <div style={{ display: "block", marginLeft: "70px" ,textAlign:'left'}}>
+              <div style={{ display: "block", marginLeft: "60px" ,textAlign:'left'}}>
                 <h2>{coupon.nameCoupon}</h2>
                 <p>ร้าน {coupon.shopName}</p>
                 <p>ส่วนลด {coupon.discount} บาท</p>
@@ -127,7 +130,7 @@ CouponShop.map((coupon, index) => {
 }else{
   if(coupon.shopID == props.user.userData.shopID && coupon.status == "no owner"){
   return (
-      <Col lg={12} style={{marginLeft:'100px'}}>
+      <Col  lg={12} md={8} xs={24} style={{alignItems:'center',backgroundColor:'red'}}>
          <Popover placement="topLeft" title="คูปองจะหมดอายุในอีก" content={content(coupon)}>
           <Card>
             <div style={{ display: "flex" }}>
@@ -181,9 +184,9 @@ CouponShop.map((coupon, index) => {
 }else{
   if(coupon.shopID == props.user.userData.shopID && coupon.status == "timeOut"){
   return (
-      <Col  style={{marginLeft:'100px'}}>
+      <Col lg={12} md={8} xs={24} style={{alignItems:'center' ,width:'100%',height:'20vh',backgroundColor:'red',position:'fixed'}}>
         <Popover placement="topLeft" title="คูปองจะหมดอายุในอีก" content={content(coupon)}> <Card>
-            <div style={{ display: "flex" }}>
+            <div style={{ display: "flex"}}>
               {coupon.typeCoupon == "DiscountPercent" ? (
                 <img
                   width={150}
@@ -353,11 +356,17 @@ const chooseTypeCoupon =()=>{
 
 
   return (
-    <div
-      style={{
-        width: "100%",
-      }}
-    >
+    <div style={{ marginTop:'-69px'}}>
+       <HeaderHomeSeller />
+      <div >
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>     
+      </div>
+    
+    <div>
       <Button
         style={{ float: "right", marginRight: "70px" }}
         size="large"
@@ -368,7 +377,6 @@ const chooseTypeCoupon =()=>{
       <div>
         <h1
           style={{
-            marginTop: "50px",
             textAlign: "center",
             marginLeft: "180px",
             fontWeight: "bolder",
@@ -393,31 +401,35 @@ const chooseTypeCoupon =()=>{
             defaultActiveKey="1"
             onChange={callback}
             style={{
-              marginTop: "50px",
+              marginTop: "30px",
               marginRight: "50px",
               alignItems: "center",
               width: "100%",
             }}
           >
             <TabPane tab="คูปองส่วนลดยังไม่ถูกเก็บ" key="1">
-              <div style={{ width: "100%", float: "-moz-initial" }}>
-                <Row gutter={[24, 24]} style={{ alignItems: "center" }}>
+              <div style={{ width: "90%", float: "-moz-initial" }}>
+              <div style={{ width: "80%", alignItems: "center" ,marginLeft:'150px'}}>
+              <Row gutter={[12, 12]} style={{ alignItems: "center" }}>
                   {renderCardsCouponShopNoOwner}
                 </Row>
+                </div>
               </div>
             </TabPane>
             <TabPane tab="คูปองส่วนลดถูกเก็บแล้ว" key="2">
+            <div style={{ width: "80%", alignItems: "center" ,marginLeft:'150px'}}>
               <Row gutter={[12, 12]} style={{ alignItems: "center" }}>
                 {renderCardsCouponShopHaveOwner}
               </Row>
+              </div>
             </TabPane>
             <TabPane
               tab="คูปองส่วนลดถูกใช้แล้ว/หมดเวลา"
               style={{ alignItems: "center" }}
               key="3"
             >
-              <div>
-                <Row gutter={[24, 24]} style={{ alignItems: "center" }}>
+             <div style={{ width: "80%", alignItems: "center" ,marginLeft:'150px'}}>
+              <Row gutter={[12, 12]} style={{ alignItems: "center" }}>
                   {renderCardsCouponShopTimeOut}
                 </Row>
               </div>
@@ -730,6 +742,7 @@ const chooseTypeCoupon =()=>{
           </div>
         </div>
       </Modal>
+    </div>
     </div>
   );
 }

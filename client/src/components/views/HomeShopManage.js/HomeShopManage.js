@@ -3,6 +3,7 @@ import Axios from 'axios';
 import { Typography,Button,Form,message,Input,Icon } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Loading from '../../Loading';
+import Header from '../SideMenu/Header';
 
 function HomeShopManage(props) {
   const [ShopData, setShopData] = useState([]);
@@ -43,6 +44,7 @@ function HomeShopManage(props) {
     );
   } else {
     return (
+      
       <div style={{ display: "block",padding:'20px',marginLeft:"80px" }}>
         <div style={{paddingLeft:'20px' }}>
         <h2 style={{fontWeight:'bolder' ,}}>ยินดีต้อนรับ คุณ {ShopData.ownerName}</h2>

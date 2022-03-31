@@ -56,7 +56,7 @@ const { Step } = Steps;
 const { TabPane } = Tabs;
 
 
-const Header = (props) => {
+const HeaderHomeSeller = (props) => {
     const [modalCart, setModalCart] = useState(false);
     const [modalOrder, setModalOrder] = useState(false);
     const [order, setorder] = useState([]);
@@ -736,9 +736,8 @@ const Header = (props) => {
           </div>
       )}else{
 
-
         return (
-          <div id="header">
+          <div id="header" style={{position:'fixed'}}>
             {/* collapsed props to change menu size using menucollapse state */}
             <ProSidebar collapsed={menuCollapse}>
               <SidebarHeader>
@@ -752,7 +751,7 @@ const Header = (props) => {
                     <FiArrowRightCircle
                       style={{
                         color: "#2F2851",
-                        marginTop: "6px",
+                        marginTop: "15px",
                         marginRight: "22px",
                       }}
                     />
@@ -767,45 +766,8 @@ const Header = (props) => {
                   )}
                 </div>
               </SidebarHeader>
-              <SidebarContent style={{ marginTop: "50px" }}>
-                <Menu iconShape="square">
-                  <MenuItem
-                    active={false}
-                    icon={<ImSearch />}
-                    onClick={() => (window.location.href = "/taladprom-shop")}
-                  >
-                    
-                    SEARCH
-                    
-                  </MenuItem>
-                  
-                  <MenuItem
-                    active={false}
-                    icon={ <Badge count={user.userData && user.userData.cart.length}><FiShoppingCart /> </Badge>}
-                    onClick={() => setModalCart(true)}
-                  >
-                   
-                    
-                    CART
-                   
-                    
-                   
-                  </MenuItem>
-                 
-                  <MenuItem
-                    active={false}
-                    icon={<FaClipboardList />}
-                    onClick={orderList}
-                  >
-                    MY ORDER
-                  </MenuItem>
-                  <MenuItem
-                    active={false}
-                    icon={<RiCoupon3Fill />}
-                    onClick={() => couponList()}
-                  >
-                    COUPON
-                  </MenuItem>
+              <SidebarContent style={{ marginTop: "40px" }}>
+                <Menu iconShape="square">        
                   <MenuItem
                     active={false}
                     icon={<FaUserEdit />}
@@ -1503,4 +1465,4 @@ const Header = (props) => {
   }
 };
 
-export default withRouter(Header);
+export default withRouter(HeaderHomeSeller);

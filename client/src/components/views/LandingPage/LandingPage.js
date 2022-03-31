@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React ,{useEffect ,useState} from 'react'
-import {Card, Icon,Col,Row,Button,Tooltip,Menu,Table,Input } from 'antd';
+import {Card, Icon,Col,Row,Button,Tooltip,Menu,Table,Input ,InputNumber} from 'antd';
 import CheckBox from './Section/CheckBox';
 import RadioBox from './Section/RadioBox';
 import { continentsPD,price } from './Section/Data';
@@ -51,7 +51,6 @@ function LandingPage(props) {
     
 
     // console.log(props);
-    console.log(count);
 
     useEffect(() =>{
         const variables={
@@ -254,28 +253,55 @@ function LandingPage(props) {
         }
        }
     });
-    const onQuanityChange =(event)=>{
-      setQuantityValue(event.currentTarget.value)
+    console.log(QuantityValue);
+    const onQuanityChange =(value)=>{
+      setQuantityValue(value)
   }
   const addquantity =(product)=>{
     setTmp(product)
     setModalUpdateQuantityADD(true)
   }
 
+  
+  const openModalUpdateStock =()=>{
+    Axios.post('/api/product/getProducts')
+    .then(response => {
+        if(response.data.success){
+            console.log(response.data.products);
+                setProducts(response.data.products)         
+                setModalUpdateQuantity(true)
+        }else{
+            alert("Fialed to fecth data from mongodb")
+
+        }
+
+  })}
+
   const confirmAddQuantity =()=>{
-    console.log(Tmp._id);
-    console.log(typeof(QuantityValue));
+    setModalUpdateQuantityADD(false)
+    setModalUpdateQuantity(false)
 
-  //   const variables = {
-  //     id: Tmp._id,
-  //     quantityPD: Tmp.quantityPD + QuantityValue,
-  // };
-  // Axios.put("/api/product/updateQuantityAdd", variables).then(
-  //     (response) => {
-  //       alert("ok")
+    const variables = {
+      id: Tmp._id,
+      quantityPD: Tmp.quantityPD + QuantityValue,
+  };
+  Axios.put("/api/product/updateQuantityAdd", variables).then(
+      (response) => {
+        Axios.post('/api/product/getProducts')
+    .then(response => {
+        if(response.data.success){
+          console.log(response.data.products);
+          setProducts(response.data.products)
+          setQuantityValue(0)
+          setModalUpdateQuantity(true)
+        } else {
+          alert("Fialed to fecth data from mongodb")
 
-  //     })
-  }
+        }
+        
+        
+      })
+  })}
   
 
     const renderCardsQuantity= Products.map((product, index) => {
@@ -335,9 +361,11 @@ function LandingPage(props) {
         window.location.href = "/product/upload"
     }
 
-    const handleClick = e => {
+    const handleClick = (e) => {
+      console.log(e);
       setCurrent(e.key);
     };
+    
   
 
 
@@ -371,7 +399,6 @@ function LandingPage(props) {
             <Menu
               onClick={handleClick}
               style={{ width: 180 ,display: "block",
-              backgroundColor: "red",
               textAlign:'end',
             float:'right'}}
               selectedKeys={[Current]}
@@ -381,9 +408,9 @@ function LandingPage(props) {
             >
               <SubMenu key="sub1" icon={<MailOutlined />} title="จัดการสินค้า">
                 <Menu.Item key="1" onClick={goToShop}>เพิ่มสินค้า</Menu.Item>
-                <Menu.Item key="2" onClick={()=>setModalUpdateQuantity(true)}>เพิ่มสต๊อกสินค้า</Menu.Item>
+                <Menu.Item key="2" onClick={()=>openModalUpdateStock()}>เพิ่มสต๊อกสินค้า</Menu.Item>
               </SubMenu>
-              <Menu.Item key="5"onClick={manageRecomendedProduct}>จัดการสินค้าแนะนำ</Menu.Item>
+              <Menu.Item key="3"onClick={manageRecomendedProduct}>จัดการสินค้าแนะนำ</Menu.Item>
             </Menu>
          
         </div>
@@ -504,6 +531,7 @@ function LandingPage(props) {
                     <th>ชื่อสินค้า</th>
                     <th>ราคา</th>
                     <th>จำนวนปัจจุบัน</th>
+                    <th>เพิ่มจำนวนสินค้า</th>
                   </tr>
                 </thead>
                 <tbody>{renderCardsQuantity}</tbody>
@@ -529,11 +557,7 @@ function LandingPage(props) {
               <MdClear style={{ cursor: "pointer" }} />
             </div>
             <h2>ใส่จำนวนที่ต้องการ</h2>
-            <Input
-              onChange={onQuanityChange}
-              value={QuantityValue}
-              type="number"
-            ></Input>
+            <InputNumber value={QuantityValue} onChange={onQuanityChange} />
             <button onClick={()=>confirmAddQuantity()}>ยืนยัน</button>
           </Modal>
         </div>

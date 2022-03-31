@@ -164,6 +164,19 @@ router.post("/getProductByID", auth, (req, res) => {
 })
  });
 
+
+ 
+router.put("/deleteProductByID", auth, (req, res) => {
+    Product.findByIdAndDelete({_id:req.body.id},
+        (error,product)=>{
+            if(error){
+                return res.status(400).json({success:false,error})
+            }else{
+                return res.status(200).json({success:true,product})
+            }
+        }) 
+});
+
  router.post("/getProductByIDEdit", auth, (req, res) => {
     Product.find({_id:req.body.id})
     .exec((err,product)=>{

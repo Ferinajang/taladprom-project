@@ -534,8 +534,7 @@ function GamePage(props) {
       } else {
     return (
         <div >
-            <Header />
-
+            <Header/>
             <div style={{ marginTop: "-69px" }}>
                 <Unity unityContext={unityContext} style={{ width: "100%", height: "100vh", background: "grey" }} />
             </div>
