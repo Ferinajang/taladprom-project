@@ -22,7 +22,7 @@ import DetailOrderPage from './views/DetailOrderPage/DetailOrderPage';
 import DetailProductPageSeller from './views/DetailProductPageSeller/DetailProductPageSeller';
 import CreateCoupon from './views/CreateCoupon/CreateCoupon';
 import DetailOrderSellerPage from './views/DetailOrderSellerPage/DetailOrderSellerPage';
-import Header from './views/SideMenuHome/Header';
+import HeaderHome from './views/SideMenuHome/HeaderHome';
 //null   Anyone Can go inside
 //true   only logged in user can go inside
 //false  logged in user can't go inside
@@ -32,7 +32,7 @@ function App() {
     <Suspense fallback={(<div>Loading...</div>)}>
       <div id="NavBar">
       <NavBar />
-      <Header/>
+      <HeaderHome/>
       {/* <RightMenu/> */}
       </div>
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>

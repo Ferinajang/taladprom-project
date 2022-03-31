@@ -1,11 +1,12 @@
 .modalChoosePosition{
     width: 900px;
     height: 500px;
-    background-color: pink;
+    background-color: white;
     margin: auto;
     margin-top: 100px;
     align-items: center;
     border-radius: 20px;
     justify-content: center;
+    border: 3px solid rgba(0, 0, 0, 0.05);
     
 }

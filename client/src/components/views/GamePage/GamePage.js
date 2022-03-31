@@ -20,10 +20,10 @@ import Loading from "../../Loading";
 const { Meta } = Card;
 
 const unityContext = new UnityContext({
-    loaderUrl: "Game/build26.loader.js",
-    dataUrl: "Game/build26.data",
-    frameworkUrl: "Game/build26.framework.js",
-    codeUrl: "Game/build26.wasm",
+    loaderUrl: "Game/build29.loader.js",
+    dataUrl: "Game/build29.data",
+    frameworkUrl: "Game/build29.framework.js",
+    codeUrl: "Game/build29.wasm",
 });
 
 
@@ -32,7 +32,13 @@ function GamePage(props) {
     const [modalMiniShelf, setModalMiniShelf] = useState(false);
     const [modalSeller, setModalSeller] = useState(false);
     const [modalCouponRendom, setModalCouponRendom] = useState(false);
+    const [modalShopSign, setModalShopSign] = useState(false);
+    const [modalCouponRandom, setmodalCouponRandom] = useState(false)
+    const [modalMiniShelf1, setModalMiniShelf1] = useState(true);
+    
 
+    const [modalCoupon, setModalCoupon] = useState(false);
+    const [shopNum, SetShopNum] = useState("");
     const [ShopNumberFromUnity, setShopNumberFromUnity] = useState("");
     const [CounterNumberFromUnity, setCounterNumberFromUnity] = useState("");
     const [Product, setProduct] = useState([]);
@@ -56,18 +62,23 @@ function GamePage(props) {
     //cart
     const [loading, setloading] = useState(true);
     const [uData, setuData] = useState([]);
-    
+
+
+    const [Coupon, setCoupon] = useState([])
+    const [CouponRandom, setCouponRandom] = useState([])
+    const [CouponLength, setCouponLength] = useState(0)
+
 
 
 
     const loadingData = () => {
         if (!props.user.userData) {
-          
+
         } else {
-          setuData(props.user.userData)
-          setloading(false)
+            setuData(props.user.userData)
+            setloading(false)
         }
-      };
+    };
 
 
     // function closeModal() {
@@ -92,7 +103,15 @@ function GamePage(props) {
 
         unityContext.on("sendTrigCoupon", function (isTriggerCoupon) {
             setModalCouponRendom(isTriggerCoupon);
+            if (isTriggerCoupon) {
+                randomCoupon()
+            }
 
+        });
+
+        unityContext.on("sendShopSign", function (isTriggerSignShop, shopnum) {
+            setModalShopSign(isTriggerSignShop);
+            SetShopNum(shopnum.toString());
         });
 
 
@@ -106,10 +125,11 @@ function GamePage(props) {
                 console.log("nulllll");
             }
             if (ShopNumber == "0") {
-                // rtc.localAudioTrack.close();
+                setModalMiniShelf(false);
+                rtc.localAudioTrack.close();
 
-                //   // Leave the channel.
-                // await rtc.client.leave();
+                  // Leave the channel.
+                await rtc.client.leave();
             }
             else {
                 startBasicCall()
@@ -121,7 +141,7 @@ function GamePage(props) {
                         // Set the channel name.
                         channel: "shop1",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADv5YzrDhkcthy/w6k6qrSaesWaQqJ+xJLPl4MuOiL3qj9HqLsAAAAAEAAhqfJE6Ho9YgEAAQDmej1i",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADtSN1edNJBTRgN/S9LQ8CHmrc5XY6gunRgw2f+M8kHFD9HqLsAAAAAEADR1hyrdFJGYgEAAQByUkZi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -133,7 +153,7 @@ function GamePage(props) {
                         // Set the channel name.
                         channel: "shop2",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IABouzFlcNjyGP2smSTWMA3OwRXEkOw5DyyscVIO208WiYUWoSIAAAAAEADR1hyrmFNGYgEAAQCWU0Zi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -143,9 +163,9 @@ function GamePage(props) {
                         // Pass your App ID here.
                         appId: "165d56d0f0c14892810e3a89f2ac1133",
                         // Set the channel name.
-                        channel: "shop2",
+                        channel: "shop3",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IAAb5A6c4HOLkeiBrbTMrjFDV3npIqUswYWNRmtNRsYk5hMmplUAAAAAEADR1hyryVNGYgEAAQDIU0Zi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -155,9 +175,9 @@ function GamePage(props) {
                         // Pass your App ID here.
                         appId: "165d56d0f0c14892810e3a89f2ac1133",
                         // Set the channel name.
-                        channel: "shop2",
+                        channel: "shop4",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADQM5A85TlUQWGlDztt1BVULTbKj+B8TYF+3N8p7l496rCzwssAAAAAEADR1hyrAFRGYgEAAQD/U0Zi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -167,9 +187,9 @@ function GamePage(props) {
                         // Pass your App ID here.
                         appId: "165d56d0f0c14892810e3a89f2ac1133",
                         // Set the channel name.
-                        channel: "shop2",
+                        channel: "shop5",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IAAnxAzGe3dCBlYObca1nmWwCf1vKWmvoH2kyA8jMdeJ1yaDxbwAAAAAEADR1hyrEVRGYgEAAQAQVEZi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -179,9 +199,9 @@ function GamePage(props) {
                         // Pass your App ID here.
                         appId: "165d56d0f0c14892810e3a89f2ac1133",
                         // Set the channel name.
-                        channel: "shop2",
+                        channel: "shop6",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IADUzPe9G9uKVZ0aZaXuSQZF0TVVQHnHd/dPKvJyQYMp8JzSzCUAAAAAEADR1hyr4lRGYgEAAQDhVEZi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -191,9 +211,9 @@ function GamePage(props) {
                         // Pass your App ID here.
                         appId: "165d56d0f0c14892810e3a89f2ac1133",
                         // Set the channel name.
-                        channel: "shop2",
+                        channel: "shop7",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IAD1KzPombJhd3GWST+C9ZItXw2vdKoIpR89yTwrGFEj+Ariy1IAAAAAEADR1hyrGVVGYgEAAQAYVUZi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -203,9 +223,9 @@ function GamePage(props) {
                         // Pass your App ID here.
                         appId: "165d56d0f0c14892810e3a89f2ac1133",
                         // Set the channel name.
-                        channel: "shop2",
+                        channel: "shop8",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IABrvrmmq73aC6d2Y4cZe9rRFYWgrhcA3xFB3U+Se6NdyZv/dMIAAAAAEADR1hyrJlVGYgEAAQAmVUZi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -215,9 +235,9 @@ function GamePage(props) {
                         // Pass your App ID here.
                         appId: "165d56d0f0c14892810e3a89f2ac1133",
                         // Set the channel name.
-                        channel: "shop2",
+                        channel: "shop9",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IABly7kvSI2lWfKMxoTI8mzD2OQIcZIan0HymEPaVnwdDQ3Pc7UAAAAAEADR1hyrmGJGYgEAAQCYYkZi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -227,9 +247,9 @@ function GamePage(props) {
                         // Pass your App ID here.
                         appId: "165d56d0f0c14892810e3a89f2ac1133",
                         // Set the channel name.
-                        channel: "shop2",
+                        channel: "shop10",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IABgoGPDBVWjMtU3caTIf7O2NdJ4zXVOsRKm6s6ztAfI0ltaBkIAAAAAEADR1hyrtWJGYgEAAQC0YkZi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -239,9 +259,9 @@ function GamePage(props) {
                         // Pass your App ID here.
                         appId: "165d56d0f0c14892810e3a89f2ac1133",
                         // Set the channel name.
-                        channel: "shop2",
+                        channel: "shop11",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IAC7/Ccrgc/O9CyZduJKtO/eUbAMpCa24peSpt3uy2eqF81qATUAAAAAEADR1hyrzmJGYgEAAQDNYkZi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -251,9 +271,9 @@ function GamePage(props) {
                         // Pass your App ID here.
                         appId: "165d56d0f0c14892810e3a89f2ac1133",
                         // Set the channel name.
-                        channel: "shop2",
+                        channel: "shop12",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADVkNBWPbKX15CL/Am97aTg2cuUx7pObWv7RpZBZmHTQ4UWoSIAAAAAEAAhqfJENr49YgEAAQA0vj1i",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IAByJWIp5gZIRcrdRglCjelyDWYEG7KLsUNBuycZUojsO3c7CKwAAAAAEADR1hyr6GJGYgEAAQDnYkZi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -403,6 +423,44 @@ function GamePage(props) {
 
     });
 
+    const randomCoupon = () => {
+        Axios.post("/api/coupon/getCoupon").then((response) => {
+            if (response.data.success) {
+                let noOwnerCouponList = [];
+                response.data.coupon.forEach((item) => {
+                    if (item.status == "no owner") {
+                        console.log(item);
+                        noOwnerCouponList.push(item);
+                    }
+                    // console.log(noOwnerCouponList);
+                });
+
+                setCouponLength(Math.floor(Math.random() * noOwnerCouponList.length));
+                setCouponRandom(noOwnerCouponList[CouponLength]);
+            } else {
+                alert("Fialed to fecth data from mongodb");
+            }
+        });
+        setmodalCouponRandom(true);
+    };
+
+    const gotCoupon = () => {
+        const variables = {
+            id: CouponRandom._id,
+            status: "have owner",
+            OwnerName: props.user.userData.name,
+            OwnerID: props.user.userData._id
+        }
+        Axios.put('/api/coupon/addOwnerCoupon', variables)
+            .then(response => {
+                if (response.data.success) {
+                    alert('คูปองได้จัดเก็บดข้าคลังของคุณแล้ว')
+                } else {
+                    alert(response)
+                }
+            })
+    }
+
     // const GetName = AllNameShop.map((shop, index) => {
 
     //     console.log(shop.nameShop)
@@ -513,7 +571,7 @@ function GamePage(props) {
 
         unityContext.send("ConnectToserver", "ClickOKOnReact2", "PlayerChar8");
         setModalSeller(false)
-        
+
     }
 
     const onclickbuttonBeBuyer = () => {
@@ -527,68 +585,129 @@ function GamePage(props) {
 
     if (loading) {
         return (
-          <div>
-            <Loading />;{loadingData()}
-          </div>
-        );
-      } else {
-    return (
-        <div >
-            <Header />
-
-            <div style={{ marginTop: "-69px" }}>
-                <Unity unityContext={unityContext} style={{ width: "100%", height: "100vh", background: "grey" }} />
+            <div>
+                <Loading />;{loadingData()}
             </div>
-            <Modal className="modal-ShowAllProduct"
-                isOpen={modalCounter}
-                contentLabel="Example Modal"
-            >
-
-                <div style={{ height: '20px', fontSize: '36px', textAlign: 'right', marginRight: '10px' }} onClick={() => setModalCounter(false)}>
-                    <MdClear style={{ cursor: 'pointer' }} /></div>
-                <p style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold' }}>{window["SHOPNAME_" + ShopNumberFromUnity]}</p>
-                <Row style={{ padding: '15px' }}>
-                    {renderCards}
-                </Row>
-            </Modal>
-
-            <Modal className="modal-BeforeGame"
-                isOpen={modalSeller}
-                contentLabel="Example Modal"
-            >   
-             <div style={{ height: '20px', fontSize: '36px', textAlign: 'right', marginRight: '10px' }} onClick={() => setModalSeller(false)}>
-                    <MdClear style={{ cursor: 'pointer' }} /></div>
-                {!props.user.userData.positionShop ? 
-                <div style={{textAlign:'center',justifyItems:'center',marginTop:'100px'}}>
-                <Button style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold',width:'420px',height:'60px',borderRadius:'10px' }} onClick={onclickbuttonBeBuyer}>เตรียมตัวเข้าสู่ตลาดเพื่อชอปปิง</Button>
-
+        );
+    } else {
+        return (
+            <div style={{}}>
+                <Header />
+                
+                <div style={{ marginTop: "-69px" }}>
+                    <Unity unityContext={unityContext} style={{ width: "100%", height: "100vh", background: "grey" }} />
                 </div>
-                : 
-                <div style={{textAlign:'center',justifyItems:'center',marginTop:'40px',display:'block'}}>
-                    <Button style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold',width:'300px',height:'60px',marginTop:'20px',borderRadius:'10px'  }} onClick={onclickbuttonBeBuyer}>เข้าไปชอปปิง</Button>
-                    <Button style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold',width:'380px',height:'60px' ,marginTop:'20px',borderRadius:'10px'}} onClick={onclickbuttonBeSeller}>เข้าไปยังร้านของคุณ</Button>
+                <Modal className="modal-ShowAllProduct"
+                    isOpen={modalCounter}
+                    contentLabel="Example Modal"
+                >
+
+                    <div style={{ height: '20px', fontSize: '36px', textAlign: 'right', marginRight: '10px' }} onClick={() => setModalCounter(false)}>
+                        <MdClear style={{ cursor: 'pointer' }} /></div>
+                    <p style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold' }}>{window["SHOPNAME_" + ShopNumberFromUnity]}</p>
+                    <Row style={{ padding: '15px' }}>
+                        {renderCards}
+                    </Row>
+                </Modal>
+
+                <Modal className="modal-BeforeGame"
+                    isOpen={modalSeller}
+                    contentLabel="Example Modal"
+                >
+                    <div style={{ height: '20px', fontSize: '36px', textAlign: 'right', marginRight: '10px' }} onClick={() => setModalSeller(false)}>
+                        <MdClear style={{ cursor: 'pointer' }} /></div>
+                    {!props.user.userData.positionShop ?
+                        <div style={{ textAlign: 'center', justifyItems: 'center', marginTop: '100px' }}>
+                            <Button style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold', width: '420px', height: '60px', borderRadius: '10px' }} onClick={onclickbuttonBeBuyer}>เตรียมตัวเข้าสู่ตลาดเพื่อชอปปิง</Button>
+
+                        </div>
+                        :
+                        <div style={{ textAlign: 'center', justifyItems: 'center', marginTop: '40px', display: 'block' }}>
+                            <Button style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold', width: '300px', height: '60px', marginTop: '20px', borderRadius: '10px' }} onClick={onclickbuttonBeBuyer}>เข้าไปชอปปิง</Button>
+                            <Button style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold', width: '380px', height: '60px', marginTop: '20px', borderRadius: '10px' }} onClick={onclickbuttonBeSeller}>เข้าไปยังร้านของคุณ</Button>
+                        </div>
+                    }
+
+
+
+
+                </Modal>
+
+                <Modal className="modal-coupon-random-head" isOpen={modalCouponRandom}>
+                    <div
+                        style={{
+                            height: "15px",
+                            fontSize: "25px",
+                            textAlign: "right",
+                            margin: "10px",
+                        }}
+                        onClick={() => setmodalCouponRandom(false)}
+                    >
+                        <MdClear style={{ cursor: "pointer" }} />
+                    </div>
+                    <div style={{ height: '50vh' }}>
+                        <div style={{ textAlign: "center" }}>
+                            <h1>ยินดีด้วย!!</h1>
+                            <h2>คุณได้รับคูปองส่วนลด</h2>
+                        </div>
+                        <div style={{ alignItems: "center", margin: '20px', marginLeft: '50px' }}>
+                            <Card style={{ width: '500px' }}>
+                                <div style={{ display: "flex" }}>
+                                    {CouponRandom.typeCoupon == "DiscountPercent" ? (
+                                        <img
+                                            width={150}
+                                            src={
+                                                "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
+                                            }
+                                        />
+                                    ) : CouponRandom.typeCoupon == "DiscountMoney" ? (
+                                        <img
+                                            width={150}
+                                            src={
+                                                "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
+                                            }
+                                        />
+                                    ) : (
+                                        <img
+                                            width={150}
+                                            src={
+                                                "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
+                                            }
+                                        />
+                                    )}
+                                    <div style={{ display: "block", marginLeft: "20px" }}>
+                                        <h1>{CouponRandom.nameCoupon}</h1>
+                                        <a>ร้าน {CouponRandom.shopName}</a>
+                                        <p>ส่วนลด {CouponRandom.discount} บาท</p>
+                                    </div>
+                                    <div style={{ float: 'right' }}>
+                                    </div>
+                                </div>
+                            </Card>
+
+                        </div>
+                        <div style={{ textAlign: 'center' }}>
+                            <Button onClick={() => {
+                                gotCoupon();
+                                setmodalCouponRandom(false);
+                            }}>รับคูปอง</Button>
+
+                        </div>
+
+                    </div>
+                </Modal>
+                {modalMiniShelf && 
+                <div>
+                    <div className="modal-ShowProductOnShelf"></div>
+                <div className="modal-ShowProductOnShelf" style={{marginTop:'280px',marginLeft:'100px'}}></div>
+                <div className="modal-ShowProductOnShelf" style={{marginTop:'450px',marginLeft:'80px'}}></div>
                 </div>
+                
                 }
-
-               
                 
 
-            </Modal>
-
-            <Modal className="modal-ShowAllProduct"
-                isOpen={modalCouponRendom}
-                contentLabel="Example Modal"
-            >
-
-                <div style={{ height: '20px', fontSize: '36px', textAlign: 'right', marginRight: '10px' }} onClick={() => setModalCouponRendom(false)}>
-                    <MdClear style={{ cursor: 'pointer' }} /></div>
-                <a1 style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold' }}>แรนด้อมคูปองจ้า</a1>
-
-
-            </Modal>
-
-        </div>
-    );
-}
+            </div>
+        );
+    }
 }
 export default GamePage;

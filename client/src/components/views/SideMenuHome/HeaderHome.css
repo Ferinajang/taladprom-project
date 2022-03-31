@@ -1,0 +1,121 @@
+body {
+    margin: 0;
+    font-family: 'Prompt';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+.modal-ModalCart {
+    margin-left: 15%;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 75%;
+    height: 80%;
+    overflow: auto;
+    background-color:rgb(255, 255, 255);
+    border-radius: 15px;
+    position: relative;
+    border: 3px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .modal-Modal-edit-pre {
+    margin-left: 15%;
+    margin: auto;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 60%;
+    height: 50%;
+    overflow: auto;
+    background-color:rgb(255, 255, 255);
+    border-radius: 15px;
+    position: relative;
+    border: 3px solid rgba(0, 0, 0, 0.05);
+  }
+  .modal-Modal-edit {
+    margin-left: 15%;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 75%;
+    height: 80%;
+    overflow: auto;
+    background-color:rgb(255, 255, 255);
+    border-radius: 15px;
+    position: relative;
+    border: 3px solid rgba(0, 0, 0, 0.05);
+  }
+.modal-ModalOrder {
+    margin-left: 15%;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 75%;
+    height: 80%;
+    overflow: auto;
+    background-color:white;
+    border-radius: 15px;
+    position: relative;
+    border: 3px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .modal-ModalCoupon {
+    margin-left: 15%;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 75%;
+    height: 80%;
+    overflow: auto;
+    background-color:white;
+    border-radius: 15px;
+    position: relative;
+    border: 3px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .modal-ModalNoOrder {
+    margin-left: 15%;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 75%;
+    height: 80%;
+    overflow: auto;
+    background-color:white;
+    border-radius: 15px;
+    position: relative;
+    border: 3px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .modal-Modal-Order {
+    margin-left: 15%;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 75%;
+    height: 80%;
+    overflow: auto;
+    background-color:rgb(255, 255, 255);
+    border-radius: 15px;
+    position: relative;
+    border: 3px solid rgba(0, 0, 0, 0.05);
+  }
+  hr.style12 {
+    height: 6px;
+    background: url(http://ibrahimjabbari.com/english/images/hr-12.png) repeat-x 0 0;
+    border: 0;
+  }
+  
+  hr.style13 {
+    height: 10px;
+    border: 0;
+    box-shadow: 0 10px 10px -10px #b3b3b3 inset;
+  }

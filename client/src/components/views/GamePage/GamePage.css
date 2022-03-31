@@ -47,3 +47,46 @@ body {
     /* background-color: rgb(255, 255, 255)!important; */
     border-radius: 15px;
   }
+  .modal-ShowProductOnShelf {
+    margin: 0 auto;
+    display: block;
+    margin-top: 50px;
+    margin-right: 370px;
+    width: 250px;
+    height: 80px;
+    border-radius: 15px;
+    background-color: rgb(255, 255, 255,0.5)!important;
+  }
+
+  .modal-ShowMiniShelfLeftOne{
+    margin: 0 auto;
+    display: block;
+    margin-top: 45px;
+    margin-right: 370px;
+    width: 250px;
+    height: 80px;
+    border-radius: 15px;
+    background-color: rgb(0, 0, 0)!important;
+    
+  }
+  .modal-ShowProductOnShelfLeft2 {
+    margin: 0 auto;
+    display: block;
+    margin-top: 45px;
+    margin-right: 370px;
+    width: 250px;
+    height: 80px;
+    border-radius: 15px;
+    background-color: rgb(255, 255, 255)!important;
+    
+  }
+  .modal-ShowProductOnShelfLeft3 {
+    margin: 0 auto;
+    display: block;
+    margin-top: 45px;
+    margin-right: 370px;
+    width: 250px;
+    height: 80px;
+    border-radius: 15px;
+    background-color: rgb(255, 255, 255)!important;
+  }
