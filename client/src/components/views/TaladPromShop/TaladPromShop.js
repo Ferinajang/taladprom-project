@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React ,{useEffect ,useState} from 'react'
-import {Card,Col,Row} from 'antd';
+import {Card,Col,Row,Carousel } from 'antd';
 import CheckBox from './Section/CheckBox';
 import RadioBox from './Section/RadioBox';
 import { continentsPD,price } from './Section/Data';
@@ -139,53 +139,89 @@ function TaladPromShop(props) {
         setSearchTerms(newSearchTerm)
         getProduct(variables)   
     }
+    const contentStyle = {
+        height: '250px',
+        color: '#fff',
+        lineHeight: '160px',
+        textAlign: 'center',
+        background: '#364d79',
+      };
 
     return (
-        <div style={{width :'75%' , margin:"3rem auto"}}>
-            <div style={{textAlign:'center'}}>
-            <a class="homeHeader">{Products.writerName}</a>
-                <h1 style={{ fontWeight:'bolder' , fontSize:'30px'}}>ตลาดพร้อม</h1>
-                <Row gutter={[16,16]}>
-                    <Col lg={12} xs={24}>
-                        <CheckBox list={continentsPD} handleFilters={filters => handleFilters(filters,"continentsPD")}></CheckBox>
-                    </Col>
-                    <Col lg={12} xs={24}>
-                        
-                        <RadioBox  list ={price} handleFilters={filters => handleFilters(filters,"pricePD")}></RadioBox>
-                    </Col>
-                </Row>
-                <div style={{display:'flex',justifyContent:'flex-end',margin:'1rem auto'}}>
-                <SearchFeature
-                   refreshFunction={updateSearchTerms}
-                />
-                    
-
-                </div>
-                
-                
-               
-                {Products.length === 0 ?
-                <div style={{display:'flex' , height:'300px' , justifyContent:'center' , alignItems:'center'}}>
-                    <h2>No post yet</h2>
-                </div>:
-                <div>
-                    <Row gutter ={[16,16]}>
-                        {renderCards}
-                    </Row>
-
-                </div>
-}
-                <br></br>
-                {postSize >= Limit && 
-                 <div style={{display:'flex' , justifyContent:'center'}}>
-                 <button onClick={onLoadMore}>Load more</button>
-                 </div>
+      <div style={{ width: "75%", margin: "2rem auto" }}>
+           <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              margin: "1rem auto",
+            }}
+          >
+            <SearchFeature refreshFunction={updateSearchTerms} />
+          </div>
+          
+        <Carousel autoplay>
+          <div>
+            <h3 style={contentStyle}><img style={{width:'100%',height:'100%'}} src={"https://www.img.in.th/images/ddff8dfe32eb1f3bb2c2b34284d730dd.jpg"}></img></h3>
+          </div>
+          <div>
+            <h3 style={contentStyle}>2</h3>
+          </div>
+          <div>
+            <h3 style={contentStyle}>3</h3>
+          </div>
+          <div>
+            <h3 style={contentStyle}>4</h3>
+          </div>
+        </Carousel>
+        <div style={{ textAlign: "center" }}>
+          <a class="homeHeader">{Products.writerName}</a>
+          {/* <h1 style={{ fontWeight: "bolder", fontSize: "30px" }}>ตลาดพร้อม</h1> */}
+          <Row gutter={[16, 16]}>
+            <Col lg={12} xs={24}>
+              <CheckBox
+                list={continentsPD}
+                handleFilters={(filters) =>
+                  handleFilters(filters, "continentsPD")
                 }
-               
+              ></CheckBox>
+            </Col>
+            <Col lg={12} xs={24}>
+              <RadioBox
+                list={price}
+                handleFilters={(filters) => handleFilters(filters, "pricePD")}
+              ></RadioBox>
+            </Col>
+          </Row>
+          <br></br>
+          <br></br>
+          <br></br>
+         
+
+          {Products.length === 0 ? (
+            <div
+              style={{
+                display: "flex",
+                height: "300px",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <h2>No post yet</h2>
             </div>
+          ) : (
+            <div>
+              <Row gutter={[16, 16]}>{renderCards}</Row>
+            </div>
+          )}
+          <br></br>
+          {postSize >= Limit && (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <button onClick={onLoadMore}>Load more</button>
+            </div>
+          )}
         </div>
-       
-    )
+      </div>
+    );
 }
 
 

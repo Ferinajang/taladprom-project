@@ -42,6 +42,24 @@ function DetailProductPageSeller(props) {
       thumbnail: Product.imagesPD3,
     },
   ];
+  const onDelete =()=>{
+    const variables = {
+      id: Product._id,
+    };
+    Axios.put("/api/product/deleteProductByID", variables).then(
+      (response) => {
+        if (response.data.success) {
+          alert("delete success")
+          window.location.href = "/Landing"
+
+
+        } else {
+          alert("Fialed to fecth data from mongodb");
+        }
+      }
+    );
+
+  }
 
   return (
     <div >
@@ -83,6 +101,17 @@ function DetailProductPageSeller(props) {
             }
           >
             แก้ไขรายละเอียดสินค้า
+          </Button>
+          <Button
+          style={{marginTop:'180px'}}
+            size="large"
+            shape="round"
+            type="danger"
+            onClick={() =>
+              onDelete()
+            }
+          >
+            ลบสินค้า
           </Button>
         </div>
         </div>

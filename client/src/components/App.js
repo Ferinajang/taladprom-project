@@ -32,9 +32,13 @@ function App() {
     <Suspense fallback={(<div>Loading...</div>)}>
       <div id="NavBar">
       <NavBar />
-      <HeaderHome/>
+      
       {/* <RightMenu/> */}
       </div>
+      <div id="HeaderHome">
+      <Header/>
+      </div>
+      
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Switch>
           <Route exact path="/" component={Auth(HomePage, true)} />

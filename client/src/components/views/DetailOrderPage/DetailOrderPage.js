@@ -1,6 +1,6 @@
 
 import Axios from 'axios'
-import { Row, Col,Table,Select ,Button,Input,Tooltip ,Modal,Steps} from 'antd';
+import { Row, Col,Table,Select ,Button,Input,Tooltip ,Modal,Steps,message} from 'antd';
 import React, { useEffect, useState } from 'react'
 import ImageGallery from 'react-image-gallery';
 import { addToCart } from '../../../_actions/user_actions';
@@ -22,6 +22,7 @@ function DetailOrderPage(props) {
     const [Product, setProduct] = useState([])
     const [addess, setaddess] = useState("บ้านเลขที่ 9 บางบอน 4 ซอย 7 ถนนเอกชัย เขตบางบอน เเขวงบางบอน กรุงเทพมหานคร")
     const [color, setcolor] = useState("red")
+    const [imageArray, setimageArray] = useState([])
 
 
     useEffect(()=>{
@@ -184,8 +185,31 @@ function DetailOrderPage(props) {
         }
       }
     );
-
-
+  }
+  const GoToLinkDelivery =()=>{
+    navigator.clipboard.writeText(Order.trackingNumber)
+    message.success('คัดลอกเลขพัสดุสำเร็จ!!');
+    if(Order.deliveryCompany == "ไปรษณีย์ไทย"){
+      window.location.href = "https://track.thailandpost.co.th/"
+    }else if(Order.deliveryCompany == "J&T EXPRESS"){
+      window.location.href = "https://www.jtexpress.co.th/index/query/gzquery.html"
+    }else if(Order.deliveryCompany == "BEST EXPRES"){
+      window.location.href = "https://www.best-inc.co.th/track"
+    }else if(Order.deliveryCompany == "Kerry Express"){
+      window.location.href = "https://th.kerryexpress.com/th/track/"
+    }else if(Order.deliveryCompany == "FLASH EXPRESS"){
+      window.location.href = "https://www.flashexpress.co.th/tracking/"
+    }else if(Order.deliveryCompany == "Ninja Van"){
+      window.location.href = "https://www.ninjavan.co/th-th/tracking  "
+    }else if(Order.deliveryCompany == "DHL Express"){
+      window.location.href = "https://www.dhl.com/th-th/home/tracking.html"
+    }else if(Order.deliveryCompany == "SAlpha Fast"){
+      window.location.href = "http://www.alphafast.com/"
+    }else if(Order.deliveryCompany == "SCG EXPRESS"){
+      window.location.href = "https://www.scgexpress.co.th/tracking/"
+    }else if(Order.deliveryCompany == "Nim Express"){
+      window.location.href = "https://www.nimexpress.com/web/p/home"
+    }
   }
 
   return (
@@ -256,17 +280,18 @@ function DetailOrderPage(props) {
         <h3>ค่าจัดส่ง : {Order.shippingCostPD}</h3>
         <h3>ส่วนลด : {Order.totalPrice}</h3>
         <h1>รวม : {Order.totalPrice}</h1>
-       
       </div>
-      <div style={{ marginTop: "30px" }}>
+      <div style={{ marginTop: "30px"}}>
         <h3>ที่อยู่: {" "} </h3>
         <h4>{addess}</h4>
       </div>
       <div style={{ marginTop: "30px" }}>
         <h2>หมายเลขพัสดุ: {" "} </h2>
-        <h3>บริษัทขนส่งสินค้า ไปรษณีย์ไทย</h3>
-        <h3>รหัส EU999955550TH</h3>
+        <h3>บริษัทขนส่งสินค้า : {" "} {Order.deliveryCompany}</h3>
+        <h3>รหัสพัสดุ : {" "} {Order.trackingNumber}</h3>
+        <Button onClick={()=>GoToLinkDelivery()}>ตรวจสอบเลขพัสดุ</Button>
       </div>
+      
 
     
       <Modal

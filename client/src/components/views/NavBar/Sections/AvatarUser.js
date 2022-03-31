@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
-import { Menu, Badge, Form, Input, Button, Card, Col, Row, Steps,Avatar } from "antd";
+import { Menu, Badge, Form, Input, Button, Card, Col, Row, Steps,Avatar,Image } from "antd";
 import { useDispatch } from 'react-redux'
 import axios from "axios";
 import { USER_SERVER } from "../../../Config";
@@ -21,8 +21,12 @@ import {
   ContainerOutlined,
   MailOutlined,
   UnorderedListOutlined,
-  LogoutOutlined,UserOutlined
+  LogoutOutlined,
+  UserOutlined,
+  SettingOutlined
 } from '@ant-design/icons';
+import Loading from "../../../Loading";
+
 
 const { SubMenu } = Menu;
 
@@ -35,7 +39,9 @@ function AvatarUser(props) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [ModalOrderIsOpen, setModalOrderIsOpen] = useState(false)
   const [Data, setData] = useState([]);
+  const [loading, setloading] = useState(true);
   const { TextArea } = Input;
+  const [current, setcurrent] = useState("")
   const dispatch = useDispatch();
 
  
@@ -53,17 +59,28 @@ function AvatarUser(props) {
   setData(user.userData)
 }, [user.userData])
 
+const loadingData = () => {
+  if (!user.userData) {
+    
+  } else {
+    setData(user.userData)
+    setloading(false) 
+  }
+};
+
+const handleClick = (e) => {
+  setcurrent( e.key)
+};
+
 
 
 /////////////////////////edit//////////////////////
 
   if (user.userData && !user.userData.isAuth) {
     return (
-
       <div style={{backgroundColor:'red' }}>
           <Avatar size={50} icon={<UserOutlined />} />
           <div> 
-            <h2>{user.userData.name}</h2>
           </div>
       </div>
      
@@ -77,13 +94,43 @@ function AvatarUser(props) {
       // </Menu>
     );
   } else {
+    if (loading) {
+      return (
+        <div>
+         {loadingData()}
+        </div>
+      );
+    } else {
     return (
-      <div style={{display:'flex'}}>
-      <Avatar size={50} icon={<UserOutlined />} />
-      </div>
- 
+      <div style={{ display: "flex", width: "100%" }}>
+        <h3 style={{ marginTop: "10px" }}>
+          คุณ {user.userData.name} {user.userData.lastname}
+        </h3>
+        <Avatar
+          style={{ marginLeft: "30px" }}
+          size={45}
+          src={
+            <Image
+              src="https://joeschmoe.io/api/v1/random"
+              style={{ width: 40 }}
+            />
+          }
+        />
+         <Menu onClick={()=>handleClick()} selectedKeys={[current]} mode="horizontal">
+        <SubMenu key="SubMenu" icon={<SettingOutlined style={{fontSize:'20px',marginTop:'10px'}}/>} >
+          <Menu.ItemGroup title="สำหรับผู้ขาย">
+            <Menu.Item key="setting:1">ร้านค้าของคุณ</Menu.Item>
+          </Menu.ItemGroup>
+          <Menu.ItemGroup title="ตั้งค่า">
+            <Menu.Item key="setting:3">รายละเอียดส่วนตัว</Menu.Item>
+            <Menu.Item key="setting:4">ออกจากระบบ</Menu.Item>
+          </Menu.ItemGroup>
+        </SubMenu>
 
+      </Menu>
+      </div>
     );
   }
+}
 }
 export default withRouter(AvatarUser);

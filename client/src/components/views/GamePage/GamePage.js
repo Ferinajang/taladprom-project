@@ -36,6 +36,7 @@ function GamePage(props) {
     const [modalCouponRandom, setmodalCouponRandom] = useState(false)
     const [modalMiniShelf1, setModalMiniShelf1] = useState(true);
     
+    const [countProMiniShelf, setCountProMiniShelf1] = useState(0);
 
     const [modalCoupon, setModalCoupon] = useState(false);
     const [shopNum, SetShopNum] = useState("");
@@ -423,6 +424,32 @@ function GamePage(props) {
 
     });
 
+    const renderCardsMiniShelf = Product.map((product, index) => {
+        // console.log("getsuccess");
+        // console.log(ShopNumberFromUnity);
+        // console.log(product.positionShop)
+        // setShopName('product.shopName')
+
+        if (ShopNumberFromUnity == product.positionShop && product.recommend == "recommended") {
+
+            // console.log("getsuccess")
+            return (
+
+                <Col lg={4} style={{ padding: '5px' }}>
+                    <a href={`/product/${product._id}`}>
+                        <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
+                            <Meta
+                                title={product.namePD}
+                                description={`${product.pricePD}฿`}
+                            ></Meta>
+                        </Card>
+                    </a>
+                </Col>
+            );
+        }
+
+    });
+
     const randomCoupon = () => {
         Axios.post("/api/coupon/getCoupon").then((response) => {
             if (response.data.success) {
@@ -698,9 +725,11 @@ function GamePage(props) {
                 </Modal>
                 {modalMiniShelf && 
                 <div>
-                    <div className="modal-ShowProductOnShelf"></div>
-                <div className="modal-ShowProductOnShelf" style={{marginTop:'280px',marginLeft:'100px'}}></div>
-                <div className="modal-ShowProductOnShelf" style={{marginTop:'450px',marginLeft:'80px'}}></div>
+                    <div className="modal-ShowProductOnShelf">
+                        
+                    </div>
+                    <div className="modal-ShowProductOnShelf" style={{marginTop:'280px',marginLeft:'100px'}}></div>
+                    <div className="modal-ShowProductOnShelf" style={{marginTop:'450px',marginLeft:'80px'}}></div>
                 </div>
                 
                 }
