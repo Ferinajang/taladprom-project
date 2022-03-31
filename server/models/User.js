@@ -69,6 +69,9 @@ const userSchema = mongoose.Schema({
     },
     recomendedItem:{
         type: Number
+    },
+    playerCharacter:{
+        type: String
     }
 })
 

@@ -80,7 +80,7 @@ function LoginPage(props) {
           handleReset,
         } = props;
         return (
-          <div className="app">
+          <div className="app-login">
 
             <Title level={2}>เข้าสู่ระบบ</Title>
             <form onSubmit={handleSubmit} style={{ width: '350px' }}>

@@ -1,16 +1,17 @@
 import Axios from 'axios';
 import React ,{useEffect ,useState} from 'react'
-import {Card, Icon,Col,Row,Button,Tooltip} from 'antd';
+import {Card, Icon,Col,Row,Button,Tooltip,Menu,Table,Input } from 'antd';
 import CheckBox from './Section/CheckBox';
 import RadioBox from './Section/RadioBox';
 import { continentsPD,price } from './Section/Data';
 import SearchFeature from './Section/SearchFeature';
-import { StarOutlined, StarFilled } from '@ant-design/icons';
+import { StarOutlined, StarFilled,MailOutlined } from '@ant-design/icons';
 import { MdClear } from "react-icons/md";
 import Modal from "react-modal";
 import Loading from '../../Loading';
 import './LandingPage.css'
 const {Meta} =Card;
+const { SubMenu } = Menu;
 
 
 function LandingPage(props) {
@@ -24,12 +25,17 @@ function LandingPage(props) {
         continentsPD:[], 
         price:[]
     })
+    const [Current, setCurrent] = useState("")
     const [recomend, setrecomend] = useState(0)
     const [disableAddRecomedButton, setdisableAddRecomedButton] = useState(false)
     const [count, setcount] = useState(0)
     const [arrayPD, setarrayPD] = useState([])
     const [loading, setloading] = useState(true);
     const [UserData, setUserData] = useState([])
+    const [ModalUpdateQuantity, setModalUpdateQuantity] = useState(false)
+    const [QuantityValue, setQuantityValue] = useState(0)
+    const [ModalUpdateQuantityADD, setModalUpdateQuantityADD] = useState(false)
+    const [Tmp, setTmp] = useState([])
 
 
     const loadingData = () => {
@@ -200,7 +206,8 @@ function LandingPage(props) {
         if(!props.user.userData){
             //console.log("fffff");
         }else{
-          if(product.writerName == props.user.userData.name){
+          
+          if(product.writer._id == props.user.userData._id){    
           return (
             <Col lg={4} md={8} xs={24}> 
             {product.recommended == "recommended" ?  
@@ -226,7 +233,7 @@ function LandingPage(props) {
         if(!props.user.userData){
             //console.log("fffff");
         }else{
-          if(product.writerName == props.user.userData.name && product.recommended == "recommended"){
+          if(product.writer._id == props.user.userData._id && product.recommended == "recommended"){
           return (
             <Col lg={4} md={8} xs={24}> 
            {product.recommended == "recommended" ?  
@@ -247,6 +254,60 @@ function LandingPage(props) {
         }
        }
     });
+    const onQuanityChange =(event)=>{
+      setQuantityValue(event.currentTarget.value)
+  }
+  const addquantity =(product)=>{
+    setTmp(product)
+    setModalUpdateQuantityADD(true)
+  }
+
+  const confirmAddQuantity =()=>{
+    console.log(Tmp._id);
+    console.log(typeof(QuantityValue));
+
+  //   const variables = {
+  //     id: Tmp._id,
+  //     quantityPD: Tmp.quantityPD + QuantityValue,
+  // };
+  // Axios.put("/api/product/updateQuantityAdd", variables).then(
+  //     (response) => {
+  //       alert("ok")
+
+  //     })
+  }
+  
+
+    const renderCardsQuantity= Products.map((product, index) => {
+      if(!props.user.userData){
+          //console.log("fffff");
+      }else{
+        if(product.writer._id == props.user.userData._id ){
+        return (
+          
+          <tr key={product._id}>
+            <td>
+              <img
+                style={{ width: "70px" }}
+                alt="product"
+                src={product.imagesPD1}
+              />
+            </td>
+            <td>{product.namePD}</td>
+            <td>{product.pricePD}บาท</td>
+            <td>{product.quantityPD} ชิ้น</td>
+            <td>
+              <button onClick={()=>addquantity(product)}>
+                Remove
+              </button>
+            </td>
+          </tr>
+        );
+        
+      }
+     }
+  });
+
 
     const manageRecomendedProduct =()=>{
         setModalRecomendedProduct(true)
@@ -273,6 +334,11 @@ function LandingPage(props) {
     const goToShop =()=>{
         window.location.href = "/product/upload"
     }
+
+    const handleClick = e => {
+      setCurrent(e.key);
+    };
+  
 
 
     if (loading) {
@@ -302,24 +368,24 @@ function LandingPage(props) {
             backgroundColor: "white",
             textAlign:'end'
           }}>
-          <Button
-            style={{ width: "150px" ,margin:'10px'}}
-            size="large"
-            shape="round"
-            type="danger"
-            onClick={goToShop}
-          >
-            เพิ่มสินค้า
-          </Button>
-          <Button
-            style={{ width: "160px" ,margin:'10px'}}
-            size="large"
-            shape="round"
-            type="danger"
-            onClick={manageRecomendedProduct}
-          >
-            จัดการสินค้าแนะนำ
-          </Button>
+            <Menu
+              onClick={handleClick}
+              style={{ width: 180 ,display: "block",
+              backgroundColor: "red",
+              textAlign:'end',
+            float:'right'}}
+              selectedKeys={[Current]}
+              mode="inline"
+              
+              
+            >
+              <SubMenu key="sub1" icon={<MailOutlined />} title="จัดการสินค้า">
+                <Menu.Item key="1" onClick={goToShop}>เพิ่มสินค้า</Menu.Item>
+                <Menu.Item key="2" onClick={()=>setModalUpdateQuantity(true)}>เพิ่มสต๊อกสินค้า</Menu.Item>
+              </SubMenu>
+              <Menu.Item key="5"onClick={manageRecomendedProduct}>จัดการสินค้าแนะนำ</Menu.Item>
+            </Menu>
+         
         </div>
         
 
@@ -402,10 +468,77 @@ function LandingPage(props) {
               <Row gutter={[16, 16]}>{renderCardsRecomended}</Row>
             </div>
           </Modal>
+
+          <Modal
+            className="modal-update-quantity"
+            isOpen={ModalUpdateQuantity}
+          >
+            <div
+              style={{
+                height: "15px",
+                fontSize: "25px",
+                textAlign: "right",
+                marginRight: "20px",
+                marginTop: "10px",
+              }}
+              onClick={() => setModalUpdateQuantity(false)}
+            >
+              <MdClear style={{ cursor: "pointer" }} />
+            </div>
+            <div
+              style={{
+                height: "15px",
+                fontSize: "25px",
+                textAlign: "center",
+                margin: "50px",
+                marginTop: "10px",
+
+              }}
+            >
+              <h2 style={{fontWeight:'bold' }}>เพิ่มจำนวนสินค้าในสต๊อก</h2>
+              <div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>รูปภาพ</th>
+                    <th>ชื่อสินค้า</th>
+                    <th>ราคา</th>
+                    <th>จำนวนปัจจุบัน</th>
+                  </tr>
+                </thead>
+                <tbody>{renderCardsQuantity}</tbody>
+              </table>
+            </div>
+            </div>
+          </Modal>
+
+          <Modal
+            className="modal-update-quantity-2"
+            isOpen={ModalUpdateQuantityADD}
+          >
+            <div
+              style={{
+                height: "15px",
+                fontSize: "25px",
+                textAlign: "right",
+                marginRight: "20px",
+                marginTop: "10px",
+              }}
+              onClick={() => setModalUpdateQuantityADD(false)}
+            >
+              <MdClear style={{ cursor: "pointer" }} />
+            </div>
+            <h2>ใส่จำนวนที่ต้องการ</h2>
+            <Input
+              onChange={onQuanityChange}
+              value={QuantityValue}
+              type="number"
+            ></Input>
+            <button onClick={()=>confirmAddQuantity()}>ยืนยัน</button>
+          </Modal>
         </div>
       </div>
     );
-
   }
 }
 

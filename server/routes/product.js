@@ -143,6 +143,19 @@ router.put("/updateQuantityCancelOrder", auth, (req, res) => {
         }) 
 });
 
+router.put("/updateQuantityAdd", auth, (req, res) => {
+    const product = new Product(req.body)
+    Product.findByIdAndUpdate({_id:req.body.id},
+        {$set:req.body},
+        (error,product)=>{
+            if(error){
+                return res.status(400).json({success:false,error})
+            }else{
+                return res.status(200).json({success:true,product})
+            }
+        }) 
+});
+
 router.post("/getProductByID", auth, (req, res) => {
     Product.find({namePD:req.body.namePD})
     .exec((err,productOrder)=>{
@@ -150,6 +163,15 @@ router.post("/getProductByID", auth, (req, res) => {
         res.status(200).json({success:true,productOrder})
 })
  });
+
+ router.post("/getProductByIDEdit", auth, (req, res) => {
+    Product.find({_id:req.body.id})
+    .exec((err,product)=>{
+        if(err) return res.status(400).json({success:false,err})
+        res.status(200).json({success:true,product})
+})
+ });
+
 
 
 

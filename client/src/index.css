@@ -51,6 +51,14 @@ body {
   height: 100vh;
 }
 
+.app-login {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+
 input.error {
   border-color: red;
 }
@@ -223,6 +231,20 @@ input[type="checkbox"] {
     color:#ff0000;
 
     } */
+
+  .ant-upload.ant-upload-select-picture-cardeiei{
+    width: 300px;
+    height: 104px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    text-align: center;
+    vertical-align: top;
+    background-color: #fafafa;
+    border: 1px dashed #d9d9d9;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color 0.3s
+  }
 
     
 

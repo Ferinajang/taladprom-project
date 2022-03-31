@@ -47,6 +47,27 @@ const productSchema = mongoose.Schema({
     imagesPD3: {
         type:String,
     },
+    imagesPD4: {
+        type:String,
+    },
+    imagesPD5: {
+        type:String,
+    },
+    imagesPD6: {
+        type:String,
+    },
+    imagesPD7: {
+        type:String,
+    },
+    imagesPD8: {
+        type:String,
+    },
+    imagesPD9: {
+        type:String,
+    },
+    imagesPD10: {
+        type:String,
+    },
     continentsPD:{
         type : Number,
         default:1

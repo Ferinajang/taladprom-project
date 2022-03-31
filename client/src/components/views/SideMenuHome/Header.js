@@ -8,7 +8,7 @@ import {
 } from "react-pro-sidebar";
 import Modal from 'react-modal';
 import React, { useEffect, useState } from "react";
-import { Icon, Badge, Form, Input, Button, Card, Col, Row, Steps, Avatar, Table, Tabs } from "antd";
+import { Icon, Badge, Form, Input, Button, Card, Col, Row, Steps, Avatar, Table, Tabs,message ,notification} from "antd";
 import { useDispatch } from 'react-redux'
 import axios from "axios";
 import { USER_SERVER } from "../../Config";
@@ -74,6 +74,7 @@ const Header = (props) => {
     const [stateCheck, setstateCheck] = useState(true)
     const [DataUser, setDataUser] = useState([])
     const [modalPreIsOpen, setmodalPreIsOpen] = useState(false)
+    const [modalChooseAvatar, setmodalChooseAvatar] = useState(false)
 
 
     const { TextArea } = Input;
@@ -145,7 +146,7 @@ const Header = (props) => {
         setstateCheck(false)
       }
       
-      const OnSubmitEdit =(data)=>{
+      const OnSubmitEdit =(data)=>{      
         const variables ={
           id:Data._id,
           name:changeName,
@@ -155,7 +156,7 @@ const Header = (props) => {
       Axios.put('/api/users/editProfile',variables)
             .then(response =>{
                 if(response.data.success){
-                    alert('product success to upload')
+                    message.success("แก้ไขรายละเอียดส่วนตัวสำเร็จ")
                 }else{
                     alert(response)
                 }
@@ -182,6 +183,7 @@ const Header = (props) => {
 
 
     const setModalIsOpenToTrue = () => {
+        setmodalPreIsOpen(false)
         setModalIsOpen(true);
         setData(user.userData);
         setchangeName(user.userData.name)
@@ -488,6 +490,53 @@ const Header = (props) => {
         }
     });
 
+    const renderCardsCouponTimeout = Coupon.map((coupon, index) => {
+      if (!user.userData) {
+          //console.log("fffff");
+      } else {
+          if (coupon.OwnerID == user.userData._id && coupon.status == "timeOut" || coupon.status == "used") {
+              return (
+                  <Col lg={16}>
+                      <a>
+                          <Card>
+                              <div style={{ display: "flex" }}>
+                                  {coupon.typeCoupon == "DiscountPercent" ? (
+                                      <img
+                                          width={150}
+                                          src={
+                                              "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
+                                          }
+                                      />
+                                  ) : coupon.typeCoupon == "DiscountMoney" ? (
+                                      <img
+                                          width={150}
+                                          src={
+                                              "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
+                                          }
+                                      />
+                                  ) : (
+                                      <img
+                                          width={150}
+                                          src={
+                                              "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
+                                          }
+                                      />
+                                  )}
+                                  <div style={{ display: "block", marginLeft: "20px" }}>
+                                      <h1>{coupon.nameCoupon}</h1>
+                                      <a>ร้าน {coupon.shopName}</a>
+                                      <p>ส่วนลด {coupon.discount} บาท</p>
+                                  </div>
+                              </div>
+                          </Card>
+                      </a>
+                  </Col>
+              );
+          }
+      }
+  });
+
+
 
     const logoutHandler = () => {
         axios.get(`${USER_SERVER}/logout`).then((response) => {
@@ -655,6 +704,26 @@ const Header = (props) => {
         }
 
     });
+    const chooseAvatar =(value)=>{
+      console.log(value);
+        const variables ={
+          id:user.userData._id,
+          playerCharacter:value
+      }
+      Axios.put('/api/users/editProfile',variables)
+            .then(response =>{
+                if(response.data.success){
+                  message.success('เปลี่ยนตัวละครสำเร็จเเล้ว');
+                  setmodalChooseAvatar(false)
+                  setmodalPreIsOpen(true)
+                }else{
+                    alert(response)
+                }
+            })
+      
+      
+    }
+    
 
 
     if (loading) {
@@ -1093,7 +1162,7 @@ const Header = (props) => {
                   {renderCardsCoupon}
                 </TabPane>
                 <TabPane tab="คูปองที่ใช้เเล้ว/หมดเวลา" key="2">
-                  <div style={{ margin: "40px" }}>{renderCardsCoupon}</div>
+                  <div style={{ margin: "40px" }}>{renderCardsCouponTimeout}</div>
                 </TabPane>
               </Tabs>
             </Modal>
@@ -1134,7 +1203,7 @@ const Header = (props) => {
                       textAlign: "right",
                       margin: "10px",
                     }}
-                    onClick={() => setModalIsOpenToFalse}
+                    onClick={() => setModalIsOpen(false)}
                   >
                     <MdClear style={{ cursor: "pointer" }} />
                   </div>
@@ -1235,7 +1304,7 @@ const Header = (props) => {
                           style={{ backgroundColor: "#2F2851" ,marginTop:'20px'}}
                           shape="round"
                           type="primary"
-                          size="large"
+                          size="large"onClick={()=>setModalIsOpenToTrue()}
                         >
                           แก้ไขรายละเอียดส่วนตัว
                         </Button>
@@ -1268,6 +1337,7 @@ const Header = (props) => {
                           shape="round"
                           type="primary"
                           size="large"
+                          onClick={()=>setmodalChooseAvatar(true)}
                         >
                           ตัวละครที่ 1
                         </Button>
@@ -1283,6 +1353,94 @@ const Header = (props) => {
                   </div>
                 </div>
               </div>
+            </Modal>
+
+            <Modal className="modal-Modal-edit-chooseAvarta" isOpen={modalChooseAvatar}>
+                  <div
+                    style={{
+                      height: "15px",
+                      fontSize: "25px",
+                      textAlign: "right",
+                      margin: "10px",
+                    }}
+                    onClick={() => setmodalChooseAvatar(false)}
+                  >
+                    <MdClear style={{ cursor: "pointer" }} />
+                  </div>
+                  <h1 style={{textAalign:'center',fontWeight:'bold',marginLeft:'100px'}}>เลือกตัวละครที่ต้องการ</h1>
+                  <div style={{display:'block'}}>
+                    <div style={{display:'flex'}}>
+                    <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
+                      <h3>สมหมาย</h3>
+                      <img 
+                        onClick={() => chooseAvatar("playerCharacter1")}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"}
+                        
+                        style={{ width: "75px", height: "10vh" }}
+                      ></img>
+                    </div>
+                    <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
+                      <h3>สมหญิง</h3>
+                      <img
+  
+                        onClick={() => chooseAvatar("playerCharacter2")}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"}
+                        
+                        style={{ width: "75px", height: "10vh" }}
+                      ></img>
+                    </div>
+                    <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
+                      <h3>สมศรี</h3>
+                      <img
+                        onClick={() => chooseAvatar("playerCharacter3")}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"}
+                        
+                        style={{ width: "75px", height: "10vh" }}
+                      ></img>
+                    </div>
+                    </div>
+                    
+                 
+                    <div style={{display:'flex'}}>
+                    <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
+                      <h3>สมพร</h3>
+                      <img
+                        onClick={() => chooseAvatar("playerCharacter4")}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"}
+                        
+                        style={{ width: "75px", height: "10vh" }}
+                      ></img>
+                    </div>
+                    <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
+                      <h3>สมฤดี</h3>
+                      <img
+                        onClick={() => chooseAvatar("playerCharacter5")}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"}
+                        
+                        style={{ width: "75px", height: "10vh" }}
+                      ></img>
+                    </div>
+                    <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
+                      <h3>สมบูรณ์</h3>
+                      <img
+                        onClick={() => chooseAvatar("playerCharacter6")}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"}
+                        
+                        style={{ width: "75px", height: "10vh" }}
+                      ></img>
+                    </div>
+                    </div>
+                   
+
+                  </div>
+
+              
             </Modal>
           </div>
         );

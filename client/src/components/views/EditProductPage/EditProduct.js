@@ -1,11 +1,15 @@
-import React ,{useState} from 'react'
-import { Typography,Button,Form,message,Input,Icon } from 'antd';
+import React ,{useState,useEffect} from 'react'
+import { Typography,Button,Form,message,Input,Icon ,Upload } from 'antd';
 import FileUpload from '../../utils/FileUpload';
 import Axios from 'axios';
 import { render } from "react-dom";
 import { storage } from "../../firebaseConfig"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import ImgCrop from 'antd-img-crop';
+import Loading from '../../Loading';
+import { continentsPD } from '../LandingPage/Section/Data';
+
 
 const {Title} = Typography;
 const {TextArea} = Input ;
@@ -17,6 +21,8 @@ const Continents =[
     {key : 4, value:"Shoe4"},
     {key : 5, value:"Shoe5"},
 ]
+
+
 
 function EditProduct(props) {
     const productId = props.match.params.productId
@@ -34,7 +40,56 @@ function EditProduct(props) {
     const [URL2, setURL2] = useState("")
     const [URL3, setURL3] = useState("")
     const [progress, setProgress] = useState(0)
+    const [Product, setProduct] = useState([])
+    const [imageArray, setimageArray] = useState([])
+    const [previewVisible, setpreviewVisible] = useState(false)
+    const [previewImage, setpreviewImage] = useState("")
+    const [previewTitle, setpreviewTitle] = useState("")
+    const [urlList, seturlList] = useState([])
+    const [fileList, setFileList] = useState([])
+    const [loading, setloading] = useState(true);
+    const [arrayImage, setarrayImage] = useState([])
 
+    console.log(arrayImage);
+   
+   
+ 
+    useEffect(()=>{
+      const variables = {
+        id:productId
+      };
+          Axios.post("/api/product/getProductByIDEdit", variables).then(
+            (response) => {
+              if (response.data.success) {
+                setProduct(response.data.product[0])
+                setTitleValue(Product.namePD)
+                setDescriptionValue(Product.DescriptionPD)
+                setPriceValue(Product.pricePD)
+                setShippingCostValue(Product.shippingCostPD)
+                setContinentsValue(Product.continentsPD)
+                imageRender(response.data.product[0])
+                
+              } else {
+                alert("Fialed to fecth data from mongodb");
+              }
+            }
+      ); 
+     
+     
+  },[])
+
+  const imageRender =(product)=>{
+    arrayImage.push(product.imagesPD1)
+                arrayImage.push(product.imagesPD2)
+                arrayImage.push(product.imagesPD3)
+                arrayImage.push(product.imagesPD5)
+                arrayImage.push(product.imagesPD6)
+                arrayImage.push(product.imagesPD7)
+                arrayImage.push(product.imagesPD8)
+                arrayImage.push(product.imagesPD9)
+                arrayImage.push(product.imagesPD10)
+    setloading(false)
+  }
 
     const onTitleChange =(event)=>{
         setTitleValue(event.currentTarget.value)
@@ -46,136 +101,38 @@ function EditProduct(props) {
     const onPriceChange =(event)=>{
         setPriceValue(event.currentTarget.value)
     }
-    const onQuanityChange =(event)=>{
-        setQuantityValue(event.currentTarget.value)
-    }
     const onShippingCostChange =(event)=>{
         setShippingCostValue(event.currentTarget.value)
     }
     const onContinentsSelectChange =(event)=>{
         setContinentsValue(event.currentTarget.value)
-
-        
     }
-  
 
-    const onDropImage1 = (event) => {
-        console.log(event.currentTarget.files[0]);
-        if(event.currentTarget.files[0]){
-            setImage1(event.currentTarget.files[0])
-        } 
-    };
-    const onDropImage2 = (event) => {
-        console.log(event.currentTarget.files[0]);
-        if(event.currentTarget.files[0]){
-            setImage2(event.currentTarget.files[0])
-        } 
-    };
- 
-    const onDropImage3 = (event) => {
-        console.log(event.currentTarget.files[0]);
-        if(event.currentTarget.files[0]){
-            setImage3(event.currentTarget.files[0])
-        } 
-    };
- 
-    const handleUploadImage1 = () => {
-        console.log("data imagetest:"+Image1);
-        const uploadTask = storage.ref(`images/${Image1.name}`).put(Image1);
-        uploadTask.on(
-          "state_changed",
-          snapshot => {
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setProgress(progress);
-          },
-          error => {
-            console.log(error);
-          },
-          () => {
-            console.log("fern4");
-            storage
-              .ref("images")
-              .child(Image1.name)
-              .getDownloadURL()
-              .then(url => {
-                setURL1(url);
-              });
-              console.log(URL1);
-          }
-        );
-      };
-      const handleUploadImage2 = () => {
-        console.log("data imagetest:"+Image2);
-        const uploadTask = storage.ref(`images/${Image2.name}`).put(Image2);
-        uploadTask.on(
-          "state_changed",
-          snapshot => {
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setProgress(progress);
-          },
-          error => {
-            console.log(error);
-          },
-          () => {
-            console.log("fern4");
-            storage
-              .ref("images")
-              .child(Image2.name)
-              .getDownloadURL()
-              .then(url => {
-                setURL2(url);
-              });
-              console.log(URL2);
-          }
-        );
-      };
-      const handleUploadImage3 = () => {
-        console.log("data imagetest:"+Image3);
-        const uploadTask = storage.ref(`images/${Image3.name}`).put(Image3);
-        uploadTask.on(
-          "state_changed",
-          snapshot => {
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setProgress(progress);
-          },
-          error => {
-            console.log(error);
-          },
-          () => {
-            console.log("fern4");
-            storage
-              .ref("images")
-              .child(Image3.name)
-              .getDownloadURL()
-              .then(url => {
-                setURL3(url);
-              });
-              console.log(URL3);
-          }
-        );
-      };
+    
+    const pushImageToarray =()=>{
+      console.log("d");
+      for (let i = 0; i < fileList.length; i++) {
+        handleUploadImage1(fileList[i])
+      }
+      // setImage2(fileList[1])
+      // setImage3(fileList[2])
+    }
 
+   
 
     const onSubmit = (event) =>{
         event.preventDefault();
-
-        const variables ={
-            
+        pushImageToarray()
+        const variables ={       
             namePD: TitleValue,
             DescriptionPD:DescriptionValue,
             pricePD : PriceValue,
             quantityPD : QuantityValue,
             shippingCostPD : ShippingCostValue,
             continentsPD : ContinentsValue,
-            imagesPD1 : URL1,
-            imagesPD2 : URL2,
-            imagesPD3 : URL3,
+            imagesPD1 : urlList[0],
+            imagesPD2 :urlList[1],
+            imagesPD3 :urlList[2],
         }
         // if(!TitleValue || !DescriptionValue || !PriceValue || !QuantityValue || !ShippingCostValue ||!ContinentsValue ){
         //     return alert("fill all field")
@@ -187,108 +144,169 @@ function EditProduct(props) {
         })
 
     }
-  return (
+    const DeleteImage =(image,index)=>{
+      console.log(";;;",image,index);
+      arrayImage.splice(index,1)
+      console.log(arrayImage);
+      return(
+        <div>
+          <p>ern</p>{renderCardsImage}</div>
+      )
+      // console.log(arrayImage);
+    }
+
+    const renderCardsImage= arrayImage.map((image, index) => {
+      console.log(image);
+      return(
+        <div style={{width:'100%'}}>
+          <a onClick={()=>DeleteImage(image,index)}>
+          <img src={image} style={{width:'100px'}}></img>
+          </a>
+        
+        </div>
+      )
+    });
+  
+
+    const onChange = ({ fileList: newFileList }) => {
+      setFileList(newFileList);
+      console.log(newFileList);
+    };
+
+    const onPreview = async file => {
+      let src = file.url;
+      if (!src) {
+        src = await new Promise(resolve => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file.originFileObj);
+          reader.onload = () => resolve(reader.result);
+        });
+      }
+      const image = new Image();
+      image.src = src;
+      const imgWindow = window.open(src);
+      imgWindow.document.write(image.outerHTML);
+    };
+
+    ////////////////////////////////////////////////////////
+
+    const handleUploadImage1 = (image) => {
+      console.log("data imagetest:"+image);
+      const uploadTask = storage.ref(`images/${image.name}`).put(image.originFileObj);
+      uploadTask.on(
+        "state_changed",
+        snapshot => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        error => {
+          console.log(error);
+        },
+        () => { 
+          console.log("fern4");
+          storage
+            .ref("images")
+            .child(image.name)
+            .getDownloadURL()
+            .then(url => {
+              console.log(url);
+              urlList.push(url)
+            });
+        }
+      );
+      console.log(urlList);
+
+    };
+    const loadingData =()=>{
       
-    <div style={{maxWidth:'700px', margin:'2rem auto'}}>
-        <div style={{textAlign:'center' , marginBottom:'2rem auto'}}>
-            <Title level={2} >แก้ไขสินค้าในร้านค้าของคุณ</Title>
-        </div>
-        {/* <a>เลือกรูปที่ 1</a>
-        <div class="wrapper">
-        <div class="file-upload">
-            <input type="file" 
-            onChange={onDropImage1}
-            style={{ 
-                height:'200px' ,
-                width:'200px', 
-                position:'absolute',
-                top:'0',
-                left:'0',
-                opacity:'0',
-                cursor:'pointer'}}/>
-                <h1></h1>
-           <FontAwesomeIcon icon={faArrowUp} />
-        </div>
-        <button onClick={handleUploadImage1}>อัปโหลด</button>
-        <a>{URL}</a>
-        </div>
-        <a>เลือกรูปที่ 2</a>
-        <div class="wrapper">
-        <div class="file-upload">
-            <input type="file" 
-            onChange={onDropImage2}
-            style={{ 
-                height:'200px' ,
-                width:'200px', 
-                position:'absolute',
-                top:'0',
-                left:'0',
-                opacity:'0',
-                cursor:'pointer'}}/>
-                <h1></h1>
-           <FontAwesomeIcon icon={faArrowUp} />
-        </div>
-        <button onClick={handleUploadImage2}>อัปโหลด</button>
-        <a>{URL}</a>
-        </div>
-        <a>เลือกรูปที่ 3</a>
-        <div class="wrapper">
-        <div class="file-upload">
-            <input type="file" 
-            onChange={onDropImage3}
-            style={{ 
-                height:'200px' ,
-                width:'200px', 
-                position:'absolute',
-                top:'0',
-                left:'0',
-                opacity:'0',
-                cursor:'pointer'}}/>
-                <h1></h1>
-           <FontAwesomeIcon icon={faArrowUp} />
-        </div>
-        <button onClick={handleUploadImage3}>อัปโหลด</button>
-        <a>{URL}</a>
-        </div> */}
+     
+    }
+    
+  if (loading) {
+    return (
+      <div>
+        <Loading />;
+      </div>
+    );
+  } else {
+  return (
+    <div style={{ maxWidth: "700px", margin: "2rem auto" }}> 
+      <div style={{ textAlign: "center", marginBottom: "2rem auto" }}>
+        <Title level={2}>แก้ไขสินค้าในร้านค้าของคุณ</Title>
+      </div>
+      <div>
+      <ImgCrop rotate >
+          <Upload
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            listType="picture-card"
+            fileList={fileList}
+            onChange={onChange}
+            onPreview={onPreview}
+          >
+            {fileList.length < 5 && '+ Upload'}
+          </Upload>
+        </ImgCrop>
 
-        <Form onSubmit={onSubmit}>
-            <br></br>
-            <label>ชื่อสินค้า</label>
-            <Input onChange={onTitleChange} value={TitleValue} placeholder={productId.namePD}></Input>
-            <br></br>
-            <br></br>
-            <label>รายละเอียดสินค้า</label>
-            <TextArea onChange={onDesciptionChange} value={DescriptionValue}></TextArea>
-            <br></br>
-            <br></br>
-            <label>ราคา</label>
-            <Input onChange={onPriceChange} value={PriceValue} type='number'></Input>
-            <br></br>
-            <br></br>
-            <label>จำนวน</label>
-            <Input onChange={onQuanityChange} value={QuantityValue} type='number'></Input>
-            <br></br>
-            <br></br>
-            <label>ค่าส่ง</label>
-            <Input onChange={onShippingCostChange} value={ShippingCostValue} type='number'></Input>
-            <br></br>
-            <br></br>
-            <select onChange={onContinentsSelectChange} style={{marginTop:'10px'}}>
-                {Continents.map(item =>(
-                    <option key={item.key} value={item.key}>{item.value}</option>
+      </div>
+      {renderCardsImage}
+      <Form onSubmit={onSubmit}>
+        <br></br>
+        <label>ชื่อสินค้า</label>
+        <Input
+          onChange={onTitleChange}
+          value={TitleValue}
+          placeholder={Product.namePD}
+        ></Input>
+        <br></br>
+        <br></br>
+        <label>รายละเอียดสินค้า</label>
+        <TextArea
+          onChange={onDesciptionChange}
+          value={DescriptionValue}
+          placeholder={Product.DescriptionPD}
+        ></TextArea>
+        <br></br>
+        <br></br>
+        <label>ราคา</label>
+        <Input
+          onChange={onPriceChange}
+          value={PriceValue}
+          type="number"
+          placeholder={Product.pricePD}
+        ></Input>
+        <br></br>
+        <br></br>
+        <label>ค่าส่ง</label>
+        <Input
+          onChange={onShippingCostChange}
+          value={ShippingCostValue}
+          type="number"
+          placeholder={Product.shippingCostPD}
+        ></Input>
+        <br></br>
+        <br></br>
+        <select
+          onChange={onContinentsSelectChange}
+          style={{ marginTop: "10px" }}
+        >
+          {Continents.map((item) => (
+            <option key={item.key} value={item.key}>
+              {item.value}
+            </option>
+          ))}
+        </select>
+        <br></br>
+        <br></br>
+        <Button onClick={onSubmit}>ยืนยัน</Button>
+      </Form>
 
-                ))}    
-            </select>
-            <br></br>
-            <br></br>
-            <Button onClick={onSubmit}>ยืนยัน</Button>
-            
-        </Form>
-
+      
     </div>
-  )
-}
-
+  );
+          }
+};
 
 export default EditProduct;
 

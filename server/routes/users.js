@@ -26,7 +26,8 @@ router.get("/auth", auth, (req, res) => {
         shopName:req.user.shopName,
         history : req.user.history,
         positionShop:req.user.positionShop,
-        recomendedItem:req.user.recomendedItem
+        recomendedItem:req.user.recomendedItem,
+        playerCharacter:req.user.playerCharacter
 
     });
     console.log("back1");

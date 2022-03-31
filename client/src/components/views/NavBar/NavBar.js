@@ -5,7 +5,6 @@ import AvatarUser from './Sections/AvatarUser';
 import { Drawer, Button } from 'antd';
 import './Sections/Navbar.css';
 import { AlignRightOutlined } from '@ant-design/icons';
-
 import { Layout, Menu, Breadcrumb } from 'antd';
 function NavBar() {
   const [visible, setVisible] = useState(false)

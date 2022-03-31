@@ -31,7 +31,7 @@ function App() {
   return (
     <Suspense fallback={(<div>Loading...</div>)}>
       <div id="NavBar">
-      <NavBar />
+      <NavBar/>
       <Header/>
       {/* <RightMenu/> */}
       </div>

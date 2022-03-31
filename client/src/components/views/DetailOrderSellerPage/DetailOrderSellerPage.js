@@ -1,6 +1,6 @@
 
 import Axios from 'axios'
-import { Row, Col,Table,Select ,Button,Input,Tooltip ,Modal,Steps} from 'antd';
+import { Row, Col,Table,Select ,Button,Input,Tooltip ,Modal,Steps,message,notification} from 'antd';
 import React, { useEffect, useState } from 'react'
 import ImageGallery from 'react-image-gallery';
 import { addToCart } from '../../../_actions/user_actions';
@@ -22,6 +22,10 @@ function DetailOrderSellerPage(props) {
     const [Product, setProduct] = useState([])
     const [addess, setaddess] = useState("บ้านเลขที่ 9 บางบอน 4 ซอย 7 ถนนเอกชัย เขตบางบอน เเขวงบางบอน กรุงเทพมหานคร")
     const [color, setcolor] = useState("red")
+    const [imagePayment, setimagePayment] = useState("")
+    const [deliveryCompany, setdeliveryCompany] = useState("")
+
+    console.log(imagePayment);
 
 
     useEffect(()=>{
@@ -29,6 +33,7 @@ function DetailOrderSellerPage(props) {
         Axios.get(`/api/order/order_by_id?id=${orderId}&type=single`)
         .then(response=>{
             setOrder(response.data[0])
+            setimagePayment(response.data[0].imagesPayment)
             console.log(response.data[0]);
             const variables = {
               namePD: response.data[0].namePD,
@@ -46,6 +51,7 @@ function DetailOrderSellerPage(props) {
         })  
        
     },[])
+      
 
 
     
@@ -115,37 +121,87 @@ function DetailOrderSellerPage(props) {
     //         thumbnail: Product.imagesPD3,
     //       },
     //   ];
+    const handleChange =(value)=>{
+      if(value == "1"){
+        setdeliveryCompany("ไปรษณีย์ไทย")
+      }else if(value == "2"){
+        setdeliveryCompany("J&T EXPRESS")
+      }else if(value == "3"){
+        setdeliveryCompany("BEST EXPRES")
+      }else if(value == "4"){
+        setdeliveryCompany("Kerry Express")
+      }else if(value == "5"){
+        setdeliveryCompany("FLASH EXPRESS")
+      }else if(value == "6"){
+        setdeliveryCompany("Ninja Van")
+      }else if(value == "7"){
+        setdeliveryCompany("DHL Express")
+      }else if(value == "8"){
+        setdeliveryCompany("SAlpha Fast")
+      }else if(value == "9"){
+        setdeliveryCompany("SCG EXPRESS")
+      }else if(value == "10"){
+        setdeliveryCompany("Nim Express")
+      }
+    }
+    console.log(deliveryCompany);
 
     const confirmOrder=() =>{  
         const variables ={
             id:Order._id,
-            status:"pending"
+            status:"pending",
+           
         }
         Axios.put('/api/order/editConfirmOrder',variables)
               .then(response =>{
                   if(response.data.success){
-                      alert('product success to upload')
+                    let placement ="top";
+                    notification.success({
+                      message: 'ยืนยันคำสั่งซื้อเสร็จสิ้น',
+                      description:
+                        'ยืนยันคำสั่งซื้อเสร็จสิ้น อย่าลืมส่งเลขพัสดุนะ!!',
+                        placement
+                    });
                   }else{
                       alert(response)
                   }
               })
 
     }
+    const openNotificationWithIcon = () => {
+      let placement ="top";
+      notification.success({
+        message: 'ส่งเลขพัสดุเสร็จสิ้น',
+        description:
+          'ส่งชื่อบริษัทขนส่งสินค้าและเลขพัสดุสำเร็จ',
+          placement
+      });
+    };
 
     const sendTrackingNumber = () => {
-      const variables = {
-        id: Order._id,
-        status: "success",
-        trackingNumber: trackingNumber,
-      };
+      if(trackingNumber ==""){
+        message.error('กรุณากรอกเลขพัสดุ');
+      }
+      else if(deliveryCompany =="" ){
+        message.error('กรุณาเลือกบริษัทขนส่งสินค้า');
 
-      Axios.put("/api/order/editConfirmOrder", variables).then((response) => {
-        if (response.data.success) {
-          alert("product success to upload");
-        } else {
-          alert(response);
-        }
-      });
+      }else{
+        const variables = {
+          id: Order._id,
+          status: "success",
+          trackingNumber: trackingNumber,
+          deliveryCompany:deliveryCompany
+        };
+  
+        Axios.put("/api/order/editConfirmOrder", variables).then((response) => {
+          if (response.data.success) {
+            openNotificationWithIcon()
+          } else {
+            alert(response);
+          }
+        });
+      }
+     
     };
 
     const onTrackingChange =(event)=>{
@@ -161,11 +217,13 @@ function DetailOrderSellerPage(props) {
     };
     Axios.put("/api/order/rejectOrder", variables).then((response) => {
       if (response.data.success) {
-        alert("product success to upload");
-        const variables = {
-          id: Order._id,
-          status: "reject",
-        }
+        let placement ="top";
+        notification.success({
+          message: 'ยกเลิกรายการสั่งซื้อ',
+          description:
+            'ยกเลิกรายการสั่งซื้อสำเร็จ',
+            placement
+        });
       } else {
         alert(response);
       }
@@ -196,7 +254,7 @@ function DetailOrderSellerPage(props) {
       <div style={{marginBottom:'15px'  }}>
           <Steps current={0}>
             <Step status="process" title="รอการยืนยันออเดอร์" icon={<UserOutlined />} />
-            <Step status="wait" title="รอการส่งเลขพัศดุ" icon={<SolutionOutlined />}/>
+            <Step status="wait" title="รอการส่งเลขพัสดุ" icon={<SolutionOutlined />}/>
             <Step status="wait" title="เสร็จสิ้น" icon={<SmileOutlined />} />
           </Steps>
         </div>:
@@ -204,21 +262,21 @@ function DetailOrderSellerPage(props) {
         <div style={{marginBottom:'15px'  }}>
         <Steps current={0}>
           <Step status="finish" title="รอการยืนยันคำสั่งซื้อ" icon={<UserOutlined />} />
-          <Step status="process" title="รอการส่งเลขพัศดุ" icon={<SolutionOutlined />}/>
+          <Step status="process" title="รอการส่งเลขพัสดุ" icon={<SolutionOutlined />}/>
           <Step status="wait" title="เสร็จสิ้น" icon={<SmileOutlined />} />
         </Steps>
       </div>:  Order.status == "success" ?
       <div style={{marginBottom:'15px'  }}>
       <Steps current={0}>
         <Step status="finish" title="รอการยืนยันคำสั่งซื้อ" icon={<UserOutlined />} />
-        <Step status="finish" title="รอการส่งเลขพัศดุ" icon={<SolutionOutlined />}/>
+        <Step status="finish" title="รอการส่งเลขพัสดุ" icon={<SolutionOutlined />}/>
         <Step status="process" title="เสร็จสิ้น" icon={<SmileOutlined />} />
       </Steps>
     </div>:
       <div style={{marginBottom:'15px'  }}>
       <Steps current={0}>
         <Step status="finish" title="รอการยืนยันคำสั่งซื้อ" icon={<UserOutlined />} />
-        <Step status="finish" title="รอการส่งเลขพัศดุ" icon={<SolutionOutlined />}/>
+        <Step status="finish" title="รอการส่งเลขพัสดุ" icon={<SolutionOutlined />}/>
         <Step status="process" title="ยกเลิกคำสั่งซื้อ" icon={<SmileOutlined />} />
       </Steps>
     </div>
@@ -229,7 +287,7 @@ function DetailOrderSellerPage(props) {
      <div  style={{display:'flex'}} >
         <h2 style={{fontWeight:'bold' }}>สถานะคำสั่งซื้อ :</h2>
         {Order.status == "Not Confirmed" ? <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'red'}} >รอการยืนยันคำสั่งซื้อ</h2>:
-        Order.status == "pending" ? <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'#ffc53d'}}>รอการส่งเลขพัศดุ</h2>:
+        Order.status == "pending" ? <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'#ffc53d'}}>รอการส่งเลขพัสดุ</h2>:
         Order.status == "success" ? <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'green'}}>เสร็จสิ้น</h2>:
         <h2 style={{fontWeight:'bold',paddingLeft:'7px' ,marginBottom:'5px' , color:'#cf1322'}}>ยกเลิกคำสั่งซื้อ</h2>
         }
@@ -256,20 +314,25 @@ function DetailOrderSellerPage(props) {
         <h3>ค่าจัดส่ง : {Order.shippingCostPD}</h3>
         <h3>ส่วนลด : {Order.totalPrice}</h3>
         <h1>รวม : {Order.totalPrice}</h1>
+        {Order.status == "success" || Order.status =="pending" ?
         <div style={{ display: "grid" }}>
-          <Tooltip
-            title="ตรวจสอบความถูกต้องก่อนยืนยัน "
-            color={color}
-            key={color}
-          >
-            <Button size='large' type="primary" style={{ marginBottom: "20px", background: "#7cb305" ,borderColor:'#7cb305'}} onClick={confirmOrder}>
-              ยืนยันออเดอร์
+          
+          </div> :
+          <div style={{ display: "grid" }}>
+            <Tooltip
+              title="ตรวจสอบความถูกต้องก่อนยืนยัน "
+              color={color}
+              key={color}
+            >
+              <Button size='large' type="primary" style={{ marginBottom: "20px", background: "#7cb305", borderColor: '#7cb305' }} onClick={confirmOrder}>
+                ยืนยันออเดอร์
+              </Button>
+            </Tooltip>
+            <Button size='large' style={{ marginBottom: "20px" }} type="primary" danger={true} onClick={cancelOrder}>
+              ยกเลิกออเดอร์
             </Button>
-          </Tooltip>
-          <Button size='large'style={{ marginBottom: "20px" }} type="primary" danger={true} onClick={cancelOrder}>
-            ยกเลิกออเดอร์
-          </Button>
-        </div>
+          </div>}
+        
       </div>
       <div style={{ marginTop: "30px" }}>
         <h3>ที่อยู่ที่ต้องจัดส่ง</h3>
@@ -291,6 +354,7 @@ function DetailOrderSellerPage(props) {
           <Select
             style={{ width: 200, marginBottom: "10px" }}
             placeholder="เลือกบริษัทขนส่งพัสดุ"
+            onChange={handleChange}
           >
             <Option value="1">ไปรษณีย์ไทย</Option>
             <Option value="2">J&T EXPRESS </Option>
@@ -330,7 +394,7 @@ function DetailOrderSellerPage(props) {
           </Button>,
         ]}
       >
-        <img style={{ width: "100%" }} src={"https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/277232762_1148139832650601_2965467530729032920_n.jpg?alt=media&token=6f15da42-9559-4bb7-85ee-2b62bdc679b9"} />
+        <img style={{ width: "100%" }} src={Order.imagesPayment} />
       </Modal>
     </div>
   );

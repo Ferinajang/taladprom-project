@@ -55,6 +55,9 @@ const orderSchema = mongoose.Schema({
     },
     phoneNumberOrder:{
         type:String
+    },
+    deliveryCompany:{
+        type:String
     }
 })
 

@@ -14,11 +14,29 @@ const {Title} = Typography;
 const {TextArea} = Input ;
 
 const Continents =[
-    {key : 1, value:"เสื้อผ้า"},
-    {key : 2, value:"อาหาร"},
-    {key : 3, value:"เครื่องใช้ไฟฟ้า"},
-    {key : 4, value:"ของใช้ภายในครัวเรือน"},
-    {key : 5, value:"ผลิตภัณฑ์เสริมความงาม"},
+    {key : 1, value:"เสื้อผ้าแฟชั่นผู้ชาย"},
+    {key : 2, value:"เสื้อผ้าแฟชั่นผู้หญิง"},
+    {key : 3, value:"ความงามและของใช้ส่วนตัว"},
+    {key : 4, value:"อาเสริมและผลิตภัณฑ์เพื่อสุขภาพ"},
+    {key : 5, value:"ของเล่นเด็ก สินค้าแม่และเด็ก"},
+    {key : 6, value:"นาฬิกาและเเว่นตา"},
+    {key : 7, value:"เครื่องใช้ในบ้าน"},
+    {key : 8, value:"กระเป๋า"},
+    {key : 9, value:"รองเท้าผู้ชาย"},
+    {key : 10, value:"รองเท้าผู้หญิง"},
+    {key : 11, value:"มือถือและอุปกรณ์เสริม"},
+    {key : 12, value:"คอมพิวเตอร์และเเล็ปท็อป"},
+    {key : 13, value:"กล้องและอุปกรณ์ถ่ายภาพ"},
+    {key : 14, value:"เครื่องประดับ"},
+    {key : 15, value:"กีฬาและกิจกรรมกลางเเจ้ง"},
+    {key : 16, value:"อาหารและเครื่องดืม"},
+    {key : 17, value:"เครื่องใช้ไฟฟ้าภายในบ้าน"},
+    {key : 18, value:"สื่อบันเทิงภายในบ้าน"},
+    {key : 19, value:"สัตว์เลี้ยง"},
+    {key : 20, value:"เครื่องเขียน หนังสือ และเครื่องดนตรี"},
+    {key : 21, value:"ยานยนต์"},
+    {key : 22, value:"เกมและอุปกรณ์เสริม"},
+
 ]
 
 function UploadProductPage(props) {
@@ -67,6 +85,7 @@ function UploadProductPage(props) {
         console.log(event.currentTarget.files[0]);
         if(event.currentTarget.files[0]){
             setImage1(event.currentTarget.files[0])
+            console.log(event.currentTarget.files[0]);
         } 
         
     };
@@ -129,7 +148,7 @@ function UploadProductPage(props) {
 
  
     const handleUploadImage1 = () => {
-        console.log("data imagetest:"+Image1);
+        console.log("data imagetest:"+ Image1);
         const uploadTask = storage.ref(`images/${Image1.name}`).put(Image1);
         uploadTask.on(
           "state_changed",
@@ -227,7 +246,7 @@ function UploadProductPage(props) {
             descripstionPD: DescriptionValue,
             imagesPD1 : urlList[0],
             imagesPD2 :urlList[1],
-            imagesPD2 :urlList[2],
+            imagesPD3 :urlList[2],
             imagesPD4 : urlList[3],
             imagesPD5 : urlList[4],
             imagesPD6 : urlList[5],
