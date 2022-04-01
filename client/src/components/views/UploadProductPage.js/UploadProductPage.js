@@ -380,8 +380,6 @@ function UploadProductPage(props) {
             <Button onClick={onSubmit}>เพิ่มสินค้าลงในสต็อก</Button>
           </Form>
         </div>
-
-
         <Modal
           title="เพิ่มรูปภาพสินค้าของคุณ"
           visible={ModalImage}

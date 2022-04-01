@@ -13,6 +13,11 @@ import { Card, Icon, Col, Row, Button } from 'antd';
 import Header from '../SideMenu/Header'
 import AgoraRTC from "agora-rtc-sdk-ng"
 import Loading from "../../Loading";
+import ProductInfo from "../DetailProductPage/Section/ProductInfo";
+import { addToCart } from '../../../_actions/user_actions';
+import { useDispatch } from 'react-redux';
+import ImageGallery from 'react-image-gallery';
+
 
 
 
@@ -28,6 +33,7 @@ const unityContext = new UnityContext({
 
 
 function GamePage(props) {
+    const dispatch = useDispatch();
     const [modalCounter, setModalCounter] = useState(false);
     const [modalMiniShelf, setModalMiniShelf] = useState(false);
     const [modalSeller, setModalSeller] = useState(false);
@@ -35,6 +41,7 @@ function GamePage(props) {
     const [modalShopSign, setModalShopSign] = useState(false);
     const [modalCouponRandom, setmodalCouponRandom] = useState(false)
     const [modalMiniShelf1, setModalMiniShelf1] = useState(true);
+    const [arrayRecommend, setarrayRecommend] = useState([])
     
     const [countProMiniShelf, setCountProMiniShelf1] = useState(0);
 
@@ -68,6 +75,9 @@ function GamePage(props) {
     const [Coupon, setCoupon] = useState([])
     const [CouponRandom, setCouponRandom] = useState([])
     const [CouponLength, setCouponLength] = useState(0)
+
+    const [modalProductDetail, setmodalProductDetail] = useState(false)
+    const [ProductDetail, setProductDetail] = useState([])
 
 
 
@@ -119,6 +129,9 @@ function GamePage(props) {
 
         unityContext.on("sendInShop", async function (isTrigger2, ShopNumber) {
             setModalMiniShelf(isTrigger2);
+            if(isTrigger2){
+            randomMini(ShopNumber)
+            }
             setShopNumberFromUnity(ShopNumber.toString());
             let options;
             console.log(ShopNumberFromUnity);
@@ -127,10 +140,10 @@ function GamePage(props) {
             }
             if (ShopNumber == "0") {
                 setModalMiniShelf(false);
-                rtc.localAudioTrack.close();
+                // rtc.localAudioTrack.close();
 
-                  // Leave the channel.
-                await rtc.client.leave();
+                //   // Leave the channel.
+                // await rtc.client.leave();
             }
             else {
                 startBasicCall()
@@ -280,11 +293,11 @@ function GamePage(props) {
                     };
                 }
 
-                await rtc.client.join(options.appId, options.channel, options.token, options.uid);
-                // Create a local audio track from the audio sampled by a microphone.
-                rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-                // Publish the local audio tracks to the RTC channel.
-                await rtc.client.publish([rtc.localAudioTrack]);
+                // await rtc.client.join(options.appId, options.channel, options.token, options.uid);
+                // // Create a local audio track from the audio sampled by a microphone.
+                // rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+                // // Publish the local audio tracks to the RTC channel.
+                // await rtc.client.publish([rtc.localAudioTrack]);
 
                 console.log("publish success!");
 
@@ -397,6 +410,46 @@ function GamePage(props) {
 
     }, []);
 
+    const addToCartHandler = (productId) => {
+        dispatch(addToCart(productId));
+      };
+    
+      const images = [
+        {
+          original: ProductDetail.imagesPD1,
+          thumbnail: ProductDetail.imagesPD1,
+        },
+        {
+          original: ProductDetail.imagesPD2,
+          thumbnail: ProductDetail.imagesPD2,
+        },
+        {
+          original: ProductDetail.imagesPD3,
+          thumbnail: ProductDetail.imagesPD3,
+        },
+      ];
+    const openProductDetail=(product)=>{
+        console.log(product);
+        setProductDetail(product)
+        setmodalProductDetail(true)
+        // const variables = {
+        //     id: product._id,
+        //   };
+        //   Axios.post("/api/product/getProductByIDGamePDDetail", variables).then(
+        //     (response) => {
+        //       if (response.data.success) {
+        //           console.log(response.data.product);
+        //         setProductDetail(response.data.product[0])
+        //       } else {
+        //         alert("Fialed to fecth data from mongodb");
+        //       }
+        //     }
+        //   );
+        
+
+    }
+
+
 
 
     const renderCards = Product.map((product, index) => {
@@ -408,9 +461,8 @@ function GamePage(props) {
         if (ShopNumberFromUnity == product.positionShop) {
             // console.log("getsuccess")
             return (
-
                 <Col lg={4} style={{ padding: '5px' }}>
-                    <a href={`/product/${product._id}`}>
+                    <a onClick={()=>openProductDetail(product)} >
                         <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
                             <Meta
                                 title={product.namePD}
@@ -421,34 +473,70 @@ function GamePage(props) {
                 </Col>
             );
         }
-
     });
 
-    const renderCardsMiniShelf = Product.map((product, index) => {
-        // console.log("getsuccess");
-        // console.log(ShopNumberFromUnity);
-        // console.log(product.positionShop)
-        // setShopName('product.shopName')
+    //     const renderCardsMiniShelf1 = arrayRecommend.map((product, index) => {
+    //             return (
+    //                 <Col lg={4} style={{ padding: '5px' }}>
+    //                     <a href={`/product/${product._id}`}>
+    //                         <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
+    //                             <Meta
+    //                                 title={product.namePD}
+    //                                 description={`${product.pricePD}฿`}
+    //                             ></Meta>
+    //                         </Card>
+    //                     </a>
+    //                 </Col>
+    //             );
+    //     });
+    //     const renderCardsMiniShelf2 = arrayRecommend.map((product, index) => {
+    //         return (
+    //             <Col lg={4} style={{ padding: '5px' }}>
+    //                 <a href={`/product/${product._id}`}>
+    //                     <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
+    //                         <Meta
+    //                             title={product.namePD}
+    //                             description={`${product.pricePD}฿`}
+    //                         ></Meta>
+    //                     </Card>
+    //                 </a>
+    //             </Col>
+    //         );
+    // });
 
-        if (ShopNumberFromUnity == product.positionShop && product.recommend == "recommended") {
+    // const renderCardsMiniShelf3 = arrayRecommend.map((product, index) => {
+    //     return (
+    //         <Col lg={4} style={{ padding: '5px' }}>
+    //             <a href={`/product/${product._id}`}>
+    //                 <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
+    //                     <Meta
+    //                         title={product.namePD}
+    //                         description={`${product.pricePD}฿`}
+    //                     ></Meta>
+    //                 </Card>
+    //             </a>
+    //         </Col>
+    //     );
+    // });
 
-            // console.log("getsuccess")
-            return (
-
-                <Col lg={4} style={{ padding: '5px' }}>
-                    <a href={`/product/${product._id}`}>
-                        <Card hoverable={true} cover={<img src={product.imagesPD1}></img>}>
-                            <Meta
-                                title={product.namePD}
-                                description={`${product.pricePD}฿`}
-                            ></Meta>
-                        </Card>
-                    </a>
-                </Col>
-            );
-        }
-
-    });
+        const randomMini = (ShopNumber) => {
+        Axios.post("/api/product/getProductToGame").then((response) => {
+            if (response.data.success) {
+                console.log(response.data.product);
+                response.data.product.forEach((item) => {
+                    if (ShopNumber == item.positionShop && item.recommended
+                        == "recommended") {
+                        console.log(item);
+                        arrayRecommend.push(item);
+                    } 
+                });
+                // setCouponLength(Math.floor(Math.random() * noOwnerCouponList.length));
+                // setCouponRandom(noOwnerCouponList[CouponLength]);
+            } else {
+                alert("Fialed to fecth data from mongodb");
+            }
+        });
+    };
 
     const randomCoupon = () => {
         Axios.post("/api/coupon/getCoupon").then((response) => {
@@ -653,10 +741,6 @@ function GamePage(props) {
                             <Button style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold', width: '380px', height: '60px', marginTop: '20px', borderRadius: '10px' }} onClick={onclickbuttonBeSeller}>เข้าไปยังร้านของคุณ</Button>
                         </div>
                     }
-
-
-
-
                 </Modal>
 
                 <Modal className="modal-coupon-random-head" isOpen={modalCouponRandom}>
@@ -722,6 +806,61 @@ function GamePage(props) {
 
                     </div>
                 </Modal>
+
+                <Modal className="modal-ProductDetail" isOpen={modalProductDetail}>
+              <div
+                style={{
+                  height: "15px",
+                  fontSize: "25px",
+                  textAlign: "right",
+                  margin: "10px",
+                }}
+                onClick={() => setmodalProductDetail(false)}
+                    >
+                        <MdClear style={{ cursor: "pointer" }} />
+                    </div>
+                    <div
+                        style={{
+                            width: "40%",
+                            height: '70vh',
+                            float: "right",
+                            backgroundColor: "#fafafa",
+                        }}
+                    >
+                        <div style={{
+                            width: "80%",
+                            padding: '10px',
+                            backgroundColor: "#f5f5f5",
+                        }}>
+                            <h1>{ProductDetail.namePD}</h1>
+                        </div>
+                        <div style={{ display: "flex", justifyContent: "flex-start", marginLeft: '20px', marginTop: '20px' }}>
+                            <ProductInfo addToCart={addToCartHandler} detail={ProductDetail} />
+                        </div>
+                        <div style={{ float: 'right' }}>
+                            <Button
+                                style={{ marginTop: '180px', marginRight: '15px', backgroundColor: '#2F2851' }}
+                                size="large"
+                                shape="round"
+                                type="primary"
+                                onClick={() =>
+                                    addToCartHandler(ProductDetail._id)
+                                }
+                            >
+                                เพิ่มสินค้าลงในตระกร้า
+                            </Button>
+                        </div>
+                    </div>
+                    <div>
+                        <Col lg={8} xs={24}>
+                            <ImageGallery items={images} />;
+                        </Col>
+                    </div>
+
+                </Modal>
+
+
+
                 {modalMiniShelf && 
                 <div>
                     <div className="modal-ShowProductOnShelf">

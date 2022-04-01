@@ -91,3 +91,18 @@ body {
     border-radius: 15px;
     background-color: rgb(255, 255, 255)!important;
   }
+
+  .modal-ProductDetail {
+    margin-left: 15%;
+    display: block;
+    margin-top: 5%;
+    align-content: center;
+    justify-content: center;
+    width: 75%;
+    height: 80%;
+    overflow: auto;
+    background-color:white;
+    border-radius: 15px;
+    position: relative;
+  }
+  
