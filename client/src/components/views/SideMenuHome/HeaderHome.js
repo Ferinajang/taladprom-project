@@ -56,7 +56,7 @@ const { Step } = Steps;
 const { TabPane } = Tabs;
 
 
-const Header = (props) => {
+const HeaderHome = (props) => {
     const [modalCart, setModalCart] = useState(false);
     const [modalOrder, setModalOrder] = useState(false);
     const [order, setorder] = useState([]);
@@ -1503,4 +1503,4 @@ const Header = (props) => {
   }
 };
 
-export default withRouter(Header);
+export default withRouter(HeaderHome);

@@ -164,6 +164,15 @@ router.post("/getProductByID", auth, (req, res) => {
 })
  });
 
+ router.post("/getProductByIDGamePDDetail", auth, (req, res) => {
+    Product.find({id:req.body.id})
+    .exec((err,product)=>{
+        if(err) return res.status(400).json({success:false,err})
+        res.status(200).json({success:true,product})
+})
+ });
+
+
 
  
 router.put("/deleteProductByID", auth, (req, res) => {
