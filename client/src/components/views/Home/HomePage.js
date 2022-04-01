@@ -2,7 +2,7 @@ import Axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Card, Icon, Col, Row } from "antd";
 import Modal from 'react-modal'
-import Header from "../SideMenuHome/Header";
+import Header from "../SideMenuHome/HeaderHome";
 
 const { Meta } = Card;
 

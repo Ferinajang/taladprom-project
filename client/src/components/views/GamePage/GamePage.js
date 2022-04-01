@@ -557,7 +557,6 @@ function GamePage(props) {
     }
 
     const onclickbuttonBeSeller = () => {
-
         if (props.user.userData.positionShop == "1") {
             unityContext.send("ConnectToserver", "ClickOKOnReact1", 1);
         }
@@ -728,8 +727,8 @@ function GamePage(props) {
                     <div className="modal-ShowProductOnShelf">
                         
                     </div>
-                    <div className="modal-ShowProductOnShelf" style={{marginTop:'280px',marginLeft:'100px'}}></div>
-                    <div className="modal-ShowProductOnShelf" style={{marginTop:'450px',marginLeft:'80px'}}></div>
+                    <div className="modal-ShowProductOnShelf" style={{marginTop:'280px',marginRight:'280px'}}></div>
+                    <div className="modal-ShowProductOnShelf" style={{marginTop:'450px',marginRight:'250px'}}></div>
                 </div>
                 
                 }

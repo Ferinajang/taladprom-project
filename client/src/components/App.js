@@ -36,7 +36,7 @@ function App() {
       {/* <RightMenu/> */}
       </div>
       <div id="HeaderHome">
-      <Header/>
+      <HeaderHome/>
       </div>
       
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
