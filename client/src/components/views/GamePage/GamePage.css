@@ -55,7 +55,11 @@ body {
     width: 250px;
     height: 80px;
     border-radius: 15px;
-    background-color: rgb(47, 40, 81,0.5)!important;
+    background-color: rgba(0, 0, 0, 1)!important;
+  }
+
+  .modal-ShowProductOnShelf.show {
+    opacity: 0 !important;
   }
 
   .modal-ShowMiniShelfLeftOne{
@@ -91,3 +95,7 @@ body {
     border-radius: 15px;
     background-color: rgb(255, 255, 255)!important;
   }
+
+#ModalMiniShelf .ReactModalPortal .ReactModal__Overlay.ReactModal__Overlay--after-open {
+  background-color: unset !important;
+}

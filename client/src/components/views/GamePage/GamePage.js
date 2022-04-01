@@ -142,7 +142,7 @@ function GamePage(props) {
                         // Set the channel name.
                         channel: "shop1",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADtSN1edNJBTRgN/S9LQ8CHmrc5XY6gunRgw2f+M8kHFD9HqLsAAAAAEADR1hyrdFJGYgEAAQByUkZi",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IABSso92MMRzCXeUb/kBud1UZ7HBDfISUZt/VCiOYJtsfD9HqLsAAAAAEABg4SwU3OZHYgEAAQDb5kdi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -722,16 +722,21 @@ function GamePage(props) {
 
                     </div>
                 </Modal>
-                {modalMiniShelf && 
+                {/* {modalMiniShelf && 
                 <div>
                     <div className="modal-ShowProductOnShelf">
                         
                     </div>
                     <div className="modal-ShowProductOnShelf" style={{marginTop:'280px',marginRight:'280px'}}></div>
                     <div className="modal-ShowProductOnShelf" style={{marginTop:'450px',marginRight:'250px'}}></div>
-                </div>
-                
-                }
+                </div>} */}
+
+                <Modal id="ModalMiniShelf">
+                    isOpen={modalMiniShelf}
+                    <div className="modal-ShowProductOnShelf">
+                        <a>minishelfจ้า</a>
+                    </div>
+                </Modal>
                 
 
             </div>
