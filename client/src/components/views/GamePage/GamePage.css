@@ -112,4 +112,18 @@ body {
     border-radius: 15px;
     position: relative;
   }
+  .modal-coupon-random-head {
+    margin: auto;
+    display: block;
+    margin-top: 7%;
+    align-content: center;
+    justify-content: center;
+    width: 40%;
+    height: 65%;
+    overflow: auto;
+    background-color:rgb(255, 255, 255);
+    border-radius: 15px;
+    position: relative;
+    border: 3px solid rgba(0, 0, 0, 0.05);
+  }
   

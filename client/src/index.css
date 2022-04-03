@@ -165,7 +165,7 @@ input[type="checkbox"] {
 
     border:4px solid #FFFFFF;
     overflow:hidden;
-    background-image: linear-gradient(to bottom, #eaf5ff 50%, #FFFFFF 50%);
+    background-image: linear-gradient(to bottom, #004280 50%, #FFFFFF 50%);
     background-size: 100% 200%;
     transition: all 1s;
     color: #FFFFFF;

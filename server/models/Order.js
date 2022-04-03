@@ -58,7 +58,13 @@ const orderSchema = mongoose.Schema({
     },
     deliveryCompany:{
         type:String
-    }
+    },
+    rejectText:{
+        type:String
+    },
+    addressSeller:{
+        type:String
+    },
 })
 
 

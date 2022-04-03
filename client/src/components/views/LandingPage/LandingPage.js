@@ -5,7 +5,7 @@ import CheckBox from './Section/CheckBox';
 import RadioBox from './Section/RadioBox';
 import { continentsPD,price } from './Section/Data';
 import SearchFeature from './Section/SearchFeature';
-import { StarOutlined, StarFilled,MailOutlined } from '@ant-design/icons';
+import { StarOutlined, StarFilled,MailOutlined ,AppstoreAddOutlined,LikeOutlined,StarTwoTone,PlusOutlined} from '@ant-design/icons';
 import { MdClear } from "react-icons/md";
 import Modal from "react-modal";
 import Loading from '../../Loading';
@@ -205,12 +205,11 @@ function LandingPage(props) {
         if(!props.user.userData){
             //console.log("fffff");
         }else{
-          
           if(product.writer._id == props.user.userData._id){    
           return (
             <Col lg={4} md={8} xs={24}> 
             {product.recommended == "recommended" ?  
-            <div><Tooltip title="นำออกจากสินค้าเเนะนำ"><Button  type="text" style={{ width: "220px",height:"50px",fontSize:'18px',fontWeight:'normal'}} onClick={()=>UnRecommendedProduct(product)} >สินค้าแนะนำ <StarFilled style={{color:'yellow'}}/></Button></Tooltip></div> :
+            <div><Tooltip title="นำออกจากสินค้าเเนะนำ"><Button  type="text" style={{ width: "220px",height:"50px",fontSize:'18px',fontWeight:'normal'}} onClick={()=>UnRecommendedProduct(product)} >สินค้าแนะนำ <StarTwoTone style={{color:'yellow'}}/></Button></Tooltip></div> :
             <div><Tooltip title="เพิ่มเป็นสินค้าเเนะนำ"><Button type="text" style={{ width: "220px",height:"50px",fontSize:'18px',fontWeight:'normal'}} onClick={()=>addRecommendedProduct(product)} >สินค้าแนะนำ <StarOutlined /></Button></Tooltip></div>  
             } 
               <a href={`/productSeller/${product._id}`}>
@@ -236,7 +235,7 @@ function LandingPage(props) {
           return (
             <Col lg={4} md={8} xs={24}> 
            {product.recommended == "recommended" ?  
-            <div><Tooltip title="นำออกจากสินค้าเเนะนำ"><Button  type="text" style={{ width: "220px",height:"50px",fontSize:'18px',fontWeight:'normal'}} onClick={()=>UnRecommendedProduct(product)} >สินค้าแนะนำ <StarFilled style={{color:'yellow'}}/></Button></Tooltip></div> :
+            <div><Tooltip title="นำออกจากสินค้าเเนะนำ"><Button  type="text" style={{ width: "220px",height:"50px",fontSize:'18px',fontWeight:'normal'}} onClick={()=>UnRecommendedProduct(product)} >สินค้าแนะนำ <StarTwoTone  style={{color:'yellow'}}/></Button></Tooltip></div> :
             <div><Tooltip title="เพิ่มเป็นสินค้าเเนะนำ"><Button type="text" style={{ width: "220px",height:"50px",fontSize:'18px',fontWeight:'normal'}} onClick={()=>addRecommendedProduct(product)} >สินค้าแนะนำ <StarOutlined /></Button></Tooltip></div>  
             } 
               <a href={`/productSeller/${product._id}`}>
@@ -323,9 +322,10 @@ function LandingPage(props) {
             <td>{product.pricePD}บาท</td>
             <td>{product.quantityPD} ชิ้น</td>
             <td>
-              <button onClick={()=>addquantity(product)}>
-                Remove
-              </button>
+              <Button type="primary" icon={<PlusOutlined />} onClick={() => addquantity(product)} size="large">
+                เพิ่มจำนวนสินค้า
+              </Button>
+  
             </td>
           </tr>
         );
@@ -406,11 +406,11 @@ function LandingPage(props) {
               
               
             >
-              <SubMenu key="sub1" icon={<MailOutlined />} title="จัดการสินค้า">
+              <SubMenu key="sub1" icon={<AppstoreAddOutlined style={{fontSize:'20px'}} />} title="จัดการสินค้า">
                 <Menu.Item key="1" onClick={goToShop}>เพิ่มสินค้า</Menu.Item>
                 <Menu.Item key="2" onClick={()=>openModalUpdateStock()}>เพิ่มสต๊อกสินค้า</Menu.Item>
               </SubMenu>
-              <Menu.Item key="3"onClick={manageRecomendedProduct}>จัดการสินค้าแนะนำ</Menu.Item>
+              <Menu.Item key="3" icon={<LikeOutlined style={{fontSize:'20px'}} />} onClick={manageRecomendedProduct}>จัดการสินค้าแนะนำ</Menu.Item>
             </Menu>
          
         </div>
