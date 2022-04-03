@@ -115,8 +115,9 @@ body {
     align-content: center;
     justify-content: center;
     width: 75%;
-    height: 80%;
+    height: 85%;
     overflow: auto;
+    overflow-y: hidden;
     background-color:rgb(255, 255, 255);
     border-radius: 15px;
     position: relative;

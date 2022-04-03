@@ -1,8 +1,9 @@
 import Axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Card, Icon, Col, Row } from "antd";
+import { Card, Icon, Col, Row,Image } from "antd";
 import Modal from 'react-modal'
 import Header from "../SideMenuHome/HeaderHome";
+
 
 const { Meta } = Card;
 
@@ -103,7 +104,6 @@ const setModalIsOpenToFalse =()=>{
   
   return (
     <div>
-       <Header/>
       <a class="homeHeader">ยินดีต้อนรับสู่ TALADPROM</a>
       <div class="wrapperImgHome">
         <div>

@@ -37,7 +37,10 @@ const renderCards = () =>
           </Button>
         </div>
       </Card>
+      <br/>
+      <br/>
     </Col>
+    
   ));
      
     
@@ -80,6 +83,7 @@ const renderCards = () =>
         <tbody>{renderItems()}</tbody>
       </table> */}
       {renderCards()}
+      
     </div>
   );
 }

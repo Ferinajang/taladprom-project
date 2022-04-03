@@ -8,8 +8,8 @@ import {
 } from "react-pro-sidebar";
 import Modal from 'react-modal';
 import React, { useEffect, useState } from "react";
-import { Icon, Badge, Form, Input, Button, Card, Col, Row, Steps, Avatar, Table, Tabs,message ,notification,
-  Drawer, Space} from "antd";
+import { Icon, Badge, Form, Input, Button, Card, Col, Row, Steps, Avatar, Table, Tabs,message ,notification,Popover,
+  Drawer, Space,Image} from "antd";
 import { useDispatch } from 'react-redux'
 import axios from "axios";
 import { USER_SERVER } from "../../Config";
@@ -27,9 +27,10 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { HiLocationMarker } from "react-icons/hi";
 import { IoIosList } from "react-icons/io";
 import { IoArrowBackCircleSharp,IoArrowForwardCircle} from "react-icons/io5";
+import CountDownTimeOut from '../CreateCoupon/Section/CountDownTimeOut';
 
 
-import { MdClear } from "react-icons/md";
+import { MdClear } from "react-icons/md";                      
 //import sidebar css from react-pro-sidebar module and our custom css 
 import "react-pro-sidebar/dist/css/styles.css";
 import "./SideMenuHome.css";
@@ -149,6 +150,13 @@ const HeaderHome = (props) => {
     const editName =()=>{
         setstateCheck(false)
       }
+
+      const content =(coupon)=>{
+      return(
+        <CountDownTimeOut deadline={coupon.dateTimeOut}/>
+      )
+       
+    }
       
       const OnSubmitEdit =(data)=>{      
         const variables ={
@@ -228,24 +236,23 @@ const HeaderHome = (props) => {
     // console.log(order)
     // var renderCards;
     // if (order.length !== 0) {
-    const renderCards = order.map((order, index) => {
+    const renderCardsOrderNotConfirm = order.map((order, index) => {
         console.log("eiei");
         console.log(order);
+        if(order.status == "Not Confirmed")
         return (
-
-            <Col >
+            <Col lg={12} style={{alignItems:'center'}}>
                 <a href={`/order/${order._id}`}>
-                    <Card>
-
+                    <Card style={{width:'450px',height:'25vh'}}>
                         <div style={{ float: 'right' }}>
-                            {(order.status === "Not Confirmed" ? <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', color: 'red' }}>รอการยืนยัน</h2> : order.status === "pending" ? <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', marginBottom: '5px', color: 'ffc53d' }}>รอการจัดส่ง</h2> : order.status === "success" ?
+                            {(order.status === "Not Confirmed" ? <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', color: 'red' }}>รอการยืนยัน</h2> : order.status === "pending" ? <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', marginBottom: '5px', color: '#ffc53d' }}>รอการจัดส่ง</h2> : order.status === "success" ?
                                 <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', marginBottom: '5px', color: 'green' }}>เสร็จสิ้น</h2> : <h2></h2>)
 
                             }
                         </div>
                         <div style={{ display: 'flex' }}>
                             <img width={100} height={100} src={order.imagesPD1} />
-                            <div style={{ display: 'block', marginLeft: '100px' }}>
+                            <div style={{ display: 'block', marginLeft: '50px' }}>
                                 <h2 style={{ fontFamily: 'Prompt', fontWeight: 'bold' }}>{order.namePD}</h2>
                                 <h4 style={{ fontFamily: 'Prompt', fontWeight: 'thin' }}>จำนวน {order.quantityPD} ชิ้น</h4>
                                 <h4>ราคารวม {order.totalPrice} บาท</h4>
@@ -256,6 +263,87 @@ const HeaderHome = (props) => {
             </Col>
         );
     });
+    const renderCardsOrderPending = order.map((order, index) => {
+      console.log("eiei");
+      console.log(order);
+      if(order.status == "pending")
+      return (
+        <Col lg={12} style={{alignItems:'center'}}>
+        <a href={`/order/${order._id}`}>
+            <Card style={{width:'450px',height:'25vh'}}>
+                <div style={{ float: 'right' }}>
+                    {(order.status === "Not Confirmed" ? <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', color: 'red' }}>รอการยืนยัน</h2> : order.status === "pending" ? <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', marginBottom: '5px', color: '#ffc53d' }}>รอการจัดส่ง</h2> : order.status === "success" ?
+                        <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', marginBottom: '5px', color: 'green' }}>เสร็จสิ้น</h2> : <h2></h2>)
+
+                    }
+                </div>
+                <div style={{ display: 'flex' }}>
+                    <img width={100} height={100} src={order.imagesPD1} />
+                    <div style={{ display: 'block', marginLeft: '50px' }}>
+                        <h2 style={{ fontFamily: 'Prompt', fontWeight: 'bold' }}>{order.namePD}</h2>
+                        <h4 style={{ fontFamily: 'Prompt', fontWeight: 'thin' }}>จำนวน {order.quantityPD} ชิ้น</h4>
+                        <h4>ราคารวม {order.totalPrice} บาท</h4>
+                    </div>
+                </div>
+            </Card>
+        </a>
+    </Col>
+      );
+  });
+  const renderCardsOrderSuccess = order.map((order, index) => {
+    console.log("eiei");
+    console.log(order);
+    if(order.status == "success")
+    return (
+      <Col lg={12} style={{alignItems:'center'}}>
+      <a href={`/order/${order._id}`}>
+          <Card style={{width:'450px',height:'25vh'}}>
+              <div style={{ float: 'right' }}>
+                  {(order.status === "Not Confirmed" ? <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', color: 'red' }}>รอการยืนยัน</h2> : order.status === "pending" ? <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', marginBottom: '5px', color: '#ffc53d' }}>รอการจัดส่ง</h2> : order.status === "success" ?
+                      <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', marginBottom: '5px', color: 'green' }}>เสร็จสิ้น</h2> : <h2></h2>)
+
+                  }
+              </div>
+              <div style={{ display: 'flex' }}>
+                  <img width={100} height={100} src={order.imagesPD1} />
+                  <div style={{ display: 'block', marginLeft: '50px' }}>
+                      <h2 style={{ fontFamily: 'Prompt', fontWeight: 'bold' }}>{order.namePD}</h2>
+                      <h4 style={{ fontFamily: 'Prompt', fontWeight: 'thin' }}>จำนวน {order.quantityPD} ชิ้น</h4>
+                      <h4>ราคารวม {order.totalPrice} บาท</h4>
+                  </div>
+              </div>
+          </Card>
+      </a>
+  </Col>
+    );
+});
+const renderCardsOrderReject = order.map((order, index) => {
+  console.log("eiei");
+  console.log(order);
+  if(order.status == "reject")
+  return (
+    <Col lg={12} style={{alignItems:'center'}}>
+    <a href={`/order/${order._id}`}>
+        <Card style={{width:'450px',height:'25vh'}}>
+            <div style={{ float: 'right' }}>
+                {(order.status === "reject" ? <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', color: 'red' }}>ยกเลิกคำสั่งซื้อ</h2> : order.status === "pending" ? <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', marginBottom: '5px', color: 'ffc53d' }}>รอการจัดส่ง</h2> : order.status === "success" ?
+                    <h2 style={{ fontWeight: 'bold', paddingLeft: '7px', marginBottom: '5px', color: 'green' }}>เสร็จสิ้น</h2> : <h2></h2>)
+
+                }
+            </div>
+            <div style={{ display: 'flex' }}>
+                <img width={100} height={100} src={order.imagesPD1} />
+                <div style={{ display: 'block', marginLeft: '50px' }}>
+                    <h2 style={{ fontFamily: 'Prompt', fontWeight: 'bold' }}>{order.namePD}</h2>
+                    <h4 style={{ fontFamily: 'Prompt', fontWeight: 'thin' }}>จำนวน {order.quantityPD} ชิ้น</h4>
+                    <h4>ราคารวม {order.totalPrice} บาท</h4>
+                </div>
+            </div>
+        </Card>
+    </a>
+</Col>
+  );
+});
     // }
 
     //cart//
@@ -450,43 +538,54 @@ const HeaderHome = (props) => {
             //console.log("fffff");
         } else {
             if (coupon.OwnerID == user.userData._id) {
-                return (
-                    <Col lg={16}>
-                        <a>
-                            <Card>
-                                <div style={{ display: "flex" }}>
-                                    {coupon.typeCoupon == "DiscountPercent" ? (
-                                        <img
-                                            width={150}
-                                            src={
-                                                "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
-                                            }
-                                        />
-                                    ) : coupon.typeCoupon == "DiscountMoney" ? (
-                                        <img
-                                            width={150}
-                                            src={
-                                                "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
-                                            }
-                                        />
-                                    ) : (
-                                        <img
-                                            width={150}
-                                            src={
-                                                "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
-                                            }
-                                        />
-                                    )}
-                                    <div style={{ display: "block", marginLeft: "20px" }}>
-                                        <h1>{coupon.nameCoupon}</h1>
-                                        <a>ร้าน {coupon.shopName}</a>
-                                        <p>ส่วนลด {coupon.discount} บาท</p>
-                                    </div>
-                                </div>
-                            </Card>
-                        </a>
-                    </Col>
-                );
+              return (
+                // <Col  lg={10} md={8} xs={24} style={{alignItems:'center'}}>
+                   <Popover placement="topLeft" title="คูปองจะหมดอายุในอีก" content={content(coupon)}>
+                    <Card style={{width:'500px' , height:'25vh',margin:'5px'}}>
+                      <div style={{ display: "flex" }}>
+                         {coupon.typeCoupon == "DiscountPercent" ? (
+                          <div style={{width:'100px' , height:'20vh'}}>
+                          <img
+                            width={150}
+                            src={
+                              "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
+                            }
+                          />
+                          </div>
+                        ) : coupon.typeCoupon == "DiscountMoney" ? (
+                          <div style={{width:'100px' , height:'20vh'}}>
+                          <img
+                            width={150}
+                            src={
+                              "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
+                            }
+                          />
+                          </div>
+                        ) : (
+                          <div style={{width:'100px' , height:'20vh'}}>
+                             <img
+                            width={150} 
+                            src={
+                              "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
+                            }
+                          />
+                          </div>
+                         
+                        )}
+                        <div style={{ display: "block", marginLeft: "70px" ,textAlign:'left',width:'100%'}}>
+                          <h2>{coupon.nameCoupon}</h2>
+                          <p>ร้าน {coupon.shopName}</p>
+                          <p>ส่วนลด {coupon.discount} บาท</p>
+                          <p>ยอดสั่งซื้อขั้นต่ำ {coupon.minimumCost} บาท</p>
+                        </div>
+                        <div style={{float:'right'}}>
+                        {/* <Button>รับคูปอง</Button> */}
+                      </div>
+                      </div>
+                    </Card>
+                   </Popover>
+                // </Col>
+              );
             }
         }
     });
@@ -496,43 +595,54 @@ const HeaderHome = (props) => {
           //console.log("fffff");
       } else {
           if (coupon.OwnerID == user.userData._id && coupon.status == "timeOut" || coupon.status == "used") {
-              return (
-                  <Col lg={16}>
-                      <a>
-                          <Card>
-                              <div style={{ display: "flex" }}>
-                                  {coupon.typeCoupon == "DiscountPercent" ? (
-                                      <img
-                                          width={150}
-                                          src={
-                                              "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
-                                          }
-                                      />
-                                  ) : coupon.typeCoupon == "DiscountMoney" ? (
-                                      <img
-                                          width={150}
-                                          src={
-                                              "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
-                                          }
-                                      />
-                                  ) : (
-                                      <img
-                                          width={150}
-                                          src={
-                                              "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
-                                          }
-                                      />
-                                  )}
-                                  <div style={{ display: "block", marginLeft: "20px" }}>
-                                      <h1>{coupon.nameCoupon}</h1>
-                                      <a>ร้าน {coupon.shopName}</a>
-                                      <p>ส่วนลด {coupon.discount} บาท</p>
-                                  </div>
-                              </div>
-                          </Card>
-                      </a>
-                  </Col>
-              );
+            return (
+              // <Col  lg={10} md={8} xs={24} style={{alignItems:'center'}}>
+                 <Popover placement="topLeft" title="คูปองจะหมดอายุในอีก" content={content(coupon)}>
+                  <Card  style={{width:'500px' , height:'25vh',margin:'5px'}}>
+                    <div style={{ display: "flex" }}>
+                       {coupon.typeCoupon == "DiscountPercent" ? (
+                        <div style={{width:'100px' , height:'20vh'}}>
+                        <img
+                          width={150}
+                          src={
+                            "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
+                          }
+                        />
+                        </div>
+                      ) : coupon.typeCoupon == "DiscountMoney" ? (
+                        <div style={{width:'100px' , height:'20vh'}}>
+                        <img
+                          width={150}
+                          src={
+                            "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
+                          }
+                        />
+                        </div>
+                      ) : (
+                        <div style={{width:'100px' , height:'20vh'}}>
+                           <img
+                          width={150} 
+                          src={
+                            "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
+                          }
+                        />
+                        </div>
+                       
+                      )}
+                      <div style={{ display: "block", marginLeft: "70px" ,textAlign:'left',width:'100%'}}>
+                        <h2>{coupon.nameCoupon}</h2>
+                        <p>ร้าน {coupon.shopName}</p>
+                        <p>ส่วนลด {coupon.discount} บาท</p>
+                        <p>ยอดสั่งซื้อขั้นต่ำ {coupon.minimumCost} บาท</p>
+                      </div>
+                      <div style={{float:'right'}}>
+                      {/* <Button>รับคูปอง</Button> */}
+                    </div>
+                    </div>
+                  </Card>
+                 </Popover>
+              // </Col>
+            );
           }
       }
   });
@@ -615,14 +725,19 @@ const HeaderHome = (props) => {
     }
 
     const CalCouponDiscount = (coupon) => {
+      setmodalUseCoupon(false)
+        setdisCost(0)
+        setTotal(0)
         let totalCost = productData.pricePD * productData.quantity;
         if (coupon.typeCoupon == "FreeShipping") {
             if (totalCost < coupon.minimumCost) {
+
                 alert("ยอดสั่งซื้อไม่ถึงยอดสั่งซื้อขั้นต่ำ")
             } else {
                 setcouponUsedID(coupon._id)
                 let priceCost = Total - productData.shippingCostPD
                 setTotal(priceCost)
+                setdisCost(productData.shippingCostPD)
             }
 
         } else if (coupon.typeCoupon == "DiscountPercent") {
@@ -634,7 +749,7 @@ const HeaderHome = (props) => {
                 let priceCost = Math.ceil(((100 - coupon.discount) * totalCost) / 100)
                 setTotal(priceCost + productData.shippingCostPD)
                 settotalProduct(priceCost)
-                setdisCost(((productData.pricePD * productData.quantity) + productData.shippingCostPD) - priceCost)
+                setdisCost(((productData.pricePD * productData.quantity)) - priceCost)
             }
 
         } else if (coupon.typeCoupon == "DiscountMoney") {
@@ -660,47 +775,75 @@ const HeaderHome = (props) => {
         }
     }
 
+    
+
     const renderCardsUseCoupon = CouponToUse.map((coupon, index) => {
 
-        if (coupon.shopID == productData.shopID) {
-            return (
-                <Col lg={12}>
-                    <a onClick={() => CalCouponDiscount(coupon)}>
-                        <Card>
-                            <div style={{ display: "flex" }}>
-                                {coupon.typeCoupon == "DiscountPercent" ? (
-                                    <img
-                                        width={150}
-                                        src={
-                                            "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
-                                        }
-                                    />
-                                ) : coupon.typeCoupon == "DiscountMoney" ? (
-                                    <img
-                                        width={150}
-                                        src={
-                                            "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
-                                        }
-                                    />
-                                ) : (
-                                    <img
-                                        width={150}
-                                        src={
-                                            "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
-                                        }
-                                    />
-                                )}
-                                <div style={{ display: "block", marginLeft: "20px" }}>
-                                    <h1>{coupon.nameCoupon}</h1>
-                                    <a>ร้าน {coupon.shopName}</a>
-                                    <p>ส่วนลด {coupon.discount} บาท</p>
-                                </div>
-
-                            </div>
-                        </Card>
-                    </a>
-                </Col>
-            );
+        if (coupon.shopID == productData.shopID && coupon.status == "have owner") {
+          return (
+            // <Col  lg={10} md={8} xs={24} style={{alignItems:'center'}}>
+               <Popover placement="topLeft" title="คูปองจะหมดอายุในอีก" content={content(coupon)}>
+                 <a onClick={() => CalCouponDiscount(coupon)}>
+                <Card style={{width:'500px' , height:'25vh',margin:'10px'}}>
+                  <div style={{ display: "flex" }}>
+                     {coupon.typeCoupon == "DiscountPercent" ? (
+                      <div style={{width:'100px' , height:'20vh'}}>
+                      <img
+                        width={150}
+                        src={
+                          "https://www.img.in.th/images/fd1e9e737f10d57e83de226ae2596cd7.png"
+                        }
+                      />
+                      </div>
+                    ) : coupon.typeCoupon == "DiscountMoney" ? (
+                      <div style={{width:'100px' , height:'20vh'}}>
+                      <img
+                        width={150}
+                        src={
+                          "https://www.img.in.th/images/a44a84ab639f73bbf1dd7c1a4a7bea44.png"
+                        }
+                      />
+                      </div>
+                    ) : (
+                      <div style={{width:'100px' , height:'20vh'}}>
+                         <img
+                        width={150} 
+                        src={
+                          "https://www.img.in.th/images/77f1a34f63a45579a90d641902a26dfa.png"
+                        }
+                      />
+                      </div>
+                     
+                    )}
+                     {coupon.typeCoupon == "DiscountPercent" ? (
+                      <div style={{ display: "block", marginLeft: "70px" ,textAlign:'left',width:'100%'}}>
+                      <h2>{coupon.nameCoupon}</h2>
+                      <p>ร้าน {coupon.shopName}</p>
+                      <p>ส่วนลด {coupon.discount} %</p>
+                      <p>ยอดสั่งซื้อขั้นต่ำ {coupon.minimumCost} บาท</p>
+                    </div>
+                    ) : coupon.typeCoupon == "DiscountMoney" ? (
+                      <div style={{ display: "block", marginLeft: "70px" ,textAlign:'left',width:'100%'}}>
+                      <h2>{coupon.nameCoupon}</h2>
+                      <p>ร้าน {coupon.shopName}</p>
+                      <p>ส่วนลด {coupon.discount} บาท</p>
+                      <p>ยอดสั่งซื้อขั้นต่ำ {coupon.minimumCost} บาท</p>
+                    </div>
+                    ) : (
+                      <div style={{ display: "block", marginLeft: "70px" ,textAlign:'left',width:'100%'}}>
+                      <h2>{coupon.nameCoupon}</h2>
+                      <p>ร้าน {coupon.shopName}</p>
+                      <p>ยอดสั่งซื้อขั้นต่ำ {coupon.minimumCost} บาท</p>
+                    </div>
+                     
+                    )}
+                    
+                  </div>
+                </Card>
+                </a>
+               </Popover>
+            // </Col>
+          );
         }
 
     });
@@ -736,9 +879,8 @@ const HeaderHome = (props) => {
           </div>
       )}else{
 
-
         return (
-          <div id="header">
+          <div id="header" style={{position:'fixed'}}>
             {/* collapsed props to change menu size using menucollapse state */}
             <ProSidebar collapsed={menuCollapse}>
               <SidebarHeader>
@@ -856,6 +998,7 @@ const HeaderHome = (props) => {
                   fontSize: "36px",
                   textAlign: "center",
                   fontWeight: "bold",
+                  color:'#2F2851'
                 }}
               >
                 รถเข็นของฉัน
@@ -868,9 +1011,10 @@ const HeaderHome = (props) => {
                     createOrder={CreateOrderModal}
                   />
                 </div>
+              </div>
+            </Modal>
 
- 
-                <Modal
+            <Modal
                   className="modal-checkpayment"
                   isOpen={modalCheckPaymentIsOpen}
                 >
@@ -879,8 +1023,6 @@ const HeaderHome = (props) => {
                   </button>
                   <img style={{ width: "100%" }} src={ImagePayment} />
                 </Modal>
-              </div>
-            </Modal>
 
             <Modal
               className="modal-ModalOrder"
@@ -908,8 +1050,37 @@ const HeaderHome = (props) => {
               >
                 คำสั่งซื้อของฉัน
               </p>
+              <Tabs onChange={callback} centered>
+                <TabPane tab="รอการยืนยัน" key="1">
+                  <div style={{ width: "100%", alignItems: "center"}}>
+                    <Row gutter={[4, 4]} style={{ alignItems: "center", marginLeft: '80px' }}>
+                    {renderCardsOrderNotConfirm}
+                    </Row>
+                  </div>
+                </TabPane>
+                <TabPane tab="รอการจัดส่ง" key="2">
+                <div style={{ width: "100%", alignItems: "center"}}>
+                    <Row gutter={[4, 4]} style={{ alignItems: "center", marginLeft: '80px' }}>
+                    {renderCardsOrderPending}
+                    </Row>
+                  </div>
+                </TabPane>
+                <TabPane tab="เสร็จสิ้น" key="3">
+                <div style={{ width: "100%", alignItems: "center"}}>
+                    <Row gutter={[4, 4]} style={{ alignItems: "center", marginLeft: '80px' }}>
+                    {renderCardsOrderSuccess}
+                    </Row>
+                  </div>
+                </TabPane>
+                <TabPane tab="ยกเลิก" key="4">
+                  <div style={{ width: "90%", alignItems: "center", margin: 'auto' }}>
+                    <Row gutter={[12, 12]} style={{ alignItems: "center", marginLeft: '80px' }}>
+                    {renderCardsOrderReject}
+                    </Row>
+                  </div>
+                </TabPane>
 
-              <Row style={{ padding: "15px" }}>{renderCards}</Row>
+              </Tabs>
             </Modal>
 
             <Modal
@@ -966,10 +1137,18 @@ const HeaderHome = (props) => {
               </p>
               <Tabs onChange={callback} centered>
                 <TabPane tab="คูปองสามารถใช้ได้" key="1">
-                  {renderCardsCoupon}
+                  <div style={{ width: "90%", alignItems: "center", margin: 'auto' }}>
+                    <Row gutter={[12, 12]} style={{ alignItems: "center", marginLeft: '250px' }}>
+                      {renderCardsCoupon}
+                    </Row>
+                  </div>
                 </TabPane>
                 <TabPane tab="คูปองที่ใช้เเล้ว/หมดเวลา" key="2">
-                  <div style={{ margin: "40px" }}>{renderCardsCouponTimeout}</div>
+                  <div style={{ width: "90%", alignItems: "center", margin: 'auto' }}>
+                    <Row gutter={[12, 12]} style={{ alignItems: "center", marginLeft: '250px' }}>
+                      {renderCardsCouponTimeout}
+                    </Row>
+                  </div>
                 </TabPane>
               </Tabs>
             </Modal>
@@ -1037,7 +1216,12 @@ const HeaderHome = (props) => {
                   </h1>
                   <div style={{ margin: "50px", marginRight: "70px" }}>
                     <ul>
-                      <Row gutter={[12, 12]}>{renderCardsUseCoupon}</Row>
+                    <div style={{ width: "100%", alignItems: "center" }}>
+              <Row gutter={[12, 12]} style={{ alignItems: "center"}}>
+                  {renderCardsUseCoupon}
+                </Row>
+                </div>
+
                     </ul>
                   </div>
               </Drawer>
@@ -1158,6 +1342,7 @@ const HeaderHome = (props) => {
                           แก้ไขรายละเอียดส่วนตัว
                         </Button>
                     </div>
+                   
                     <div
                       style={{
                         float: "right",
@@ -1165,12 +1350,62 @@ const HeaderHome = (props) => {
                         marginTop: "-260px",
                       }}
                     >
+                       {DataUser.playerCharacter == "PlayerChar1" ? <img
+                        style={{ width: "200px" }}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"
+                        }
+                      /> : 
+                      DataUser.playerCharacter == "PlayerChar2" ? <img
+                        style={{ width: "200px" }}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/276068912_365714105444036_7983064573516653157_n.png?alt=media&token=6a1972fc-15eb-4250-908d-9f68ea0bd3e0"}
+                        
+                      /> : 
+                      DataUser.playerCharacter == "PlayerChar3" ? <img
+                        style={{ width: "200px" }}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275929912_374256967744434_8182840012589025453_n.png?alt=media&token=a811790f-6490-47e6-b073-33ddbb093d42"}
+                        
+                      /> : 
+                      DataUser.playerCharacter == "PlayerChar4" ? <img
+                        style={{ width: "200px" }}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/277279968_706460363680380_7936931208562658879_n.png?alt=media&token=e0710139-6bc2-45d2-a5cc-c094abbf3ead"}
+                        
+                      /> : 
+                      DataUser.playerCharacter == "PlayerChar5" ? <img
+                        style={{ width: "200px" }}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275660999_543330857113946_1402625773291305179_n.png?alt=media&token=97498f29-6b19-4a34-919b-2fcb87c1cb13"}
+                        
+                      /> : 
+                      DataUser.playerCharacter == "PlayerChar6" ? <img
+                        style={{ width: "200px" }}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/277189243_1135929110534654_3326841406526719332_n.png?alt=media&token=394dcf02-4011-4762-ad4c-e1cf0b5da0fb"}
+                        
+                      /> : 
+                      DataUser.playerCharacter == "PlayerChar7" ? <img
+                        style={{ width: "200px" }}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275903468_984606022255861_6053316706201076800_n.png?alt=media&token=8f61dbb8-ff9f-4d37-8417-68efb1e30f61"}
+                        
+                      /> : 
+                      DataUser.playerCharacter == "PlayerChar8" ? <img
+                        style={{ width: "200px" }}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275986502_946621269382117_4312860654010475578_n.png?alt=media&token=1f8298d7-d0fc-4953-acf3-28731915b372"}
+                        
+                      /> : 
                       <img
                         style={{ width: "200px" }}
                         src={
                           "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"
                         }
-                      />
+                      /> 
+                      }
+                     
                       <br></br>
                       <br></br>
                       <div style={{display:'flex'}}>
@@ -1222,7 +1457,7 @@ const HeaderHome = (props) => {
                     <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
                       <h3>สมหมาย</h3>
                       <img 
-                        onClick={() => chooseAvatar("playerCharacter1")}
+                        onClick={() => chooseAvatar("PlayerChar1")}
                         src={
                           "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"}
                         
@@ -1233,9 +1468,9 @@ const HeaderHome = (props) => {
                       <h3>สมหญิง</h3>
                       <img
   
-                        onClick={() => chooseAvatar("playerCharacter2")}
+                        onClick={() => chooseAvatar("PlayerChar2")}
                         src={
-                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"}
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/276068912_365714105444036_7983064573516653157_n.png?alt=media&token=6a1972fc-15eb-4250-908d-9f68ea0bd3e0"}
                         
                         style={{ width: "75px", height: "10vh" }}
                       ></img>
@@ -1243,9 +1478,19 @@ const HeaderHome = (props) => {
                     <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
                       <h3>สมศรี</h3>
                       <img
-                        onClick={() => chooseAvatar("playerCharacter3")}
+                        onClick={() => chooseAvatar("PlayerChar3")}
                         src={
-                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"}
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275929912_374256967744434_8182840012589025453_n.png?alt=media&token=a811790f-6490-47e6-b073-33ddbb093d42"}
+                        
+                        style={{ width: "75px", height: "10vh" }}
+                      ></img>
+                    </div>
+                    <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
+                      <h3>สมศรี</h3>
+                      <img
+                        onClick={() => chooseAvatar("PlayerChar4")}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/277279968_706460363680380_7936931208562658879_n.png?alt=media&token=e0710139-6bc2-45d2-a5cc-c094abbf3ead"}
                         
                         style={{ width: "75px", height: "10vh" }}
                       ></img>
@@ -1257,9 +1502,9 @@ const HeaderHome = (props) => {
                     <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
                       <h3>สมพร</h3>
                       <img
-                        onClick={() => chooseAvatar("playerCharacter4")}
+                        onClick={() => chooseAvatar("PlayerChar5")}
                         src={
-                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"}
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275660999_543330857113946_1402625773291305179_n.png?alt=media&token=97498f29-6b19-4a34-919b-2fcb87c1cb13"}
                         
                         style={{ width: "75px", height: "10vh" }}
                       ></img>
@@ -1267,9 +1512,9 @@ const HeaderHome = (props) => {
                     <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
                       <h3>สมฤดี</h3>
                       <img
-                        onClick={() => chooseAvatar("playerCharacter5")}
+                        onClick={() => chooseAvatar("PlayerChar6")}
                         src={
-                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"}
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/277189243_1135929110534654_3326841406526719332_n.png?alt=media&token=394dcf02-4011-4762-ad4c-e1cf0b5da0fb"}
                         
                         style={{ width: "75px", height: "10vh" }}
                       ></img>
@@ -1277,9 +1522,19 @@ const HeaderHome = (props) => {
                     <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
                       <h3>สมบูรณ์</h3>
                       <img
-                        onClick={() => chooseAvatar("playerCharacter6")}
+                        onClick={() => chooseAvatar("PlayerChar7")}
                         src={
-                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275551533_705736683893380_26019719860945254_n.png?alt=media&token=da500820-50f3-450b-98ba-a9b881822dbc"}
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275903468_984606022255861_6053316706201076800_n.png?alt=media&token=8f61dbb8-ff9f-4d37-8417-68efb1e30f61"}
+                        
+                        style={{ width: "75px", height: "10vh" }}
+                      ></img>
+                    </div>
+                    <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
+                      <h3>สมบูรณ์</h3>
+                      <img
+                        onClick={() => chooseAvatar("PlayerChar8")}
+                        src={
+                          "https://firebasestorage.googleapis.com/v0/b/taladprom-b8753.appspot.com/o/275986502_946621269382117_4312860654010475578_n.png?alt=media&token=1f8298d7-d0fc-4953-acf3-28731915b372"}
                         
                         style={{ width: "75px", height: "10vh" }}
                       ></img>
@@ -1434,12 +1689,33 @@ const HeaderHome = (props) => {
                         <hr className="style13"></hr>
                         <div style={{ flexDirection: "row", display: "flex" }}>
                           <div style={{ display: "flex", paddingLeft: "20px" }}>
-                            <div style={{ textAlign: "start" }}>
+                          
+                         
+                            <div style={{ textAlign: "start"}}>  
+                  
+                            <div style={{width:'500px',height:'20vh',float:'right',marginLeft:'150px' ,display:'flex'}}>
+                              
+                                <div  style={{float:'left',marginLeft:'-142px',marginTop:'30px'}}>
+                              <a onClick={checkImagePayment}>
+                                  <img style={{width: "70px"}}
+                                    src={ImagePayment}
+                                  />
+                                </a>
+                              </div>
+                              <div style={{display:'block',width:'200px',float:"right",marginLeft:'410px',position:'fixed'}}>
+                              <h3>ยอดสินค้า {productData.quantity *productData.pricePD}</h3>
+                                <h3>ค่าจัดส่ง {productData.shippingCostPD}</h3>
+                                <h3>ส่วนลด {disCost}</h3>
+                                <h2>รวม {Total}</h2>
+                                <br/>
+                              </div>
+                               
+                              </div>                     
                               <h2 style={{ paddingTop: "5px" }}>การชำระเงิน</h2>
-                              <p style={{ color: "red" }}>
-                                *ลูกค้าจะต้องชำระเงินตามยอดรวมทั้งหมดและแนบหลักฐานการโอนเงินได้ที่นี่่
-                              </p>
-
+                              <h4 style={{ color: "red" }}>
+                                *ลูกค้าจะต้องชำระเงินตามยอดรวมทั้งหมดและแนบหลักฐานการโอนเงิน
+                              </h4>
+                             
                               <div style={{ margin: "-10px" }}>
                                 <div class="file-upload-cart">
                                   <input
@@ -1466,6 +1742,8 @@ const HeaderHome = (props) => {
                                     Upload
                                   </Button>
                                 </div>
+                              
+                                
                                 <Button
                                   style={{
                                     marginLeft: "900px",
@@ -1481,13 +1759,8 @@ const HeaderHome = (props) => {
                                 >
                                   สั่งซื้อสินค้า
                                 </Button>
-
-                                <a onClick={checkImagePayment}>
-                                  <img
-                                    style={{ width: "70px" }}
-                                    src={ImagePayment}
-                                  />
-                                </a>
+                              
+                                
                               </div>
                             </div>
                           </div>

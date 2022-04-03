@@ -23,7 +23,8 @@ import {
   UnorderedListOutlined,
   LogoutOutlined,
   UserOutlined,
-  SettingOutlined
+  SettingOutlined,
+  ShopOutlined 
 } from '@ant-design/icons';
 import Loading from "../../../Loading";
 
@@ -69,7 +70,7 @@ const loadingData = () => {
 };
 
 const handleClick = (e) => {
-  setcurrent( e.key)
+  setcurrent(e.key);
 };
 
 
@@ -116,19 +117,31 @@ const handleClick = (e) => {
             />
           }
         />
-         <Menu onClick={()=>handleClick()} selectedKeys={[current]} mode="horizontal">
-        <SubMenu key="SubMenu" icon={<SettingOutlined style={{fontSize:'20px',marginTop:'10px'}}/>} >
-          <Menu.ItemGroup title="สำหรับผู้ขาย">
-            <Menu.Item key="setting:1">ร้านค้าของคุณ</Menu.Item>
-          </Menu.ItemGroup>
-          <Menu.ItemGroup title="ตั้งค่า">
-            <Menu.Item key="setting:3">รายละเอียดส่วนตัว</Menu.Item>
-            <Menu.Item key="setting:4">ออกจากระบบ</Menu.Item>
-          </Menu.ItemGroup>
-        </SubMenu>
-
-      </Menu>
-      </div>
+        {user.userData.shopID == undefined ?  
+      <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+      <SubMenu key="SubMenu" icon={<SettingOutlined /> }style={{fontSize:'30px'}} >
+        <Menu.ItemGroup title="ตั้งค่า">
+          <Menu.Item key="1">รายละเอียดส่วนตัว</Menu.Item>
+          <Menu.Item key="2">ออกจากระบบ</Menu.Item>
+        </Menu.ItemGroup>
+      </SubMenu>
+    </Menu>
+    :      
+    <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+    <SubMenu key="SubMenu" icon={<ShopOutlined /> }style={{fontSize:'20px',marginTop:'10px'}}>
+      <Menu.ItemGroup title="สำหรับผู้ขาย">
+        <Menu.Item key="1" onClick={()=>props.history.push("/HomeShop")}>ร้านค้าของคุณ</Menu.Item>
+      </Menu.ItemGroup>
+      <Menu.ItemGroup title="จัดการร้านค้า">
+        <Menu.Item key="3">จัดการสินค้าในร้านค้า</Menu.Item>
+        <Menu.Item key="4">จัดการรายการคำสั่งซื้อ</Menu.Item>
+        <Menu.Item key="5">จัดการโปรโมชั่น</Menu.Item>
+      </Menu.ItemGroup>
+    </SubMenu>
+  </Menu>
+    }
+    </div>
+        
     );
   }
 }

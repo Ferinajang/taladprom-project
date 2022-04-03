@@ -20,9 +20,10 @@ function DetailOrderPage(props) {
     const [modalCheckPaymentIsOpen, setmodalCheckPaymentIsOpen] = useState(false)
     const [trackingNumber, settrackingNumber] = useState("")
     const [Product, setProduct] = useState([])
-    const [addess, setaddess] = useState("บ้านเลขที่ 9 บางบอน 4 ซอย 7 ถนนเอกชัย เขตบางบอน เเขวงบางบอน กรุงเทพมหานคร")
+    const [addess, setaddess] = useState("")
     const [color, setcolor] = useState("red")
     const [imageArray, setimageArray] = useState([])
+    const [modalTextReject, setmodalTextReject] = useState(false)
 
 
     useEffect(()=>{
@@ -31,6 +32,10 @@ function DetailOrderPage(props) {
         .then(response=>{
             setOrder(response.data[0])
             console.log(response.data[0]);
+            if(response.data[0].status =="reject"){
+              setmodalTextReject(true)
+            }
+           
             const variables = {
               namePD: response.data[0].namePD,
             };
@@ -45,9 +50,10 @@ function DetailOrderPage(props) {
             );
           
         })  
+        
        
     },[])
-
+   
 
     
 
@@ -282,15 +288,23 @@ function DetailOrderPage(props) {
         <h1>รวม : {Order.totalPrice}</h1>
       </div>
       <div style={{ marginTop: "30px"}}>
-        <h3>ที่อยู่: {" "} </h3>
-        <h4>{addess}</h4>
+        <h3>ที่อยู่: {" "} {Order.addressOrder}</h3>
+        
       </div>
+      {Order.status == "success" &&
       <div style={{ marginTop: "30px" }}>
-        <h2>หมายเลขพัสดุ: {" "} </h2>
-        <h3>บริษัทขนส่งสินค้า : {" "} {Order.deliveryCompany}</h3>
-        <h3>รหัสพัสดุ : {" "} {Order.trackingNumber}</h3>
-        <Button onClick={()=>GoToLinkDelivery()}>ตรวจสอบเลขพัสดุ</Button>
-      </div>
+      <h2>หมายเลขพัสดุ: {" "} </h2>
+      <h3>บริษัทขนส่งสินค้า : {" "} {Order.deliveryCompany}</h3>
+      <h3>รหัสพัสดุ : {" "} {Order.trackingNumber}</h3>
+      <Button onClick={()=>GoToLinkDelivery()}>ตรวจสอบเลขพัสดุ</Button>
+    </div>}
+    {Order.status == "reject" &&
+      <div style={{ marginTop: "30px" }}>
+      <h2>หมายเหตุจากผู้ขาย {" "} {Order.rejectText} </h2>
+      <h3>สามารถติดต่อได้ที่ : {" "} {Order.addressSeller}</h3>
+    </div>}
+      
+      
       
 
     
@@ -306,6 +320,19 @@ function DetailOrderPage(props) {
         ]}
       >
         <img style={{ width: "100%" }} src={Order.imagesPayment} />
+      </Modal>
+
+      <Modal
+        title="คำสั่งซื้อของคุณถูกปฏิเสธ"
+        visible={modalTextReject}
+        footer={[
+          <Button key="back" onClick={() => setmodalTextReject(false)}>
+            ยืนยัน
+          </Button>,
+        ]}
+      >
+        <h2>เหตุผล :</h2>
+        <h3>{Order.rejectText}</h3>
       </Modal>
     </div>
   );

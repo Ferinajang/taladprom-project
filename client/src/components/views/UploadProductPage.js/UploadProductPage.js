@@ -287,6 +287,7 @@ function UploadProductPage(props) {
   
     const hideModal = () => {
        setModalImage(false)
+       setURL1("")
     }
       
 
@@ -384,6 +385,7 @@ function UploadProductPage(props) {
           title="เพิ่มรูปภาพสินค้าของคุณ"
           visible={ModalImage}
           onCancel={hideModal}
+          onOk={hideModal}
         >
           <div>
             <img src={URL1} style={{width:'500px'}}></img>

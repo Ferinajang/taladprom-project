@@ -7,7 +7,7 @@ import './GamePage.css';
 // import { Card, Icon, Col, Row } from "antd";
 // import Modal from 'react-modal'
 import { MdClear } from "react-icons/md";
-import { Card, Icon, Col, Row, Button } from 'antd';
+import { Card, Icon, Col, Row, Button,message } from 'antd';
 
 //Game
 import Header from '../SideMenu/Header'
@@ -80,7 +80,20 @@ function GamePage(props) {
     const [ProductDetail, setProductDetail] = useState([])
 
 
+    ///////////////////////mini
+    const [randomNum1, setrandomNum1] = useState(0)
+    const [randomNum2, setrandomNum2] = useState(0)
+    const [randomNum3, setrandomNum3] = useState(0)
+    const [ProductMiniShelf1, setProductMiniShelf1] = useState([])
+    const [ProductMiniShelf2, setProductMiniShelf2] = useState([])
+    const [ProductMiniShelf3, setProductMiniShelf3] = useState([])
+    const [ModalminiShelf1, setModalminiShelf1] = useState(false)
+    const [ModalminiShelf2, setModalminiShelf2] = useState(false)
+    const [ModalminiShelf3, setModalminiShelf3] = useState(false)
 
+    console.log("1",ProductMiniShelf1)
+    console.log("2",ProductMiniShelf2)
+    console.log("3",ProductMiniShelf3);
 
     const loadingData = () => {
         if (!props.user.userData) {
@@ -155,7 +168,7 @@ function GamePage(props) {
                         // Set the channel name.
                         channel: "shop1",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IADtSN1edNJBTRgN/S9LQ8CHmrc5XY6gunRgw2f+M8kHFD9HqLsAAAAAEADR1hyrdFJGYgEAAQByUkZi",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IACam63+Qi0b4ZK4yh9kXELvpwdNk4fkwY+aMmOBq69LFT9HqLsAAAAAEABg4SwUqSZJYgEAAQCnJkli",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -530,8 +543,57 @@ function GamePage(props) {
                         arrayRecommend.push(item);
                     } 
                 });
-                // setCouponLength(Math.floor(Math.random() * noOwnerCouponList.length));
-                // setCouponRandom(noOwnerCouponList[CouponLength]);
+                console.log(arrayRecommend);
+                if(arrayRecommend.length == 0){
+                    console.log("No Product Reccommend");
+
+                }else if(arrayRecommend.length == 1){
+                    console.log("ff");
+                    setProductMiniShelf1(arrayRecommend[0])
+                }else if(arrayRecommend.length == 2){
+                    console.log("ffff");
+                    setProductMiniShelf1(arrayRecommend[0])
+                    setProductMiniShelf2(arrayRecommend[1])
+                }else if(arrayRecommend.length == 3){
+                    console.log("ffffff");
+                    setProductMiniShelf1(arrayRecommend[0])
+                    setProductMiniShelf2(arrayRecommend[1])
+                    setProductMiniShelf3(arrayRecommend[2])
+                }else{
+                    let random1 = Math.floor(Math.random() * arrayRecommend.length)
+                    console.log(random1);
+                    setProductMiniShelf1(arrayRecommend[random1])
+                    let i = 0;
+                    while(i< arrayRecommend.length){
+                        let random2 = Math.floor(Math.random() * arrayRecommend.length)
+                        console.log("444",i);
+                        console.log(random2);
+                        if(random2 != random1){
+                            setProductMiniShelf2(arrayRecommend[random2])
+                        break;
+                        }else{
+                            i++
+                        }
+                    }
+                    while(i< arrayRecommend.length){
+                        let random3 = Math.floor(Math.random() * arrayRecommend.length)
+                        console.log(random3);
+                        console.log(randomNum1);
+                        console.log(randomNum2);
+                        if(random3 != randomNum1 && random3!=randomNum2){
+                            console.log("555",i);
+                            setProductMiniShelf3(arrayRecommend[random3])
+                            break;
+                        }else{
+                            i++
+                        }
+                    }
+                    setModalminiShelf1(true)
+                    setModalminiShelf2(true)
+                    setModalminiShelf3(true)
+
+                }
+                
             } else {
                 alert("Fialed to fecth data from mongodb");
             }
@@ -569,7 +631,7 @@ function GamePage(props) {
         Axios.put('/api/coupon/addOwnerCoupon', variables)
             .then(response => {
                 if (response.data.success) {
-                    alert('คูปองได้จัดเก็บดข้าคลังของคุณแล้ว')
+                    message.sucsess('คูปองได้จัดเก็บดข้าคลังของคุณแล้ว');
                 } else {
                     alert(response)
                 }
@@ -683,7 +745,7 @@ function GamePage(props) {
             unityContext.send("ConnectToserver", "ClickOKOnReact1", 12);
         }
 
-        unityContext.send("ConnectToserver", "ClickOKOnReact2", "PlayerChar8");
+        unityContext.send("ConnectToserver", "ClickOKOnReact2",props.user.userData.playerCharacter);
         setModalSeller(false)
 
     }
@@ -692,7 +754,7 @@ function GamePage(props) {
         if (!props.user.userData.positionShop) {
             unityContext.send("ConnectToserver", "ClickOKOnReact1", 0);
         }
-        unityContext.send("ConnectToserver", "ClickOKOnReact2", "PlayerChar8");
+        unityContext.send("ConnectToserver", "ClickOKOnReact2", props.user.userData.playerCharacter);
         setModalSeller(false)
         console.log("getINTHAISCLICK")
     }
@@ -871,6 +933,59 @@ function GamePage(props) {
                 </div>
                 
                 }
+
+        <Modal className="modal-ProductDetail" isOpen={ModalminiShelf1}>
+              <div
+                style={{
+                  height: "15px",
+                  fontSize: "25px",
+                  textAlign: "right",
+                  margin: "10px",
+                }}
+                onClick={() => setModalminiShelf1(false)}
+                    >
+                        <MdClear style={{ cursor: "pointer" }} />
+                    </div>
+                    <img src={ProductMiniShelf1.imagesPD1} ></img>
+                    {ProductMiniShelf1.namePD}
+                    {ProductMiniShelf1.pricePD}
+                </Modal>
+
+                <Modal className="modal-ProductDetail" isOpen={ModalminiShelf2}>
+              <div
+                style={{
+                  height: "15px",
+                  fontSize: "25px",
+                  textAlign: "right",
+                  margin: "10px",
+                }}
+                onClick={() => setModalminiShelf2(false)}
+                    >
+                        <MdClear style={{ cursor: "pointer" }} />
+                    </div>
+                    <img src={ProductMiniShelf2.imagesPD1} ></img>
+                    
+                    {ProductMiniShelf2.namePD}
+                    {ProductMiniShelf2.pricePD}
+                </Modal>
+
+                <Modal className="modal-ProductDetail" isOpen={ModalminiShelf3}>
+              <div
+                style={{
+                  height: "15px",
+                  fontSize: "25px",
+                  textAlign: "right",
+                  margin: "10px",
+                }}
+                onClick={() => setModalminiShelf3(false)}
+                    >
+                        <MdClear style={{ cursor: "pointer" }} />
+                    </div>
+                    <img src={ProductMiniShelf3.imagesPD1} ></img>
+                    {ProductMiniShelf3.namePD}
+                    {ProductMiniShelf3.pricePD}
+                </Modal>
+
                 
 
             </div>

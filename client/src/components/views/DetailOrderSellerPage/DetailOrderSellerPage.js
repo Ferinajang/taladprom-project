@@ -1,17 +1,20 @@
 
 import Axios from 'axios'
-import { Row, Col,Table,Select ,Button,Input,Tooltip ,Modal,Steps,message,notification} from 'antd';
+import { Row, Col,Table,Select ,Button,Input,Tooltip ,Modal,Steps,message,notification,Popconfirm} from 'antd';
 import React, { useEffect, useState } from 'react'
 import ImageGallery from 'react-image-gallery';
 import { addToCart } from '../../../_actions/user_actions';
 import { UserOutlined, SolutionOutlined, LoadingOutlined, SmileOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
+import HeaderHomeSeller from '../SlideMenuHomeSeller/HeaderHomeSeller';
+
 import 'antd/dist/antd.css';
 import { Image } from 'antd';
 
 
 const { Step } = Steps;
 const { Option } = Select;
+const { TextArea } = Input;
 
 function DetailOrderSellerPage(props) {
     const dispatch = useDispatch();
@@ -20,16 +23,21 @@ function DetailOrderSellerPage(props) {
     const [modalCheckPaymentIsOpen, setmodalCheckPaymentIsOpen] = useState(false)
     const [trackingNumber, settrackingNumber] = useState("")
     const [Product, setProduct] = useState([])
-    const [addess, setaddess] = useState("บ้านเลขที่ 9 บางบอน 4 ซอย 7 ถนนเอกชัย เขตบางบอน เเขวงบางบอน กรุงเทพมหานคร")
+    const [addess, setaddess] = useState("")
     const [color, setcolor] = useState("red")
     const [imagePayment, setimagePayment] = useState("")
     const [deliveryCompany, setdeliveryCompany] = useState("")
+    const [rejectText, setrejectText] = useState("")
+    const [ModaCancelOrder, setModaCancelOrder] = useState(false)
+    const [addessSeller, setaddessSeller] = useState("")
 
     console.log(imagePayment);
 
 
     useEffect(()=>{
         //console.log(props.match.params.productId);
+        document.getElementById("HeaderHome").style.display = "none";
+        document.getElementById("Footer").style.display = "none";
         Axios.get(`/api/order/order_by_id?id=${orderId}&type=single`)
         .then(response=>{
             setOrder(response.data[0])
@@ -208,12 +216,25 @@ function DetailOrderSellerPage(props) {
       settrackingNumber(event.currentTarget.value)
   }
 
+  const onChangeTextReject =(event)=>{
+    console.log(event.currentTarget.value);
+    setrejectText(event.currentTarget.value)
+
+  }
+  
+  const onChangeaddressSeller =(event)=>{
+    console.log(event.currentTarget.value);
+    setaddessSeller(event.currentTarget.value)
+
+  }
+
   const cancelOrder=()=>{
-    alert("คุณต้องการปฏิเสธออเดอร์นี้?")
+    setModaCancelOrder(false)
     const variables = {
       id: Order._id,
       status: "reject",
-      // quantityPD: productData.quantityPD + Order.quantity,
+      rejectText:rejectText,
+      addessSeller:addessSeller
     };
     Axios.put("/api/order/rejectOrder", variables).then((response) => {
       if (response.data.success) {
@@ -328,7 +349,7 @@ function DetailOrderSellerPage(props) {
                 ยืนยันออเดอร์
               </Button>
             </Tooltip>
-            <Button size='large' style={{ marginBottom: "20px" }} type="primary" danger={true} onClick={cancelOrder}>
+            <Button size='large' style={{ marginBottom: "20px" }} type="primary" danger={true} onClick={()=>setModaCancelOrder(true)}>
               ยกเลิกออเดอร์
             </Button>
           </div>}
@@ -336,7 +357,7 @@ function DetailOrderSellerPage(props) {
       </div>
       <div style={{ marginTop: "30px" }}>
         <h3>ที่อยู่ที่ต้องจัดส่ง</h3>
-        <h4>{addess}</h4>
+        <h4>{Order.addressOrder}</h4>
       </div>
 
       <div style={{ marginTop: "30px" }}>
@@ -395,6 +416,34 @@ function DetailOrderSellerPage(props) {
         ]}
       >
         <img style={{ width: "100%" }} src={Order.imagesPayment} />
+      </Modal>
+
+      <Modal
+        title="แจ้งลูกค้าของคุณ"
+        visible={ModaCancelOrder}
+        footer={[
+          <Popconfirm
+            title="คุณต้องการปฏิเสธคำสั่งซื้อนี้?"
+            onConfirm={cancelOrder}
+            onCancel={() => setModaCancelOrder(false)}
+            okText="ใช่"
+            cancelText="ยกเลิก"
+          >
+            <Button key="back" danger >
+              ยืนยัน
+            </Button>
+          </Popconfirm>,
+          
+          <Button key="back" onClick={() => setModaCancelOrder(false)}>
+          ยกเลิก
+        </Button>,
+        ]}
+      >
+        <h3>ส่งข้อความถึงลูกค้าเพื่อบอกสาเหตุการยกเลิกรายการคำสั่งซื้อ</h3>
+        
+        <TextArea showCount maxLength={100} onChange={onChangeTextReject} />
+        <h2>ข้อมูลการติดต่อ</h2>
+        <TextArea showCount maxLength={100} onChange={onChangeaddressSeller} />
       </Modal>
     </div>
   );
