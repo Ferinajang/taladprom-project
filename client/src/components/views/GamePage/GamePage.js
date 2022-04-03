@@ -611,14 +611,20 @@ function GamePage(props) {
                     }
                     // console.log(noOwnerCouponList);
                 });
+                if(noOwnerCouponList.length == 0){
 
-                setCouponLength(Math.floor(Math.random() * noOwnerCouponList.length));
-                setCouponRandom(noOwnerCouponList[CouponLength]);
+                }else{
+                    setCouponLength(Math.floor(Math.random() * noOwnerCouponList.length));
+                    setCouponRandom(noOwnerCouponList[CouponLength]);
+                    setmodalCouponRandom(true);
+                }
+
+                
             } else {
                 alert("Fialed to fecth data from mongodb");
             }
         });
-        setmodalCouponRandom(true);
+       
     };
 
     const gotCoupon = () => {
