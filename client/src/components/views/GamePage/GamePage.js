@@ -153,10 +153,10 @@ function GamePage(props) {
             }
             if (ShopNumber == "0") {
                 setModalMiniShelf(false);
-                // rtc.localAudioTrack.close();
+                rtc.localAudioTrack.close();
 
-                //   // Leave the channel.
-                // await rtc.client.leave();
+                  // Leave the channel.
+                await rtc.client.leave();
             }
             else {
                 startBasicCall()
@@ -168,7 +168,7 @@ function GamePage(props) {
                         // Set the channel name.
                         channel: "shop1",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IACam63+Qi0b4ZK4yh9kXELvpwdNk4fkwY+aMmOBq69LFT9HqLsAAAAAEABg4SwUqSZJYgEAAQCnJkli",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IAC8hljWMDH0LjZ6BPrO203jM5TjedQTZcW4CUQ/wpvcCT9HqLsAAAAAEABrDG+dgv1KYgEAAQCC/Upi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -305,14 +305,14 @@ function GamePage(props) {
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
                 }
+                console.log(options.uid)
+                await rtc.client.join(options.appId, options.channel, options.token, options.uid);
+                // Create a local audio track from the audio sampled by a microphone.
+                rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+                // Publish the local audio tracks to the RTC channel.
+                await rtc.client.publish([rtc.localAudioTrack]);
 
-                // await rtc.client.join(options.appId, options.channel, options.token, options.uid);
-                // // Create a local audio track from the audio sampled by a microphone.
-                // rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-                // // Publish the local audio tracks to the RTC channel.
-                // await rtc.client.publish([rtc.localAudioTrack]);
-
-                // console.log("publish success!");
+                console.log("publish success!");
 
             }
         });
@@ -668,7 +668,7 @@ function GamePage(props) {
 
     async function startBasicCall() {
         // Create an AgoraRTCClient object.
-        rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+        rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "h264" });
 
         // Listen for the "user-published" event, from which you can get an AgoraRTCRemoteUser object.
         rtc.client.on("user-published", async (user, mediaType) => {
