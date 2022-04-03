@@ -12,3 +12,31 @@
     position: relative;
     border: 3px solid rgba(0, 0, 0, 0.05);
   }
+
+  .ant-upload.ant-upload-select-picture-card{
+    width: 250px;
+    height: 250px;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    text-align: center;
+    vertical-align: top;
+    background-color: #ffffff;
+    border: 1px dashed #d9d9d9;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+  }
+  .ant-upload-list-picture-card-container {
+    display: inline-block;
+    width: 250px;
+    height: 250px;
+    margin: 0 8px 8px 0;
+    vertical-align: top;
+}
+.ant-upload-list-picture-card .ant-upload-list-item {
+  height: fit-content;
+  margin: 0;
+}
+.ant-upload-list-picture-card .ant-upload-list-item-error {
+  border-color: #00a716;
+}

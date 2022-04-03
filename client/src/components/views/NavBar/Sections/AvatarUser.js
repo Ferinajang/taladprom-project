@@ -79,8 +79,15 @@ const handleClick = (e) => {
 
   if (user.userData && !user.userData.isAuth) {
     return (
-      <div style={{backgroundColor:'red' }}>
-          <Avatar size={50} icon={<UserOutlined />} />
+      <div style={{marginLeft:'100px'}}>
+        <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+          <Menu.Item key="login">
+            เข้าสู่ระบบ
+          </Menu.Item>
+          <Menu.Item key="regis">
+            ลงชื่อเข้าใช้
+          </Menu.Item>
+        </Menu>
           <div> 
           </div>
       </div>
@@ -103,8 +110,8 @@ const handleClick = (e) => {
       );
     } else {
     return (
-      <div style={{ display: "flex", width: "100%" }}>
-        <h3 style={{ marginTop: "10px" }}>
+      <div style={{ display: "flex", width: "100%" ,marginLeft:'20px'}}>
+        <h3 style={{ marginTop: "10px" ,marginLeft:'40px'}}>
           คุณ {user.userData.name} {user.userData.lastname}
         </h3>
         <Avatar
@@ -117,9 +124,9 @@ const handleClick = (e) => {
             />
           }
         />
-        {user.userData.shopID == undefined ?  
+      {user.userData.shopID == undefined ?  
       <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-      <SubMenu key="SubMenu" icon={<SettingOutlined /> }style={{fontSize:'30px'}} >
+      <SubMenu key="SubMenu" icon={<SettingOutlined style={{fontSize:'20px'}} /> } >
         <Menu.ItemGroup title="ตั้งค่า">
           <Menu.Item key="1">รายละเอียดส่วนตัว</Menu.Item>
           <Menu.Item key="2">ออกจากระบบ</Menu.Item>
@@ -128,7 +135,7 @@ const handleClick = (e) => {
     </Menu>
     :      
     <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-    <SubMenu key="SubMenu" icon={<ShopOutlined /> }style={{fontSize:'20px',marginTop:'10px'}}>
+    <SubMenu key="SubMenu" icon={<ShopOutlined style={{fontSize:'20px'}} /> }style={{fontSize:'30px'}}>
       <Menu.ItemGroup title="สำหรับผู้ขาย">
         <Menu.Item key="1" onClick={()=>props.history.push("/HomeShop")}>ร้านค้าของคุณ</Menu.Item>
       </Menu.ItemGroup>

@@ -40,7 +40,7 @@
 }
 
 .menu__container .menu_rigth {
-  margin-left: 80%;
+  margin-left: 82%;
   margin-top:  9px;
 }
 
@@ -147,8 +147,8 @@
 	background-image: -webkit-gradient(linear,
 									   40% 0%,
 									   75% 84%,
-									   from(#004aaa),
-									   to(#02005c),
-									   color-stop(.6,#545ffa))
+									   from(#ddd9d9),
+									   to(#7a7a7a),
+									   color-stop(.6,#ddd9d9))
 }
 @import '~antd/dist/antd.css';

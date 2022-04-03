@@ -1,5 +1,5 @@
 import React ,{useState} from 'react'
-import { Typography,Button,Form,message,Input,Icon,Modal} from 'antd';
+import { Typography,Button,Form,message,Input,Icon,Modal,Upload} from 'antd';
 import FileUpload from '../../utils/FileUpload';
 import Axios from 'axios';
 import { render } from "react-dom";
@@ -9,6 +9,8 @@ import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import ImageGallery from 'react-image-gallery';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { DownloadOutlined } from '@ant-design/icons';
+import ImgCrop from 'antd-img-crop';
+import './upload.css'
 
 const {Title} = Typography;
 const {TextArea} = Input ;
@@ -53,6 +55,7 @@ function UploadProductPage(props) {
     const [URL1, setURL1] = useState("")
     const [progress, setProgress] = useState(0)
     const [ModalImage, setModalImage] = useState(false)
+    const [fileList, setFileList] = useState([])
 
 
 
@@ -89,92 +92,67 @@ function UploadProductPage(props) {
         } 
         
     };
-//     const onDropImage2 = (event) => {
-//         console.log(event.currentTarget.files[0]);
-//         if(event.currentTarget.files[0]){
-//             setImage2(event.currentTarget.files[0])
-//         } 
-//     };
- 
-//     const onDropImage3 = (event) => {
-//         console.log(event.currentTarget.files[0]);
-//         if(event.currentTarget.files[0]){
-//             setImage3(event.currentTarget.files[0])
-//         } 
-//     };
-//     const onDropImage4 = (event) => {
-//       console.log(event.currentTarget.files[0]);
-//       if(event.currentTarget.files[0]){
-//           setImage4(event.currentTarget.files[0])
-//       } 
-//   };
-//   const onDropImage5 = (event) => {
-//     console.log(event.currentTarget.files[0]);
-//     if(event.currentTarget.files[0]){
-//         setImage5(event.currentTarget.files[0])
-//     } 
-// };
-// const onDropImage6 = (event) => {
-//   console.log(event.currentTarget.files[0]);
-//   if(event.currentTarget.files[0]){
-//       setImage6(event.currentTarget.files[0])
-//   } 
-// };
-// const onDropImage7 = (event) => {
-//   console.log(event.currentTarget.files[0]);
-//   if(event.currentTarget.files[0]){
-//       setImage7(event.currentTarget.files[0])
-//   } 
-// };
-// const onDropImage8 = (event) => {
-//   console.log(event.currentTarget.files[0]);
-//   if(event.currentTarget.files[0]){
-//       setImage8(event.currentTarget.files[0])
-//   } 
-// };
-// const onDropImage9 = (event) => {
-//   console.log(event.currentTarget.files[0]);
-//   if(event.currentTarget.files[0]){
-//       setImage9(event.currentTarget.files[0])
-//   } 
-// };
-// const onDropImage10 = (event) => {
-//   console.log(event.currentTarget.files[0]);
-//   if(event.currentTarget.files[0]){
-//       setImage10(event.currentTarget.files[0])
-//   } 
-// };
+
 
 
  
-    const handleUploadImage1 = () => {
-        console.log("data imagetest:"+ Image1);
-        const uploadTask = storage.ref(`images/${Image1.name}`).put(Image1);
-        uploadTask.on(
-          "state_changed",
-          snapshot => {
-            const progress = Math.round(
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setProgress(progress);
-          },
-          error => {
-            console.log(error);
-          },
-          () => {
-            console.log("fern4");
-            storage
-              .ref("images")
-              .child(Image1.name)
-              .getDownloadURL()
-              .then(url => {
-                urlList.push(url)
-                setURL1(url);
-              });
-          }
-        );
+    // const handleUploadImage1 = () => {
+    //     console.log("data imagetest:"+ Image1);
+    //     const uploadTask = storage.ref(`images/${Image1.name}`).put(Image1);
+    //     uploadTask.on(
+    //       "state_changed",
+    //       snapshot => {
+    //         const progress = Math.round(
+    //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+    //         );
+    //         setProgress(progress);
+    //       },
+    //       error => {
+    //         console.log(error);
+    //       },
+    //       () => {
+    //         console.log("fern4");
+    //         storage
+    //           .ref("images")
+    //           .child(Image1.name)
+    //           .getDownloadURL()
+    //           .then(url => {
+    //             urlList.push(url)
+    //             setURL1(url);
+    //           });
+    //       }
+    //     );
 
-      };
+    //   };
+
+    const handleUploadImage1 = async (image) => {
+      console.log("data imagetest:" + image);
+      const uploadTask = storage.ref(`images/${image.name}`).put(image.originFileObj);
+      await uploadTask.on(
+        "state_changed",
+        snapshot => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          setProgress(progress);
+        },
+        error => {
+          console.log(error);
+        },
+        () => {
+          console.log("fern4");
+          storage
+            .ref("images")
+            .child(image.name)
+            .getDownloadURL()
+            .then(url => {
+              console.log(url);
+              urlList.push(url)
+            });
+        }
+      );
+      // console.log(urlList);
+    };
 
 
 
@@ -223,12 +201,44 @@ function UploadProductPage(props) {
         },
       ];
 
+      const pushImageToarray = () => {
+        console.log("d");
+        for (let i = 0; i < fileList.length; i++) {
+          console.log("inloop", urlList[0]);
+          setImage1(urlList[0])
+          handleUploadImage1(fileList[i])
+        }
+      }
+
+      const onChange = ({ fileList: newFileList }) => {
+        setFileList(newFileList);
+        console.log(newFileList);
+      };
+    
+      const onPreview = async file => {
+        let src = file.url;
+        if (!src) {
+          src = await new Promise(resolve => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file.originFileObj);
+            reader.onload = () => resolve(reader.result);
+          });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow.document.write(image.outerHTML);
+      };
+      
 
 
 
-    const onSubmit = (event) =>{
-        event.preventDefault();
+
+    const onSubmit = () =>{
+        pushImageToarray()
+
         console.log(props.user.userData.positionShop);
+        setTimeout(() => {
 
         const variables ={
             writer:props.user.userData._id,
@@ -254,8 +264,6 @@ function UploadProductPage(props) {
             imagesPD8 : urlList[7],
             imagesPD9 : urlList[8],
             imagesPD10 : urlList[9],
-
-            
         }
         if(!TitleValue || !DescriptionValue || !PriceValue || !QuantityValue || !ShippingCostValue ||!ContinentsValue ){
             return alert("fill all field")
@@ -270,7 +278,7 @@ function UploadProductPage(props) {
             }else{
                 alert('failed to upload')
             }
-        })
+        })}, 10000);
 
     }
 
@@ -300,10 +308,27 @@ function UploadProductPage(props) {
           textAlign: "center",
         }}
       >
-        <Title level={2}>เพิ่มสินค้าในร้านค้า</Title>
+        
+       
+        <Title level={1}>เพิ่มสินค้าในร้านค้า</Title>
+        <div>
+        <ImgCrop rotate  style={{width:100}} width={100} size="small">
+            <Upload
+              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              listType="picture-card"
+              fileList={fileList}
+              onChange={onChange}
+              onPreview={onPreview}
+            >
+              {fileList.length < 10 && '+ Upload'}
+            </Upload>
+          </ImgCrop>
+        </div>
+        
       </div>
+      
 
-      <div style={{display: "flex",alignItem:'center'}}>
+      {/* <div style={{display: "flex",alignItem:'center'}}>
         <div
           style={{
             width: "60%",
@@ -317,13 +342,18 @@ function UploadProductPage(props) {
 
           </div>
           <Button  shape="round" icon={<DownloadOutlined/>} size="large" onClick={showModal}>เพิ่มรูปภาพสินค้า</Button>
+        </div> */}
+        <div>
+          
+
         </div>
         <div
           style={{
             height: "auto",
             width: "60%",
-            margin:'50px',
-            alignItem:'center'
+            margin:'auto',
+            alignItem:'center',
+            
           }}
         >
           {" "}
@@ -414,7 +444,7 @@ function UploadProductPage(props) {
           </div>
         </Modal>
       </div>
-    </div>
+    // </div>
   );
 }
 

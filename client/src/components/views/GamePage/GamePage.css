@@ -126,4 +126,23 @@ body {
     position: relative;
     border: 3px solid rgba(0, 0, 0, 0.05);
   }
+
+  .modal-recomended-product {
+    
+  
+    margin: auto;
+    display: block;
+    margin-top: 7%;
+    align-content: center;
+    justify-content: center;
+    width: 40%;
+    height: 68%;
+    overflow: auto;
+    background-color:rgba(255,255,255,0.5);
+    border-radius: 15px;
+    position: relative;
+    overflow-y: hidden;
+
+    /* border: 3px solid rgba(0, 0, 0, 0.05); */
+  }
   

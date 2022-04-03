@@ -872,7 +872,6 @@ return (
   if (loading) {
     return (
         <div>
-            <Loading />
             {loadingData()}
         </div>
     )}else{

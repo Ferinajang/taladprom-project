@@ -41,7 +41,36 @@ function DetailProductPageSeller(props) {
       original: Product.imagesPD3,
       thumbnail: Product.imagesPD3,
     },
+    {
+      original: Product.imagesPD4,
+      thumbnail: Product.imagesPD4,
+    },
+    {
+      original: Product.imagesPD5,
+      thumbnail: Product.imagesPD5,
+    },
+    {
+      original: Product.imagesPD6,
+      thumbnail: Product.imagesPD6,
+    },
+    {
+      original: Product.imagesPD7,
+      thumbnail: Product.imagesPD7,
+    },
+    {
+      original: Product.imagesPD8,
+      thumbnail: Product.imagesPD8,
+    },
+    {
+      original: Product.imagesPD9,
+      thumbnail: Product.imagesPD9,
+    },
+    {
+      original: Product.imagesPD10,
+      thumbnail: Product.imagesPD10,
+    },
   ];
+  
   const onDelete =()=>{
     const variables = {
       id: Product._id,

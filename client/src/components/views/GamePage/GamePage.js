@@ -17,12 +17,11 @@ import ProductInfo from "../DetailProductPage/Section/ProductInfo";
 import { addToCart } from '../../../_actions/user_actions';
 import { useDispatch } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
-
-
-
+import { LikeOutlined,StarTwoTone,PlusOutlined} from '@ant-design/icons';
 
 
 const { Meta } = Card;
+
 
 const unityContext = new UnityContext({
     loaderUrl: "Game/build30.loader.js",
@@ -153,10 +152,10 @@ function GamePage(props) {
             }
             if (ShopNumber == "0") {
                 setModalMiniShelf(false);
-                // rtc.localAudioTrack.close();
+                rtc.localAudioTrack.close();
 
-                //   // Leave the channel.
-                // await rtc.client.leave();
+                  // Leave the channel.
+                await rtc.client.leave();
             }
             else {
                 startBasicCall()
@@ -168,7 +167,7 @@ function GamePage(props) {
                         // Set the channel name.
                         channel: "shop1",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IACam63+Qi0b4ZK4yh9kXELvpwdNk4fkwY+aMmOBq69LFT9HqLsAAAAAEABg4SwUqSZJYgEAAQCnJkli",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IAC8hljWMDH0LjZ6BPrO203jM5TjedQTZcW4CUQ/wpvcCT9HqLsAAAAAEABrDG+dgv1KYgEAAQCC/Upi",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -306,13 +305,13 @@ function GamePage(props) {
                     };
                 }
 
-                // await rtc.client.join(options.appId, options.channel, options.token, options.uid);
-                // // Create a local audio track from the audio sampled by a microphone.
-                // rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-                // // Publish the local audio tracks to the RTC channel.
-                // await rtc.client.publish([rtc.localAudioTrack]);
+                await rtc.client.join(options.appId, options.channel, options.token, options.uid);
+                // Create a local audio track from the audio sampled by a microphone.
+                rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+                // Publish the local audio tracks to the RTC channel.
+                await rtc.client.publish([rtc.localAudioTrack]);
 
-                // console.log("publish success!");
+                console.log("publish success!");
 
             }
         });
@@ -442,6 +441,9 @@ function GamePage(props) {
         },
       ];
     const openProductDetail=(product)=>{
+        setModalminiShelf3(false)
+        setModalminiShelf2(false)
+        setModalminiShelf1(false)
         console.log(product);
         setProductDetail(product)
         setmodalProductDetail(true)
@@ -591,7 +593,6 @@ function GamePage(props) {
                     setModalminiShelf1(true)
                     setModalminiShelf2(true)
                     setModalminiShelf3(true)
-
                 }
                 
             } else {
@@ -943,7 +944,8 @@ function GamePage(props) {
                 
                 } */}
 
-        <Modal className="modal-ProductDetail" isOpen={ModalminiShelf1}>
+        <Modal className="modal-recomended-product" isOpen={ModalminiShelf1} style={
+    { overlay: {backgroundColor: "rgba(0, 0, 0, 0)"}}} shouldCloseOnOverlayClick={true}>
               <div
                 style={{
                   height: "15px",
@@ -955,12 +957,25 @@ function GamePage(props) {
                     >
                         <MdClear style={{ cursor: "pointer" }} />
                     </div>
-                    <img src={ProductMiniShelf1.imagesPD1} ></img>
-                    {ProductMiniShelf1.namePD}
-                    {ProductMiniShelf1.pricePD}
+                    <h1 style={{fontWeight:'bold' ,textAlign:'center'}}>สินค้าแนะนำ<LikeOutlined style={{fontSize:'20px'}} /></h1>
+                    <div style={{ alignItems: "center", margin: '20px', marginLeft: '50px' ,alignItems:'center'}}>
+                    <a  onClick={()=>openProductDetail(ProductMiniShelf1)}>
+                            <Card hoverable={true} cover={<img src={ProductMiniShelf1.imagesPD1}></img>}
+                            style={{width:'250px' , height:'50vh',textAlign:'center',marginLeft:'140px'}}>
+                            <Meta
+                                title={ProductMiniShelf1.namePD}
+                                description={`${ProductMiniShelf1.pricePD}บาท`}
+                            ></Meta>
+                            </Card>
+                        </a>
+
+                        </div>
+                  
                 </Modal>
 
-                <Modal className="modal-ProductDetail" isOpen={ModalminiShelf2}>
+                <Modal className="modal-recomended-product" isOpen={ModalminiShelf2} 
+                style={
+                    { overlay: {backgroundColor: "rgba(0, 0, 0, 0)"}}} shouldCloseOnOverlayClick={true}>
               <div
                 style={{
                   height: "15px",
@@ -972,13 +987,25 @@ function GamePage(props) {
                     >
                         <MdClear style={{ cursor: "pointer" }} />
                     </div>
-                    <img src={ProductMiniShelf2.imagesPD1} ></img>
-                    
-                    {ProductMiniShelf2.namePD}
-                    {ProductMiniShelf2.pricePD}
+                    <h1 style={{fontWeight:'bold' ,textAlign:'center'}}>สินค้าแนะนำ<LikeOutlined style={{fontSize:'20px'}} /></h1>
+                    <div style={{ alignItems: "center", margin: '20px', marginLeft: '50px' ,alignItems:'center'}}>
+                    <a  onClick={()=>openProductDetail(ProductMiniShelf2)}>
+                            <Card hoverable={true} cover={<img src={ProductMiniShelf2.imagesPD1}></img>}
+                            style={{width:'250px' , height:'50vh',textAlign:'center',marginLeft:'140px'}}>
+                            <Meta
+                                title={ProductMiniShelf2.namePD}
+                                description={`${ProductMiniShelf2.pricePD}บาท`}
+                            ></Meta>
+                            </Card>
+                        </a>
+
+                        </div>
+                  
                 </Modal>
 
-                <Modal className="modal-ProductDetail" isOpen={ModalminiShelf3}>
+             <Modal className="modal-recomended-product" isOpen={ModalminiShelf3} 
+                style={
+                    { overlay: {backgroundColor: "rgba(0, 0, 0, 0)"}}} shouldCloseOnOverlayClick={true}>
               <div
                 style={{
                   height: "15px",
@@ -990,10 +1017,21 @@ function GamePage(props) {
                     >
                         <MdClear style={{ cursor: "pointer" }} />
                     </div>
-                    <img src={ProductMiniShelf3.imagesPD1} ></img>
-                    {ProductMiniShelf3.namePD}
-                    {ProductMiniShelf3.pricePD}
-                </Modal>
+                    <h1 style={{fontWeight:'bold' ,textAlign:'center'}}>สินค้าแนะนำ<LikeOutlined style={{fontSize:'20px'}} /></h1>
+                    <div style={{ alignItems: "center", margin: '20px', marginLeft: '50px' ,alignItems:'center'}}>
+                    <a  onClick={()=>openProductDetail(ProductMiniShelf3)}>
+                            <Card hoverable={true} cover={<img src={ProductMiniShelf3.imagesPD1}></img>}
+                            style={{width:'250px' , height:'50vh',textAlign:'center',marginLeft:'140px'}}>
+                            <Meta
+                                title={ProductMiniShelf3.namePD}
+                                description={`${ProductMiniShelf3.pricePD} บาท`}
+                            ></Meta>
+                            </Card>
+                        </a>
+
+                        </div>
+                        </Modal>
+                  
     
             
             </div>

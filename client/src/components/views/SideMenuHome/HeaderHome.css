@@ -26,10 +26,10 @@ body {
     margin-top: 5%;
     align-content: center;
     justify-content: center;
-    width: 42%;
+    width: 36%;
     height: 70%;
     overflow: auto;
-    background-color:rgb(255, 0, 0);
+    background-color:rgb(255, 255, 255);
     border-radius: 15px;
     position: relative;
     border: 3px solid rgba(0, 0, 0, 0.05);

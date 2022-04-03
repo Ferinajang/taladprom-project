@@ -5,6 +5,7 @@ import CheckBox from './Section/CheckBox';
 import RadioBox from './Section/RadioBox';
 import { continentsPD,price } from './Section/Data';
 import SearchFeature from './Section/SearchFeature';
+
 const {Meta} =Card;
 
 
@@ -140,7 +141,7 @@ function TaladPromShop(props) {
         getProduct(variables)   
     }
     const contentStyle = {
-        height: '250px',
+        height: '350px',
         color: '#fff',
         lineHeight: '160px',
         textAlign: 'center',
@@ -161,10 +162,10 @@ function TaladPromShop(props) {
           
         <Carousel autoplay>
           <div>
-            <h3 style={contentStyle}><img style={{width:'100%',height:'100%'}} src={"https://www.img.in.th/images/ddff8dfe32eb1f3bb2c2b34284d730dd.jpg"}></img></h3>
+            <h3 style={contentStyle}><img style={{width:'100%',height:'100%'}} src="/photo/1.jpg"></img></h3>
           </div>
           <div>
-            <h3 style={contentStyle}>2</h3>
+            <h3 style={contentStyle}><img style={{width:'100%',height:'100%'}} src="/photo/cart_4.jpg"/>2</h3>
           </div>
           <div>
             <h3 style={contentStyle}>3</h3>

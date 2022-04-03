@@ -874,7 +874,6 @@ const renderCardsOrderReject = order.map((order, index) => {
     if (loading) {
       return (
           <div>
-              <Loading />
               {loadingData()}
           </div>
       )}else{
@@ -1409,29 +1408,17 @@ const renderCardsOrderReject = order.map((order, index) => {
                       <br></br>
                       <br></br>
                       <div style={{display:'flex'}}>
-                        <IoArrowBackCircleSharp
-                          style={{
-                            fontSize: "40px",
-                    
-                            color: "#2F2851",
-                          }}
-                        />
+
                         <Button
-                          style={{ backgroundColor: "#2F2851" }}
+                          style={{ backgroundColor: "#2F2851",marginLeft:'40px' }}
                           shape="round"
                           type="primary"
                           size="large"
                           onClick={()=>setmodalChooseAvatar(true)}
                         >
-                          ตัวละครที่ 1
+                          เลือกตัวละคร
                         </Button>
-                        <IoArrowForwardCircle
-                          style={{
-                            fontSize: "40px",
-                      
-                            color: "#2F2851",
-                          }}
-                        />
+
                       </div>
                     </div>
                   </div>
@@ -1451,7 +1438,7 @@ const renderCardsOrderReject = order.map((order, index) => {
                   >
                     <MdClear style={{ cursor: "pointer" }} />
                   </div>
-                  <h1 style={{textAalign:'center',fontWeight:'bold',marginLeft:'100px'}}>เลือกตัวละครที่ต้องการ</h1>
+                  <h1 style={{textAalign:'center',fontWeight:'bold',marginLeft:'180px'}}>เลือกตัวละครที่ต้องการ</h1>
                   <div style={{display:'block'}}>
                     <div style={{display:'flex'}}>
                     <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
@@ -1465,7 +1452,7 @@ const renderCardsOrderReject = order.map((order, index) => {
                       ></img>
                     </div>
                     <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
-                      <h3>สมหญิง</h3>
+                      <h3>สมปอง</h3>
                       <img
   
                         onClick={() => chooseAvatar("PlayerChar2")}
@@ -1486,7 +1473,7 @@ const renderCardsOrderReject = order.map((order, index) => {
                       ></img>
                     </div>
                     <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
-                      <h3>สมศรี</h3>
+                      <h3>สมศักดิ์</h3>
                       <img
                         onClick={() => chooseAvatar("PlayerChar4")}
                         src={
@@ -1500,7 +1487,7 @@ const renderCardsOrderReject = order.map((order, index) => {
                  
                     <div style={{display:'flex'}}>
                     <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
-                      <h3>สมพร</h3>
+                      <h3>สมยศ</h3>
                       <img
                         onClick={() => chooseAvatar("PlayerChar5")}
                         src={
@@ -1530,7 +1517,7 @@ const renderCardsOrderReject = order.map((order, index) => {
                       ></img>
                     </div>
                     <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
-                      <h3>สมบูรณ์</h3>
+                      <h3>สมพร</h3>
                       <img
                         onClick={() => chooseAvatar("PlayerChar8")}
                         src={
