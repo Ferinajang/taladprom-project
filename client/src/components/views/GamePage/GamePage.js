@@ -25,10 +25,10 @@ import ImageGallery from 'react-image-gallery';
 const { Meta } = Card;
 
 const unityContext = new UnityContext({
-    loaderUrl: "Game/build29.loader.js",
-    dataUrl: "Game/build29.data",
-    frameworkUrl: "Game/build29.framework.js",
-    codeUrl: "Game/build29.wasm",
+    loaderUrl: "Game/build30.loader.js",
+    dataUrl: "Game/build30.data",
+    frameworkUrl: "Game/build30.framework.js",
+    codeUrl: "Game/build30.wasm",
 });
 
 
@@ -312,7 +312,7 @@ function GamePage(props) {
                 // // Publish the local audio tracks to the RTC channel.
                 // await rtc.client.publish([rtc.localAudioTrack]);
 
-                console.log("publish success!");
+                // console.log("publish success!");
 
             }
         });
@@ -637,7 +637,7 @@ function GamePage(props) {
         Axios.put('/api/coupon/addOwnerCoupon', variables)
             .then(response => {
                 if (response.data.success) {
-                    message.sucsess('คูปองได้จัดเก็บดข้าคลังของคุณแล้ว');
+                    message.success('คูปองได้จัดเก็บดข้าคลังของคุณแล้ว');
                 } else {
                     alert(response)
                 }
@@ -713,56 +713,57 @@ function GamePage(props) {
     }
 
     const onclickbuttonBeSeller = () => {
-        if (props.user.userData.positionShop == "1") {
-            unityContext.send("ConnectToserver", "ClickOKOnReact1", 1);
-        }
-        else if (props.user.userData.positionShop == "2") {
-            unityContext.send("ConnectToserver", "ClickOKOnReact1", 2);
-        }
-        else if (props.user.userData.positionShop == "3") {
-            unityContext.send("ConnectToserver", "ClickOKOnReact1", 3);
-        }
-        else if (props.user.userData.positionShop == "4") {
-            unityContext.send("ConnectToserver", "ClickOKOnReact1", 4);
-        }
-        else if (props.user.userData.positionShop == "5") {
-            unityContext.send("ConnectToserver", "ClickOKOnReact1", 5);
-        }
-        else if (props.user.userData.positionShop == "6") {
-            unityContext.send("ConnectToserver", "ClickOKOnReact1", 6);
-        }
-        else if (props.user.userData.positionShop == "7") {
-            unityContext.send("ConnectToserver", "ClickOKOnReact1", 7);
-        }
-        else if (props.user.userData.positionShop == "8") {
-            unityContext.send("ConnectToserver", "ClickOKOnReact1", 8);
-        }
-        else if (props.user.userData.positionShop == "9") {
-            unityContext.send("ConnectToserver", "ClickOKOnReact1", 9);
-        }
-        else if (props.user.userData.positionShop == "10") {
-            unityContext.send("ConnectToserver", "ClickOKOnReact1", 10);
-        }
-        else if (props.user.userData.positionShop == "11") {
-            unityContext.send("ConnectToserver", "ClickOKOnReact1", 11);
-        }
-
-        else if (props.user.userData.positionShop == "12") {
-            unityContext.send("ConnectToserver", "ClickOKOnReact1", 12);
-        }
-
         unityContext.send("ConnectToserver", "ClickOKOnReact2",props.user.userData.playerCharacter);
         setModalSeller(false)
-
     }
 
     const onclickbuttonBeBuyer = () => {
         if (!props.user.userData.positionShop) {
             unityContext.send("ConnectToserver", "ClickOKOnReact1", 0);
         }
+        else{
+            if (props.user.userData.positionShop == "1") {
+                unityContext.send("ConnectToserver", "ClickOKOnReact1", 1);
+            }
+            else if (props.user.userData.positionShop == "2") {
+                unityContext.send("ConnectToserver", "ClickOKOnReact1", 2);
+            }
+            else if (props.user.userData.positionShop == "3") {
+                unityContext.send("ConnectToserver", "ClickOKOnReact1", 3);
+            }
+            else if (props.user.userData.positionShop == "4") {
+                unityContext.send("ConnectToserver", "ClickOKOnReact1", 4);
+            }
+            else if (props.user.userData.positionShop == "5") {
+                unityContext.send("ConnectToserver", "ClickOKOnReact1", 5);
+            }
+            else if (props.user.userData.positionShop == "6") {
+                unityContext.send("ConnectToserver", "ClickOKOnReact1", 6);
+            }
+            else if (props.user.userData.positionShop == "7") {
+                unityContext.send("ConnectToserver", "ClickOKOnReact1", 7);
+            }
+            else if (props.user.userData.positionShop == "8") {
+                unityContext.send("ConnectToserver", "ClickOKOnReact1", 8);
+            }
+            else if (props.user.userData.positionShop == "9") {
+                unityContext.send("ConnectToserver", "ClickOKOnReact1", 9);
+            }
+            else if (props.user.userData.positionShop == "10") {
+                unityContext.send("ConnectToserver", "ClickOKOnReact1", 10);
+            }
+            else if (props.user.userData.positionShop == "11") {
+                unityContext.send("ConnectToserver", "ClickOKOnReact1", 11);
+            }
+    
+            else if (props.user.userData.positionShop == "12") {
+                unityContext.send("ConnectToserver", "ClickOKOnReact1", 12);
+            }
+        }
         unityContext.send("ConnectToserver", "ClickOKOnReact2", props.user.userData.playerCharacter);
         setModalSeller(false)
         console.log("getINTHAISCLICK")
+        unityContext.send("ConnectToserver", "ClickOKOnReact3", props.user.userData.name);
     }
 
     if (loading) {
@@ -800,13 +801,13 @@ function GamePage(props) {
                         <MdClear style={{ cursor: 'pointer' }} /></div>
                     {!props.user.userData.positionShop ?
                         <div style={{ textAlign: 'center', justifyItems: 'center', marginTop: '100px' }}>
-                            <Button style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold', width: '420px', height: '60px', borderRadius: '10px' }} onClick={onclickbuttonBeBuyer}>เตรียมตัวเข้าสู่ตลาดเพื่อชอปปิง</Button>
+                            <Button style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold', width: '420px', height: '60px', borderRadius: '10px' }} onClick={onclickbuttonBeBuyer}>ยืนยันเข้าสู่ตลาด</Button>
 
                         </div>
                         :
                         <div style={{ textAlign: 'center', justifyItems: 'center', marginTop: '40px', display: 'block' }}>
-                            <Button style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold', width: '300px', height: '60px', marginTop: '20px', borderRadius: '10px' }} onClick={onclickbuttonBeBuyer}>เข้าไปชอปปิง</Button>
-                            <Button style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold', width: '380px', height: '60px', marginTop: '20px', borderRadius: '10px' }} onClick={onclickbuttonBeSeller}>เข้าไปยังร้านของคุณ</Button>
+                            <Button style={{ fontSize: "36px", textAlign: 'center', fontWeight: 'bold', width: '300px', height: '60px', marginTop: '20px', borderRadius: '10px' }} onClick={onclickbuttonBeBuyer}>ยืนยันเข้าสู่ตลาด</Button>
+                            
                         </div>
                     }
                 </Modal>
