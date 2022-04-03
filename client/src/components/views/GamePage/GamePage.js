@@ -868,6 +868,8 @@ function GamePage(props) {
 
                     </div>
                 </Modal>
+                
+                {/* {modalMiniShelf &&  */}
 
                 <Modal className="modal-ProductDetail" isOpen={modalProductDetail}>
               <div
@@ -923,7 +925,7 @@ function GamePage(props) {
 
 
 
-                {modalMiniShelf && 
+                {/* {modalMiniShelf && 
                 <div>
                     <div className="modal-ShowProductOnShelf">
                         
@@ -932,7 +934,7 @@ function GamePage(props) {
                     <div className="modal-ShowProductOnShelf" style={{marginTop:'450px',marginRight:'250px'}}></div>
                 </div>
                 
-                }
+                } */}
 
         <Modal className="modal-ProductDetail" isOpen={ModalminiShelf1}>
               <div
@@ -985,9 +987,8 @@ function GamePage(props) {
                     {ProductMiniShelf3.namePD}
                     {ProductMiniShelf3.pricePD}
                 </Modal>
-
-                
-
+    
+            
             </div>
         );
     }
