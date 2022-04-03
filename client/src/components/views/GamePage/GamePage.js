@@ -155,7 +155,7 @@ function GamePage(props) {
                         // Set the channel name.
                         channel: "shop1",
                         // Pass your temp token here.
-                        token: "006165d56d0f0c14892810e3a89f2ac1133IABSso92MMRzCXeUb/kBud1UZ7HBDfISUZt/VCiOYJtsfD9HqLsAAAAAEABg4SwU3OZHYgEAAQDb5kdi",
+                        token: "006165d56d0f0c14892810e3a89f2ac1133IACam63+Qi0b4ZK4yh9kXELvpwdNk4fkwY+aMmOBq69LFT9HqLsAAAAAEABg4SwUqSZJYgEAAQCnJkli",
                         // Set the user ID.
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
@@ -299,7 +299,7 @@ function GamePage(props) {
                 // // Publish the local audio tracks to the RTC channel.
                 // await rtc.client.publish([rtc.localAudioTrack]);
 
-                console.log("publish success!");
+                // console.log("publish success!");
 
             }
         });
