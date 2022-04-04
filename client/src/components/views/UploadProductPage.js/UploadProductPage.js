@@ -236,6 +236,7 @@ function UploadProductPage(props) {
 
     const onSubmit = () =>{
         pushImageToarray()
+        openMessage()
 
         console.log(props.user.userData.positionShop);
         setTimeout(() => {
@@ -266,19 +267,20 @@ function UploadProductPage(props) {
             imagesPD10 : urlList[9],
         }
         if(!TitleValue || !DescriptionValue || !PriceValue || !QuantityValue || !ShippingCostValue ||!ContinentsValue ){
-            return alert("fill all field")
-        }
-
-
-        Axios.post('/api/product/uploadProduct',variables)
+          message.error('กรุณากรอกข้อมูลให้ครบ');
+        }else{
+          Axios.post('/api/product/uploadProduct',variables)
         .then(response =>{
             if(response.data.success){
-                alert('product success to upload')
                 props.history.push("/Landing")
             }else{
                 alert('failed to upload')
             }
-        })}, 10000);
+        })
+          
+        }
+
+        }, 5000);
 
     }
 
@@ -297,6 +299,13 @@ function UploadProductPage(props) {
        setModalImage(false)
        setURL1("")
     }
+    const key = 'updatable';
+    const openMessage = () => {
+      message.loading({ content: 'กำลังเพิ่มสินค้า...', key });
+      setTimeout(() => {
+        message.success({ content: 'เพิ่มสินค้าสำเร็จ!', key, duration: 2 });
+      }, 5500);
+    };
       
 
 

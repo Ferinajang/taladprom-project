@@ -38,12 +38,12 @@ function CreateCoupon(props) {
   const dateFormat = 'MMMM, D ,YYYY';
   
 
-  console.log(CouponShop);
+  
 
 
   
   useEffect(( ) => {
-    document.getElementById("HeaderHome").style.display = "none";
+
 
     Axios.post("/api/coupon/getCoupon").then((response) => {
       if (response.data.success) {
@@ -309,7 +309,7 @@ CouponShop.map((coupon, index) => {
   const ModalFreeShippingOpen = () => {
     setModalChooseTypeCoupon(false)
     settypeCoupon("FreeShipping")
-    setdiscount()
+    setdiscount(1)
     setNameCoupon("คูปองส่งฟรี")
     setModalFreeShipping(true);
   };
@@ -351,6 +351,7 @@ CouponShop.map((coupon, index) => {
  
   
   const createCoupon =()=>{
+    setModalQuantityAddCoupon(false)
     if(discount<1){
       message.error('กรุณากำหนดส่วนลด');
     }else if(!dateCouponTimeOut){
@@ -404,13 +405,19 @@ const chooseTypeCoupon =()=>{
   setModalChooseTypeCoupon(true)
 }
 const onChangeQuantityAddcoupon =(value)=>{
-  setQuantityAddCoupon(value)
+  console.log(value);
+  if(value == 1){
+    console.log("11");
+    setQuantityAddCoupon(1)
+  }else{
+    setQuantityAddCoupon(value)
+  }
+  
 }
 
 
   return (
     <div style={{ marginTop:'-69px'}}>
-       <HeaderHomeSeller />
       <div >
         <br/>
         <br/>
@@ -814,7 +821,7 @@ const onChangeQuantityAddcoupon =(value)=>{
         </div>
         <div style={{ textAlign: "center", marginTop: "5px", display: "block" }}>
          <h2 style={{ textAlign: "center",fontWeight:'bold' }}>โปรดระบุจำนวนที่ต้องการสร้างคูปอง</h2>
-         <InputNumber style={{ textAlign: "center",marginTop:'5px' }} min={1} max={100} defaultValue={1} onChange={onChangeQuantityAddcoupon} />
+         <InputNumber style={{ textAlign: "center",marginTop:'5px' }} min={1} max={100} defaultValue={0} onChange={onChangeQuantityAddcoupon} />
          <br/>
          <Button
               style={{
