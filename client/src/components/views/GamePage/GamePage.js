@@ -24,24 +24,28 @@ const { Meta } = Card;
 
 
 const unityContext = new UnityContext({
-    loaderUrl: "Game/build33.loader.js",
-    dataUrl: "Game/build33.data",
-    frameworkUrl: "Game/build33.framework.js",
-    codeUrl: "Game/build33.wasm",
+    loaderUrl: "Game/build36.loader.js",
+    dataUrl: "Game/build36.data",
+    frameworkUrl: "Game/build36.framework.js",
+    codeUrl: "Game/build36.wasm",
 });
 
 
 function GamePage(props) {
     const dispatch = useDispatch();
     const [modalCounter, setModalCounter] = useState(false);
-    const [modalMiniShelf, setModalMiniShelf] = useState(false);
     const [modalSeller, setModalSeller] = useState(false);
     const [modalCouponRendom, setModalCouponRendom] = useState(false);
     const [modalShopSign, setModalShopSign] = useState(false);
     const [modalCouponRandom, setmodalCouponRandom] = useState(false)
-    const [modalMiniShelf1, setModalMiniShelf1] = useState(true);
     const [arrayRecommend, setarrayRecommend] = useState([])
-    
+    const [triggerModalMiniShelf, setTriggerModalMiniShelf] = useState(false);
+    const [modalMiniShelf, setModalMiniShelf] = useState("");
+    const [modalMiniShelf1, setModalMiniShelf1] = useState();
+    const [modalMiniShelf2, setModalMiniShelf2] = useState()
+    const [modalMiniShelf3, setModalMiniShelf3] = useState()
+
+
     const [countProMiniShelf, setCountProMiniShelf1] = useState(0);
 
     const [modalCoupon, setModalCoupon] = useState(false);
@@ -137,6 +141,26 @@ function GamePage(props) {
             SetShopNum(shopnum.toString());
         });
 
+        unityContext.on("sendMiniShelf", function (triggerMiniShelf,whichShelf) {
+            setTriggerModalMiniShelf(triggerMiniShelf);
+            setModalMiniShelf(whichShelf.toString());
+            console.log(whichShelf)
+            if(whichShelf === 1){
+                setModalminiShelf1(true);
+            }
+            else if(whichShelf === 2){
+                setModalminiShelf2(true);
+            }
+            else if(whichShelf === 3){
+                setModalminiShelf3(true);
+            }
+            else{
+                setModalminiShelf3(false)
+                setModalminiShelf2(false)
+                setModalminiShelf1(false)
+            }
+
+        });
 
 
         unityContext.on("sendInShop", async function (isTrigger2, ShopNumber) {
@@ -152,10 +176,10 @@ function GamePage(props) {
             }
             if (ShopNumber == "0") {
                 setModalMiniShelf(false);
-                rtc.localAudioTrack.close();
+                // rtc.localAudioTrack.close();
 
-                  // Leave the channel.
-                await rtc.client.leave();
+                //   // Leave the channel.
+                // await rtc.client.leave();
             }
             else {
                 startBasicCall()
@@ -305,13 +329,13 @@ function GamePage(props) {
                     };
                 }
                 console.log(options.uid)
-                await rtc.client.join(options.appId, options.channel, options.token, options.uid);
-                // Create a local audio track from the audio sampled by a microphone.
-                rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-                // Publish the local audio tracks to the RTC channel.
-                await rtc.client.publish([rtc.localAudioTrack]);
+                // await rtc.client.join(options.appId, options.channel, options.token, options.uid);
+                // // Create a local audio track from the audio sampled by a microphone.
+                // rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
+                // // Publish the local audio tracks to the RTC channel.
+                // await rtc.client.publish([rtc.localAudioTrack]);
 
-                console.log("publish success!");
+                // console.log("publish success!");
 
             }
         });
@@ -423,7 +447,9 @@ function GamePage(props) {
     }, []);
 
     const addToCartHandler = (productId) => {
+        setmodalProductDetail(false);
         dispatch(addToCart(productId));
+        
       };
     
       const images = [
@@ -590,9 +616,9 @@ function GamePage(props) {
                             i++
                         }
                     }
-                    setModalminiShelf1(true)
-                    setModalminiShelf2(true)
-                    setModalminiShelf3(true)
+                    // setModalminiShelf1(true)
+                    // setModalminiShelf2(true)
+                    // setModalminiShelf3(true)
                 }
                 
             } else {
@@ -906,7 +932,7 @@ function GamePage(props) {
                         }}>
                             <h1>{ProductDetail.namePD}</h1>
                         </div>
-                        <div style={{ display: "flex", justifyContent: "flex-start", marginLeft: '20px', marginTop: '20px' }}>
+                        <div style={{ display: "flex", justifyContent: "flex-start", marginLeft: '10px', marginTop: '20px' }}>
                             <ProductInfo addToCart={addToCartHandler} detail={ProductDetail} />
                         </div>
                         <div style={{ float: 'right' }}>
