@@ -25,10 +25,10 @@ import ImageGallery from 'react-image-gallery';
 const { Meta } = Card;
 
 const unityContext = new UnityContext({
-    loaderUrl: "Game/build30.loader.js",
-    dataUrl: "Game/build30.data",
-    frameworkUrl: "Game/build30.framework.js",
-    codeUrl: "Game/build30.wasm",
+    loaderUrl: "Game/build33.loader.js",
+    dataUrl: "Game/build33.data",
+    frameworkUrl: "Game/build33.framework.js",
+    codeUrl: "Game/build33.wasm",
 });
 
 
