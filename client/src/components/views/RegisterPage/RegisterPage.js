@@ -75,6 +75,7 @@ function RegisterPage(props) {
             lastname: values.lastName,
             address:values.address,
             phoneNumber:values.phoneNumber,
+            playerCharacter:"playerCharacter1",
             image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
           };
 
