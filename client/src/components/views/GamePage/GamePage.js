@@ -304,7 +304,7 @@ function GamePage(props) {
                         uid: Math.ceil(moonLanding.getTime() / 1000000)
                     };
                 }
-
+                console.log(options.uid)
                 await rtc.client.join(options.appId, options.channel, options.token, options.uid);
                 // Create a local audio track from the audio sampled by a microphone.
                 rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack();
@@ -669,7 +669,7 @@ function GamePage(props) {
 
     async function startBasicCall() {
         // Create an AgoraRTCClient object.
-        rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+        rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "h264" });
 
         // Listen for the "user-published" event, from which you can get an AgoraRTCRemoteUser object.
         rtc.client.on("user-published", async (user, mediaType) => {

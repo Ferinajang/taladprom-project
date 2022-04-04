@@ -118,14 +118,13 @@ function CreateShop(props) {
       ownerName: props.user.userData.name,
       nameShop: TitleShop,
       descripstionShop: DescriptionShop,
-      emailShop: EmailShop,
       phoneNumberShop: PhoneNumberShop,
-      imagesShopp: URLShop,
+      imagesShop: URLShop,
       positionShop: positionShop,
 
     }
 
-    if (!TitleShop || !DescriptionShop || !EmailShop || !PhoneNumberShop || !positionShop) {
+    if (!TitleShop || !DescriptionShop  || !PhoneNumberShop || !positionShop) {
       let placement = "top"
       notification.error({
         message: "คุณกรอกข้อมูลไม่ครบ",
@@ -146,7 +145,6 @@ function CreateShop(props) {
             Axios.put("/api/position/editPosition", variables).then(
               (response) => {
                 if (response.data.success) {
-                  alert("product success to upload");
                 } else {
                   alert(response);
                 }
@@ -162,7 +160,7 @@ function CreateShop(props) {
             Axios.put("/api/position/editPosition", variables).then(
               (response) => {
                 if (response.data.success) {
-                  alert("product success to upload");
+                  
                 } else {
                   alert(response);
                 }
@@ -178,7 +176,7 @@ function CreateShop(props) {
             Axios.put("/api/position/editPosition", variables).then(
               (response) => {
                 if (response.data.success) {
-                  alert("product success to upload");
+                 
                 } else {
                   alert(response);
                 }
@@ -194,7 +192,7 @@ function CreateShop(props) {
             Axios.put("/api/position/editPosition", variables).then(
               (response) => {
                 if (response.data.success) {
-                  alert("product success to upload");
+                  
                 } else {
                   alert(response);
                 }
@@ -210,7 +208,7 @@ function CreateShop(props) {
             Axios.put("/api/position/editPosition", variables).then(
               (response) => {
                 if (response.data.success) {
-                  alert("product success to upload");
+                  
                 } else {
                   alert(response);
                 }
@@ -226,7 +224,7 @@ function CreateShop(props) {
             Axios.put("/api/position/editPosition", variables).then(
               (response) => {
                 if (response.data.success) {
-                  alert("product success to upload");
+                 
                 } else {
                   alert(response);
                 }
@@ -243,7 +241,7 @@ function CreateShop(props) {
               Axios.put("/api/position/editPosition", variables).then(
                 (response) => {
                   if (response.data.success) {
-                    alert("product success to upload");
+                    
                   } else {
                     alert(response);
                   }
@@ -260,7 +258,7 @@ function CreateShop(props) {
             Axios.put("/api/position/editPosition", variables).then(
               (response) => {
                 if (response.data.success) {
-                  alert("product success to upload");
+                  
                 } else {
                   alert(response);
                 }
@@ -276,7 +274,7 @@ function CreateShop(props) {
             Axios.put("/api/position/editPosition", variables).then(
               (response) => {
                 if (response.data.success) {
-                  alert("product success to upload");
+                  
                 } else {
                   alert(response);
                 }
@@ -292,7 +290,7 @@ function CreateShop(props) {
             Axios.put("/api/position/editPosition", variables).then(
               (response) => {
                 if (response.data.success) {
-                  alert("product success to upload");
+                  
                 } else {
                   alert(response);
                 }
@@ -308,7 +306,7 @@ function CreateShop(props) {
             Axios.put("/api/position/editPosition", variables).then(
               (response) => {
                 if (response.data.success) {
-                  alert("product success to upload");
+                  
                 } else {
                   alert(response);
                 }
@@ -324,7 +322,7 @@ function CreateShop(props) {
             Axios.put("/api/position/editPosition", variables).then(
               (response) => {
                 if (response.data.success) {
-                  alert("product success to upload");
+                 
                 } else {
                   alert(response);
                 }
@@ -627,10 +625,6 @@ function CreateShop(props) {
         <br></br>
         <label>ชื่อร้าน</label>
         <Input onChange={onTitleShopChange} value={TitleShop}></Input>
-        <br></br>
-        <br></br>
-        <label>อีเมล</label>
-        <Input onChange={onEmailShopChange} value={EmailShop}></Input>
         <br></br>
         <br></br>
         <label>หมายเลขโทรศัพท์</label>

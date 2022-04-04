@@ -79,7 +79,7 @@ const handleClick = (e) => {
 
   if (user.userData && !user.userData.isAuth) {
     return (
-      <div style={{marginLeft:'100px'}}>
+      <div style={{marginLeft:'90px',position:'fixed'}}>
         <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
           <Menu.Item key="login">
             เข้าสู่ระบบ
@@ -110,7 +110,7 @@ const handleClick = (e) => {
       );
     } else {
     return (
-      <div style={{ display: "flex", width: "100%" ,marginLeft:'20px'}}>
+      <div style={{ display: "flex", width: "100%" ,marginLeft:'-60px',position:'fixed'}}>
         <h3 style={{ marginTop: "10px" ,marginLeft:'40px'}}>
           คุณ {user.userData.name} {user.userData.lastname}
         </h3>
