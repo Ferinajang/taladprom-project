@@ -34,7 +34,8 @@ import { MdClear } from "react-icons/md";
 //import sidebar css from react-pro-sidebar module and our custom css 
 import "react-pro-sidebar/dist/css/styles.css";
 import "../SideMenuHome/SideMenuHome.css";
-import "../SideMenuHome/HeaderHome.css";
+import "../SideMenuHome/HeaderHome.css" 
+
 //font
 //cart
 import {
@@ -49,13 +50,14 @@ import { storage } from "../../firebaseConfig"
 import Loading from '../../Loading';
 import { DrawerProps } from 'antd/es/drawer';
 
+
 // import {useFonts,Prompt_100Thin,Prompt_400Regular,} from '@expo-google-fonts/prompt';
 const { Meta } = Card;
 const { Step } = Steps;
 const { TabPane } = Tabs;
 
 
-const Header = (props) => {
+const HeaderHome = (props) => {
   const [modalCart, setModalCart] = useState(false);
   const [modalOrder, setModalOrder] = useState(false);
   const [order, setorder] = useState([]);
@@ -1406,29 +1408,17 @@ return (
                     <br></br>
                     <br></br>
                     <div style={{display:'flex'}}>
-                      <IoArrowBackCircleSharp
-                        style={{
-                          fontSize: "40px",
-                  
-                          color: "#2F2851",
-                        }}
-                      />
+
                       <Button
-                        style={{ backgroundColor: "#2F2851" }}
+                        style={{ backgroundColor: "#2F2851",marginLeft:'40px' }}
                         shape="round"
                         type="primary"
                         size="large"
                         onClick={()=>setmodalChooseAvatar(true)}
                       >
-                        ตัวละครที่ 1
+                        เลือกตัวละคร
                       </Button>
-                      <IoArrowForwardCircle
-                        style={{
-                          fontSize: "40px",
-                    
-                          color: "#2F2851",
-                        }}
-                      />
+
                     </div>
                   </div>
                 </div>
@@ -1448,7 +1438,7 @@ return (
                 >
                   <MdClear style={{ cursor: "pointer" }} />
                 </div>
-                <h1 style={{textAalign:'center',fontWeight:'bold',marginLeft:'100px'}}>เลือกตัวละครที่ต้องการ</h1>
+                <h1 style={{textAalign:'center',fontWeight:'bold',marginLeft:'180px'}}>เลือกตัวละครที่ต้องการ</h1>
                 <div style={{display:'block'}}>
                   <div style={{display:'flex'}}>
                   <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
@@ -1462,7 +1452,7 @@ return (
                     ></img>
                   </div>
                   <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
-                    <h3>สมหญิง</h3>
+                    <h3>สมปอง</h3>
                     <img
 
                       onClick={() => chooseAvatar("PlayerChar2")}
@@ -1483,7 +1473,7 @@ return (
                     ></img>
                   </div>
                   <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
-                    <h3>สมศรี</h3>
+                    <h3>สมศักดิ์</h3>
                     <img
                       onClick={() => chooseAvatar("PlayerChar4")}
                       src={
@@ -1497,7 +1487,7 @@ return (
                
                   <div style={{display:'flex'}}>
                   <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
-                    <h3>สมพร</h3>
+                    <h3>สมยศ</h3>
                     <img
                       onClick={() => chooseAvatar("PlayerChar5")}
                       src={
@@ -1527,7 +1517,7 @@ return (
                     ></img>
                   </div>
                   <div style={{ padding: '40px', textAlign: 'center', cursor: 'pointer' }}>
-                    <h3>สมบูรณ์</h3>
+                    <h3>สมพร</h3>
                     <img
                       onClick={() => chooseAvatar("PlayerChar8")}
                       src={
@@ -1773,4 +1763,4 @@ return (
 }
 };
 
-export default withRouter(Header);
+export default withRouter(HeaderHome);

@@ -23,7 +23,7 @@ function Loading(props) {
         style={{
           fontFamily: "Prompt",
           fontWeight: "500",
-          color: "#680C07",
+          color: "#2F2851",
           fontSize: "20px",
           alignItems: "center",
         }}

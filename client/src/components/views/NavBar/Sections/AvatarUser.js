@@ -140,9 +140,9 @@ const handleClick = (e) => {
         <Menu.Item key="1" onClick={()=>props.history.push("/HomeShop")}>ร้านค้าของคุณ</Menu.Item>
       </Menu.ItemGroup>
       <Menu.ItemGroup title="จัดการร้านค้า">
-        <Menu.Item key="3">จัดการสินค้าในร้านค้า</Menu.Item>
-        <Menu.Item key="4">จัดการรายการคำสั่งซื้อ</Menu.Item>
-        <Menu.Item key="5">จัดการโปรโมชั่น</Menu.Item>
+        <Menu.Item key="3"  onClick={()=>props.history.push("/Landing")}>จัดการสินค้าในร้านค้า</Menu.Item>
+        <Menu.Item key="4"  onClick={()=>props.history.push("/orderManagement")}>จัดการรายการคำสั่งซื้อ</Menu.Item>
+        <Menu.Item key="5"  onClick={()=>props.history.push("/create-coupon")}>จัดการโปรโมชั่น</Menu.Item>
       </Menu.ItemGroup>
     </SubMenu>
   </Menu>

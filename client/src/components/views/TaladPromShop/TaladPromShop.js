@@ -168,10 +168,10 @@ function TaladPromShop(props) {
             <h3 style={contentStyle}><img style={{width:'100%',height:'100%'}} src="/photo/cart_4.jpg"/>2</h3>
           </div>
           <div>
-            <h3 style={contentStyle}>3</h3>
+            <h3 style={contentStyle}><img style={{width:'100%',height:'100%'}} src="/photo/e.jpg"/>3</h3>
           </div>
           <div>
-            <h3 style={contentStyle}>4</h3>
+            <h3 style={contentStyle}><img style={{width:'100%',height:'100%'}} src="/photo/5444274.jpg"/>4</h3>
           </div>
         </Carousel>
         <div style={{ textAlign: "center" }}>

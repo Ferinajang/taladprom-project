@@ -353,7 +353,7 @@ const renderCardsOrderReject = order.map((order, index) => {
                 Axios.get('/api/users/userCartInfo')
                     .then(response => {
                         if (response.data.success) {
-                            alert("success")
+                          message.success('นำออกจากตะกร้าสำเร็จ');
                         } else {
                             alert('fail to get cart info')
                         }
@@ -361,61 +361,69 @@ const renderCardsOrderReject = order.map((order, index) => {
             })
     }
     const createOrder = () => {
+      if(ImagePayment == ""){
+        message.error('กรุณาแนบหลักฐานการชำระเงินก่อนสั่งซื้อสินค้า');
+
+      }else{
         const variables = {
-            customerName: user.userData.name,
-            customerID: user.userData._id,
-            shopID: productData.shopID,
-            shopName: user.userData.shopName,
-            namePD: productData.namePD,
-            pricePD: productData.pricePD,
-            quantityPD: productData.quantity,
-            shippingCostPD: productData.shippingCostPD,
-            imagesPayment: ImagePayment,
-            dateOrder: Date,
-            totalPrice: Total,
-            status: statusOrder,
-            imagesPD1: productData.imagesPD1,
-            productID: productData._id,
-            addressOrder: user.userData.address,
-            phoneNumberOrder: user.userData.phoneNumber
-        }
+          customerName: user.userData.name,
+          customerID: user.userData._id,
+          shopID: productData.shopID,
+          shopName: user.userData.shopName,
+          namePD: productData.namePD,
+          pricePD: productData.pricePD,
+          quantityPD: productData.quantity,
+          shippingCostPD: productData.shippingCostPD,
+          imagesPayment: ImagePayment,
+          dateOrder: Date,
+          totalPrice: Total,
+          status: statusOrder,
+          imagesPD1: productData.imagesPD1,
+          productID: productData._id,
+          addressOrder: user.userData.address,
+          phoneNumberOrder: user.userData.phoneNumber
+      }
+      
 
-        Axios.post('/api/order/createOrder', variables)
-            .then(response => {
-                if (response.data.success) {
-                    console.log("ffgfG", response.data.order);
-                    setImagePayment("")
-                    dispatch(addOrderToUser(response.data.order))
-                    const variables = {
-                        id: productData._id,
-                        quantityPD: productData.quantityPD - productData.quantity,
-                    };
-                    Axios.put("/api/product/addRecommendedProduct", variables).then(
-                        (response) => {
-                            console.log();
-                            dispatch(removeCartItem(productData._id)).then(() => {
-                                Axios.get("/api/users/userCartInfo").then((response) => {
-                                    if (response.data.success) {
-                                        alert("success");
-                                        if (couponUsedID != "") {
-                                            adduUsedCoupon()
+      Axios.post('/api/order/createOrder', variables)
+          .then(response => {
+              if (response.data.success) {
+                  console.log("ffgfG", response.data.order);
+                  setImagePayment("")
+                  dispatch(addOrderToUser(response.data.order))
+                  const variables = {
+                      id: productData._id,
+                      quantityPD: productData.quantityPD - productData.quantity,
+                  };
+                  Axios.put("/api/product/addRecommendedProduct", variables).then(
+                      (response) => {
+                          console.log();
+                          dispatch(removeCartItem(productData._id)).then(() => {
+                              Axios.get("/api/users/userCartInfo").then((response) => {
+                                  if (response.data.success) {
+                                      // alert("success");
+                                      if (couponUsedID != "") {
+                                          adduUsedCoupon()
 
-                                        } else {
-                                            console.log("no coupon");
-                                        }
+                                      } else {
+                                          console.log("no coupon");
+                                      }
 
-                                    } else {
-                                        alert("fail to get cart info");
-                                    }
-                                });
-                            });
-                        }
-                    )
-                } else {
-                    alert('failed to upload')
-                }
-            })
+                                  } else {
+                                      alert("fail to get cart info");
+                                  }
+                              });
+                          });
+                      }
+                  )
+              } else {
+                  alert('failed to upload')
+              }
+          })
 
+
+      }
+        
 
     }
 
@@ -427,7 +435,7 @@ const renderCardsOrderReject = order.map((order, index) => {
         Axios.put('/api/coupon/updateCouponUsed', variables)
             .then(response => {
                 if (response.data.success) {
-                    alert('คูปองได้ถูกใช้แล้ว')
+                    message.success('คูปองถูกใช้สำเร็จ');
                 } else {
                     alert(response)
                 }
@@ -436,15 +444,24 @@ const renderCardsOrderReject = order.map((order, index) => {
     }
 
     const CreateOrderModal = (productId) => {
-        console.log("fff", productId);
-        setModalOrdering(true);
-        setproductData(productId)
-        let total = 0;
-        total = (productId.pricePD * productId.quantity) + productId.shippingCostPD
-        setTotal(total)
-        console.log(Total);
-        setTotal(total)
-    }
+      console.log(productId);
+      if (productId.quantityPD == 0) {
+        alert("สินค้าหมด");
+      } else {
+        if (productId.quantity > productId.quantityPD) {
+          alert("สินค้าในสต๊อกไม่เพียงพอต่อคำสั่งซื้อของคุณ");
+        } else {
+          setModalOrdering(true);
+          setproductData(productId);
+          let total = 0;
+          total =
+           (productId.pricePD * productId.quantity )+ productId.shippingCostPD
+          setTotal(total);
+          // settotalProduct(productId.pricePD * productId.quantity)
+  
+        }
+      }
+    };
 
     //cart
     const setModalCartIsOpenToTrue = () => {
@@ -731,8 +748,8 @@ const renderCardsOrderReject = order.map((order, index) => {
         let totalCost = productData.pricePD * productData.quantity;
         if (coupon.typeCoupon == "FreeShipping") {
             if (totalCost < coupon.minimumCost) {
+              message.error('ยอดสั่งซื้อไม่ถึงยอดสั่งซื้อขั้นต่ำ');
 
-                alert("ยอดสั่งซื้อไม่ถึงยอดสั่งซื้อขั้นต่ำ")
             } else {
                 setcouponUsedID(coupon._id)
                 let priceCost = Total - productData.shippingCostPD
@@ -743,7 +760,7 @@ const renderCardsOrderReject = order.map((order, index) => {
         } else if (coupon.typeCoupon == "DiscountPercent") {
             console.log("percent");
             if (totalCost < coupon.minimumCost) {
-                alert("ยอดสั่งซื้อไม่ถึงยอดสั่งซื้อขั้นต่ำ")
+              message.error('ยอดสั่งซื้อไม่ถึงยอดสั่งซื้อขั้นต่ำ');
             } else {
                 setcouponUsedID(coupon._id)
                 let priceCost = Math.ceil(((100 - coupon.discount) * totalCost) / 100)
@@ -755,7 +772,7 @@ const renderCardsOrderReject = order.map((order, index) => {
         } else if (coupon.typeCoupon == "DiscountMoney") {
             console.log("money");
             if (totalCost < coupon.minimumCost) {
-                alert("ยอดสั่งซื้อไม่ถึงยอดสั่งซื้อขั้นต่ำ")
+              message.error('ยอดสั่งซื้อไม่ถึงยอดสั่งซื้อขั้นต่ำ');
             } else {
                 setcouponUsedID(coupon._id)
                 let priceCost = Math.ceil((productData.pricePD * productData.quantity) - coupon.discount)
@@ -922,7 +939,7 @@ const renderCardsOrderReject = order.map((order, index) => {
                   
                   <MenuItem
                     active={false}
-                    icon={ <Badge count={user.userData && user.userData.cart.length}><FiShoppingCart /> </Badge>}
+                    icon={ <Badge count={user.userData && user.userData.cart.length} size="small"><FiShoppingCart style={{fontSize:"20px"}}/> </Badge>}
                     onClick={() => setModalCart(true)}
                   >
                    
@@ -935,7 +952,7 @@ const renderCardsOrderReject = order.map((order, index) => {
                  
                   <MenuItem
                     active={false}
-                    icon={<FaClipboardList />}
+                    icon={<Badge count={user.userData && user.userData.orderUser.length} size="small"><FaClipboardList style={{fontSize:"20px"}}/> </Badge>}
                     onClick={orderList}
                   >
                     MY ORDER
